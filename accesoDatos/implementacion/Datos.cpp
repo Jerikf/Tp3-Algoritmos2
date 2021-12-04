@@ -13,6 +13,8 @@ const string PLANTA = "planta";
 const char LAGO = 'L';
 const char TERRENO = 'T';
 const char CAMINO = 'C';
+const char BETUN = 'B';
+const char MUELLE = 'M';
 
 Datos::Datos(string nombreArchivoEdificios, string nombreArchivoMateriales, string nombreArchivoMapa, string nombreArchivoUbicaciones){
     this->nombreArchivoEdificios = nombreArchivoEdificios;
@@ -117,7 +119,7 @@ void Datos::cargarDatosMapa(Mapa** mapa){
 
             cout << tipo << " " ;
             
-            if(tipo == CAMINO){
+            if(tipo == CAMINO || tipo == BETUN || tipo == MUELLE){
                 casillero = new Transitable(tipo);
             }
             else if(tipo == TERRENO){

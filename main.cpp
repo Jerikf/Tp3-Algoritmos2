@@ -25,7 +25,7 @@
 
 int main(){
     //---------------------PRUEBAS DEL USO DEL DICCIONAARIO IMPLEMENTADO CON UN ABB----------------
-    
+    /*
     //Creamos 3 Edificios
     Edificio* escuela = new Escuela("Peregrini", 10, 15, 17, 19);
     Edificio* fabrica = new Fabrica("Los Andes", 5, 10, 12, 14);
@@ -67,6 +67,21 @@ int main(){
     delete dicc;
 
     //---------------------------------------------FIN DE PRUEBAS DEL DICCIONARIO---------------------------
-    
+    */
+    //Pruebas grafo
+
+    //Defino las herramientas que utilizaré
+    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
+    Vect<Edificio>* edificios = new Vect<Edificio>;
+    Vect<Material>* materiales = new Vect<Material>;
+    Juego juego(datos, edificios, materiales); //TODO--> Puedo instanciar directamente  en el constructor, cuál serái lo mejor?
+    Interfaz interfaz(&juego);
+
+    //Cargo los datos del archivo
+    juego.inicializarCargadoDatos();
+    system(CLEAR_SCREEN);
+
+    interfaz.iniciar();
+
     return 0;
 }

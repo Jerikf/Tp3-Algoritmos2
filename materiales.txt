@@ -1,0 +1,3 @@
+madera 650
+metal 620
+piedra 925

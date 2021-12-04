@@ -7,6 +7,8 @@
 const char TERRENO = 'T';
 const char CAMINO = 'C';
 const char LAGO = 'L';
+const char MUELLE = 'M';
+const char BETUN = 'B';
 
 
 
@@ -81,12 +83,14 @@ int Mapa::getCantColumnas(){
 
 //TODO-->Modificar para que muestre como corresponde
 void Mapa::mostrar(){
+    char tipo;
     for(int fila = 0; fila < this->cantFilas; fila++){
         Edificio* edificio = NULL;
         Material* material = NULL;
         for(int columna = 0; columna < this->cantColumnas; columna++){
             if(this->casilleros[fila][columna]){
-                if(this->casilleros[fila][columna]->getTipo() == TERRENO){
+                tipo = this->casilleros[fila][columna]->getTipo();
+                if( tipo == TERRENO){
                     edificio = this->casilleros[fila][columna]->getEdificio();
 
                     if(edificio){
@@ -94,15 +98,23 @@ void Mapa::mostrar(){
                     }else
                         cout << BGND_GREEN_2 << ' ' << END_COLOR;
                    
-                }else if(this->casilleros[fila][columna]->getTipo() == CAMINO){
+                }else if( tipo == CAMINO || tipo == BETUN || tipo == MUELLE ){
 
                     material = this->casilleros[fila][columna]->getMaterial();
 
+                    if( tipo == CAMINO )
+                        cout << BGND_GRAY_245;
+
+                    else if( tipo == BETUN )
+                        cout << BGND_DARK_GRAY_239;
+
+                    else cout << BGND_BROWN_94;
+
                     if(material){
-                        cout << BGND_DARK_GRAY_59 << TXT_DARK_RED_52 << material->getAbreviaturaDeNombre() << END_COLOR;
+                        cout << TXT_DARK_RED_52 << material->getAbreviaturaDeNombre() << END_COLOR;
                     }else
-                        cout << BGND_DARK_GRAY_59 << ' ' << END_COLOR;
-                    
+                        cout << ' ' << END_COLOR;
+
                 }else{
                     cout << BGND_BLUE_27 << ' ' <<END_COLOR;
                 }
