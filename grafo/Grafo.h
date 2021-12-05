@@ -3,6 +3,7 @@
 #include "../entidades/firmas/Mapa.h"
 #include "../entidades/firmas/Coordenada.h"
 #include "../entidades/firmas/Casillero.h"
+#include "Vertice.h"
 #include <iostream>
 
 using namespace std;
@@ -12,9 +13,7 @@ class Grafo{
 private:
     //Atributos
     int ** matriz_adyacencia;
-
-    char * tipo_terreno;
-    Coordenada * vertices;
+    Vertice * vertices;
     int cant_vertices;
 
     //Metodos
@@ -26,8 +25,6 @@ private:
     void cargar_matriz_adyacencia();
 
 public:
-    //Grafo();
-
     // pre: el mapa debe estar cargado correctamente
     // post: crea un grafo con la matriz de adyacencia del mapa inicializada
     Grafo( Mapa * mapa );

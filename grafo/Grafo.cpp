@@ -14,17 +14,12 @@ const int COSTO_TRANSITO_TERRENO = 25;
 const int COSTO_TRANSITO_LAGO = 5;
 const int COSTO_TRANSITO_MUELLE = 2;
 
-/*Grafo::Grafo(){
-    this->matriz_adyacencia = nullptr;
-    this->vertices = -1;
-}*/
 
 void Grafo::cargar_vertices( int filas, int columnas){
     int contador = 0;
     for( int i = 0; i < filas; i++ ){
         for( int j = 0; j < columnas; j++ ){
-            this->vertices[contador].setFila(i);
-            this->vertices[contador].setColumna(j);
+            vertices[contador].cargar_coordenada(i, j);
             contador++;
         }
     }
@@ -39,16 +34,16 @@ void Grafo::cargar_tipo_terreno(Mapa * mapa){
             coordenada_actual.setFila(i);
             coordenada_actual.setColumna(j);
             casillero_actual = mapa->getCasillero(coordenada_actual);
-            tipo_terreno[contador] = casillero_actual->getTipo();
+            vertices[contador].cargar_tipo_terreno( casillero_actual->getTipo());
             contador++;
         }
     }
 }
 
 void Grafo::inicializar_matriz_adyacencia(){
-    this->matriz_adyacencia = new int*[this->cant_vertices];
-    for( int i = 0; i < this->cant_vertices; i++ ){
-        this->matriz_adyacencia[i] = new int[this->cant_vertices];
+    matriz_adyacencia = new int*[cant_vertices];
+    for( int i = 0; i < cant_vertices; i++ ){
+        matriz_adyacencia[i] = new int[cant_vertices];
     }
 }
 
@@ -65,15 +60,17 @@ bool Grafo::vertices_son_adyacentes( Coordenada coordenada1, Coordenada coordena
 
 int Grafo::determinar_peso_arista(int posicion_vertice){
     int peso_arista;
-    if( tipo_terreno[posicion_vertice] == CAMINO )
+    char tipo_terreno = vertices[posicion_vertice].obtener_tipo_terreno();
+
+    if( tipo_terreno == CAMINO )
         peso_arista = COSTO_TRANSITO_CAMINO;
-    else if( tipo_terreno[posicion_vertice] == BETUN )
+    else if( tipo_terreno == BETUN )
         peso_arista = COSTO_TRANSITO_BETUN;
-    else if( tipo_terreno[posicion_vertice] == TERRENO )
+    else if( tipo_terreno == TERRENO )
         peso_arista = COSTO_TRANSITO_TERRENO;
-    else if( tipo_terreno[posicion_vertice] == LAGO )
+    else if( tipo_terreno == LAGO )
         peso_arista = COSTO_TRANSITO_LAGO;
-    else if( tipo_terreno[posicion_vertice] == MUELLE )
+    else if( tipo_terreno == MUELLE )
         peso_arista = COSTO_TRANSITO_MUELLE;
 
     return peso_arista;
@@ -81,9 +78,9 @@ int Grafo::determinar_peso_arista(int posicion_vertice){
 
 void Grafo::cargar_matriz_adyacencia(){
     int peso_arista;
-    for( int i = 0; i < this->cant_vertices; i++ ){
-        for( int j = 0; j < this->cant_vertices; j++ ){
-            if( vertices_son_adyacentes( this->vertices[i], this->vertices[j] )){
+    for( int i = 0; i < cant_vertices; i++ ){
+        for( int j = 0; j < cant_vertices; j++ ){
+            if( vertices_son_adyacentes( vertices[i].obtener_coordenada(), vertices[j].obtener_coordenada() )){
                 peso_arista = determinar_peso_arista(j);
                 matriz_adyacencia[i][j] = peso_arista;
             }
@@ -96,9 +93,8 @@ void Grafo::cargar_matriz_adyacencia(){
 
 Grafo::Grafo( Mapa * mapa ){
     cant_vertices = mapa->getCantFilas() * mapa->getCantColumnas();
-    vertices = new Coordenada[cant_vertices];
-    tipo_terreno = new char[cant_vertices];
-    // TODO esto tambien seria de la lista
+    vertices = new Vertice[cant_vertices];
+
     cargar_vertices(mapa->getCantFilas(), mapa->getCantColumnas());
     cargar_tipo_terreno(mapa);
     inicializar_matriz_adyacencia();
@@ -121,5 +117,4 @@ Grafo::~Grafo(){
     delete[] matriz_adyacencia;
 
     delete[] vertices;
-    delete[] tipo_terreno;
 }

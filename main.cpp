@@ -14,7 +14,9 @@
 #include "./entidades/firmas/Juego.h"
 #include "./interfaz/firma/Interfaz.h"
 #include "./grafo/Grafo.h"
+#include "./grafo/Floyd.h"
 #include <iostream>
+#include <fstream>
 
 #ifdef _WIN32
     const char* CLEAR_SCREEN = "cls";
@@ -71,7 +73,7 @@ int main(){
     */
     //Pruebas grafo
 
-    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
+    /*Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
     Vect<Edificio>* edificios = new Vect<Edificio>;
     Vect<Material>* materiales = new Vect<Material>;
     Juego juego(datos, edificios, materiales);
@@ -83,8 +85,42 @@ int main(){
     mapa->mostrar();
     Grafo grafo(mapa);
     grafo.imprimir_matriz_adyacencia();
-    delete mapa;
+    delete mapa;*/
 
+    //Pruebas Floyd
+    ifstream archivo("matriz_prueba.txt");
+    int cant_vertices;
+    archivo >> cant_vertices;
+
+    int ** matriz_adyacencia = new int*[cant_vertices];
+    for(int i = 0; i < cant_vertices; i++){
+        matriz_adyacencia[i] = new int[cant_vertices];
+    }
+
+    for( int i = 0; i < cant_vertices; i++ ){
+        for( int j = 0; j < cant_vertices; j++ ){
+            archivo >> matriz_adyacencia[i][j];
+        }
+    }
+    archivo.close();
+
+    cout << "Matriz de adyacencia antes de calcular con Floyd" << endl;
+    for( int i = 0; i < cant_vertices; i++ ){
+        for( int j = 0; j < cant_vertices; j++ ){
+            cout << matriz_adyacencia[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    cout << endl << "Despues de Floyd" << endl;
+    Floyd  * floyd = new Floyd(matriz_adyacencia, cant_vertices);
+    floyd->imprimir_matriz_costos();
+    delete floyd;
+
+    for( int i = 0; i < cant_vertices; i++ ){
+        delete[] matriz_adyacencia[i];
+    }
+    delete[] matriz_adyacencia;
     return 0;
 }
 // para compilar
