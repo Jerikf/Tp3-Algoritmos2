@@ -13,7 +13,7 @@
 #include "./entidades/firmas/Inaccesible.h"
 #include "./entidades/firmas/Juego.h"
 #include "./interfaz/firma/Interfaz.h"
-#include "Grafo.h"
+#include "./grafo/Grafo.h"
 #include <iostream>
 
 #ifdef _WIN32
@@ -71,12 +71,23 @@ int main(){
     */
     //Pruebas grafo
 
-    //matriz de adyacencia de un mapa 3x3 con todas las aristas de peso 1
+    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
+    Vect<Edificio>* edificios = new Vect<Edificio>;
+    Vect<Material>* materiales = new Vect<Material>;
+    Juego juego(datos, edificios, materiales);
+    juego.inicializarCargadoDatos();
+
     system(CLEAR_SCREEN);
-    Grafo grafo(3,3);
+    Mapa * mapa;
+    datos->cargarDatosMapa(&mapa);
+    mapa->mostrar();
+    Grafo grafo(mapa);
     grafo.imprimir_matriz_adyacencia();
+    delete mapa;
 
     return 0;
 }
 // para compilar
-//g++ -g ./entidades/implementacion/* ./estructura/* ./accesoDatos/implementacion/* ./interfaz/implementacion/* ./recursos/implementacion/* *.cpp -o tp -Werror -Wall -Wconversion
+//g++ -g ./entidades/implementacion/* ./estructura/* ./accesoDatos/implementacion/* ./interfaz/implementacion/* ./recursos/implementacion/* ./grafo/* main.cpp -o tp -Werror -Wall -Wconversion
+//para ejecutar
+//valgrind --tool=memcheck --leak-check=yes --leak-check=full --track-origins=yes ./tp
