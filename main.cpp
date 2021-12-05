@@ -13,6 +13,7 @@
 #include "./entidades/firmas/Inaccesible.h"
 #include "./entidades/firmas/Juego.h"
 #include "./interfaz/firma/Interfaz.h"
+#include "Grafo.h"
 #include <iostream>
 
 #ifdef _WIN32
@@ -70,18 +71,12 @@ int main(){
     */
     //Pruebas grafo
 
-    //Defino las herramientas que utilizaré
-    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
-    Vect<Edificio>* edificios = new Vect<Edificio>;
-    Vect<Material>* materiales = new Vect<Material>;
-    Juego juego(datos, edificios, materiales); //TODO--> Puedo instanciar directamente  en el constructor, cuál serái lo mejor?
-    Interfaz interfaz(&juego);
-
-    //Cargo los datos del archivo
-    juego.inicializarCargadoDatos();
+    //matriz de adyacencia de un mapa 3x3 con todas las aristas de peso 1
     system(CLEAR_SCREEN);
-
-    interfaz.iniciar();
+    Grafo grafo(3,3);
+    grafo.imprimir_matriz_adyacencia();
 
     return 0;
 }
+// para compilar
+//g++ -g ./entidades/implementacion/* ./estructura/* ./accesoDatos/implementacion/* ./interfaz/implementacion/* ./recursos/implementacion/* *.cpp -o tp -Werror -Wall -Wconversion

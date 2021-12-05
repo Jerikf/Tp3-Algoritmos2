@@ -121,9 +121,6 @@ void Mapa::mostrar(){
             }
 
         }
-
         cout << "\n";
     }
-
-
 }
