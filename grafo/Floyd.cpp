@@ -45,7 +45,7 @@ void Floyd::calcular_matrices(){
             for( int j = 0; j < cant_vertices; j++ ){
                 if( (matriz_costos[i][k] + matriz_costos[k][j]) < matriz_costos[i][j] ){
                     matriz_costos[i][j] = (matriz_costos[i][k] + matriz_costos[k][j]);
-                    matriz_recorrido[i][j] = k;
+                    matriz_recorrido[i][j] = matriz_recorrido[i][k];
                 }
             }
         }
@@ -62,18 +62,8 @@ Floyd::Floyd(int ** matriz_adyacencia, int cant_vertices){
 int* Floyd::obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino){
     int * camino = new int[cant_vertices];
     int * aux = new int[cant_vertices];
-    int aux1 = posicion_vertice_1;
     int aux2 = posicion_vertice_2;
 
-    //ToDo hay un problema que arma bien el camino, por ejemplo del 0,0 al 3,3 pero no del 3,3 al 0,0
-    //Todo ==> lo que hago es darlo vuelta por que asi lo calcula bien
-    //Todo ==> tampoco imprime bien si voy de 0,3 a 3,0 en ningun sentido,se saltea una parte del camino
-    if( posicion_vertice_1 > posicion_vertice_2 ){
-        posicion_vertice_1 = posicion_vertice_2;
-        posicion_vertice_2 = aux1;
-    }
-
-    //aca carga el recorrido desde el final hasta el principio
     (*tope_camino) = 0;
     while( posicion_vertice_1 != posicion_vertice_2 ){
         camino[(*tope_camino)] = posicion_vertice_2;
@@ -81,22 +71,15 @@ int* Floyd::obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2
         (*tope_camino)++;
     }
     camino[(*tope_camino)] = posicion_vertice_1;
+    
+    for (int i = 0; i < (*tope_camino); i++) {
+        aux[i] = camino[(*tope_camino) - i];
+    }
 
-    //aca guarda las posiciones dependiendo del sentido en el que se mueva
-    if( aux1 < aux2) {
-        for (int i = 0; i < (*tope_camino); i++) {
-            aux[i] = camino[(*tope_camino) - i];
-        }
-    }
-    else{
-        for (int i = 0; i < (*tope_camino); i++) {
-            aux[i] = camino[i];
-        }
-    }
     aux[(*tope_camino)] = aux2;
     (*tope_camino)++;
     delete[] camino;
-
+    
     return aux;
 }
 
