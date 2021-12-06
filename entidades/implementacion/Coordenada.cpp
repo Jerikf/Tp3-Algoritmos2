@@ -7,6 +7,11 @@ Coordenada::Coordenada(int fila, int columna){
 }
 Coordenada::Coordenada(){}
 
+Coordenada::Coordenada(const Coordenada &coordenada){
+    this->fila = coordenada.fila;
+    this->columna = coordenada.columna;
+}
+
 Coordenada::~Coordenada(){}
 
 int Coordenada::getFila(){

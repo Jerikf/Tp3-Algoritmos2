@@ -19,6 +19,8 @@ class Coordenada
         //POS:Construye la coordeanda vacia
         Coordenada();
 
+        //Constructor de copia
+        Coordenada(const Coordenada &coordenada);
         //PRE:
         //POS:Destructor
         ~Coordenada();

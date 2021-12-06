@@ -13,6 +13,7 @@
 #include "./entidades/firmas/Inaccesible.h"
 #include "./entidades/firmas/Juego.h"
 #include "./interfaz/firma/Interfaz.h"
+#include "./entidades/firmas/Coordenada.h"
 #include "./grafo/Grafo.h"
 #include "./grafo/Floyd.h"
 #include <iostream>
@@ -73,7 +74,7 @@ int main(){
     */
     //Pruebas grafo
 
-    /*Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
+    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
     Vect<Edificio>* edificios = new Vect<Edificio>;
     Vect<Material>* materiales = new Vect<Material>;
     Juego juego(datos, edificios, materiales);
@@ -84,43 +85,27 @@ int main(){
     datos->cargarDatosMapa(&mapa);
     mapa->mostrar();
     Grafo grafo(mapa);
-    grafo.imprimir_matriz_adyacencia();
-    delete mapa;*/
 
-    //Pruebas Floyd
-    ifstream archivo("matriz_prueba.txt");
-    int cant_vertices;
-    archivo >> cant_vertices;
+    Coordenada punto_inicial, punto_final;
+    int x;
+    cout << "Ingresa coordenada inicial:" << endl;
+    cin >> x;
+    punto_inicial.setFila(x);
+    cin >> x;
+    punto_inicial.setColumna(x);
 
-    int ** matriz_adyacencia = new int*[cant_vertices];
-    for(int i = 0; i < cant_vertices; i++){
-        matriz_adyacencia[i] = new int[cant_vertices];
-    }
+    cout << "Ingresa coordenada final:" << endl;
+    cin >> x;
+    punto_final.setFila(x);
+    cin >> x;
+    punto_final.setColumna(x);
 
-    for( int i = 0; i < cant_vertices; i++ ){
-        for( int j = 0; j < cant_vertices; j++ ){
-            archivo >> matriz_adyacencia[i][j];
-        }
-    }
-    archivo.close();
+    grafo.obtener_camino_minimo(punto_inicial, punto_final);
 
-    cout << "Matriz de adyacencia antes de calcular con Floyd" << endl;
-    for( int i = 0; i < cant_vertices; i++ ){
-        for( int j = 0; j < cant_vertices; j++ ){
-            cout << matriz_adyacencia[i][j] << " ";
-        }
-        cout << endl;
-    }
 
-    cout << endl << "Despues de Floyd" << endl;
-    Floyd  * floyd = new Floyd(matriz_adyacencia, cant_vertices);
-    floyd->imprimir_matriz_costos();
-    delete floyd;
+    delete mapa;
 
-    for( int i = 0; i < cant_vertices; i++ ){
-        delete[] matriz_adyacencia[i];
-    }
-    delete[] matriz_adyacencia;
+
     return 0;
 }
 // para compilar

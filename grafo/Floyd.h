@@ -10,16 +10,19 @@ class Floyd{
 private:
     //Atributos
     int ** matriz_costos;
-    //Coordenada ** matriz_recorrido;
+    //la matriz de recorrido trabaja con las posiciones de los vertices en el vector
+    int ** matriz_recorrido;
     int cant_vertices;
 
     //Metodos
     int** inicializar_matriz_costos(int ** matriz_adyacencia);
-    void calcular_matriz_costos();
-public:
-    Floyd(int ** matriz_adyacencia/*, Vertice * vertices*/, int cant_vertices);
+    int** inicializar_matriz_recorrido();
+    void calcular_matrices();
 
-    void imprimir_matriz_costos();
+public:
+    Floyd(int ** matriz_adyacencia, int cant_vertices);
+
+    int* obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino);
 
     ~Floyd();
 };
