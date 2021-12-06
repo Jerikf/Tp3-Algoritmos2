@@ -130,6 +130,7 @@ void Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_fin
     for( int i = 0; i < tope_camino; i++ ){
         coordenada_camino[i] = vertices[camino[i]].obtener_coordenada();
     };
+    //esto es solo para las pruebas
     for( int i = 0; i < tope_camino; i++ ){
         cout << "(" << coordenada_camino[i].getFila() << ";" << coordenada_camino[i].getColumna() << ") ";
     }

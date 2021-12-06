@@ -71,7 +71,7 @@ int* Floyd::obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2
         (*tope_camino)++;
     }
     camino[(*tope_camino)] = posicion_vertice_1;
-    
+
     for (int i = 0; i < (*tope_camino); i++) {
         aux[i] = camino[(*tope_camino) - i];
     }
