@@ -1,0 +1,6 @@
+planta electrica (5, 9)
+mina (5, 0)
+fabrica (6, 2)
+aserradero (0, 9)
+fabrica (4, 6)
+aserradero (4, 5)

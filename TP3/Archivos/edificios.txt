@@ -1,0 +1,4 @@
+mina 100 150 120 2
+fabrica 400 240 180 5
+aserradero 150 125 134 2
+escuela 50 25 10 3
