@@ -123,7 +123,7 @@ void Juego::generar_opciones(){
                 datos.devovler_jugador_1().devolver_edificios()->mostrarInorder();
                 break;
             case OPCION_3:
-                cout << "Error." << endl;
+                datos.devovler_jugador_1().devolver_mapa()->mostrar();
                 break;
             case OPCION_4:
                 cout << "El jugador 1 esta listo para comenzar el juego." << endl;
@@ -161,7 +161,7 @@ void Juego::generar_opciones(){
                 datos.devovler_jugador_2().devolver_edificios()->mostrarInorder();
                 break;
             case OPCION_3:
-                cout << "Error." << endl;
+                datos.devovler_jugador_2().devolver_mapa()->mostrar();
                 break;
             case OPCION_4:
                 cout << "El jugador 2 esta listo para comenzar el juego." << endl;

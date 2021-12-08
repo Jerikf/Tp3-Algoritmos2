@@ -1,5 +1,5 @@
-#ifndef MINA_ORO_H
-#define MINA_ORO_H
+#ifndef MINA_ORO_H_INCLUDED
+#define MINA_ORO_H_INCLUDED
 #include "../../Entidades/Firmas/Edificio.h"
 
 class Mina_oro: public Edificio{
@@ -19,9 +19,9 @@ class Mina_oro: public Edificio{
     // POST: Destruye la mina de oro.
     ~Mina_oro();
 
-    //PRE:
-    //POS: Retorta su abreviatura de su propio nombre
-    char getAbreviaturaDeNombre();
+    //PRE: -
+    //POST: Devuelve la abreviatura del edificio.
+    char devolver_abreviatura();
 };
 
-#endif // MINA_ORO_H
+#endif // MINA_ORO_H_INCLUDED

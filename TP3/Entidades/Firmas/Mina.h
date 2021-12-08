@@ -1,9 +1,9 @@
-#ifndef MINA_H
-#define MINA_H
+#ifndef MINA_H_INCLUDED
+#define MINA_H_INCLUDED
 
 #include "Edificio.h"
 
-class Mina : public Edificio{
+class Mina: public Edificio{
 
     public:
 
@@ -12,16 +12,16 @@ class Mina : public Edificio{
     Mina(std::string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios);
 
     //PRE: -
-    //POS: Muestra la informaciond del edificio.
+    //POST: Muestra la informaciond del edificio.
     void mostrar();
 
-    //PRE:
+    //PRE: -
     //POST: Destruye la mina.
     ~Mina();
 
-    //PRE:
-    //POS: Retorta su abreviatura de su propio nombre
-    char getAbreviaturaDeNombre();
+    //PRE: -
+    //POST: Devuelve la abreviatura del edificio.
+    char devolver_abreviatura();
 };
 
-#endif //MINA_H
+#endif //MINA_H_INCLUDED

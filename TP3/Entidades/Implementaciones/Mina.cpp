@@ -20,6 +20,6 @@ Mina::Mina(string nombre_edificio, int cant_piedra, int cant_madera, int cant_me
 
 Mina::~Mina(){}
 
-char Mina::getAbreviaturaDeNombre(){
+char Mina::devolver_abreviatura(){
     return CARACTER_MINA;
 }

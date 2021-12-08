@@ -20,6 +20,6 @@ Fabrica::Fabrica(string nombre_edificio, int cant_piedra, int cant_madera, int c
 
 Fabrica::~Fabrica(){}
 
-char Fabrica::getAbreviaturaDeNombre(){
+char Fabrica::devolver_abreviatura(){
     return CARACTER_FABRICA;
 }

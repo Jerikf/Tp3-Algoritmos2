@@ -41,6 +41,15 @@ const char CARACTER_PLANTA_ELECTRICA = 'P';
 const char CARACTER_OBELISCO = 'O';
 const char CARACTER_ESCUELA = 'E';
 
+const char CARACTER_PIEDRA = 'S';
+const char CARACTER_MADERA = 'W';
+const char CARACTER_METAL = 'I';
+
+const char LAGO = 'L';
+const char CAMINO = 'C';
+const char TERRENO = 'T';
+const char BETUN = 'B';
+const char MUELLE = 'M';
 #ifdef __linux__
 #define CLR_SCREEN "clear"
 #endif // __linux__

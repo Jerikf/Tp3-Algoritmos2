@@ -50,9 +50,9 @@ class Edificio
         //POS:Retorna la cantidad maxima permitida para construir
         int devolver_cant_maxima_edificios();
 
-        //PRE:
-        //POS: Cada edficio devolverá su propia abreviatura de nombre
-        virtual char getAbreviaturaDeNombre()=0;
+        //PRE: -
+        //POS: Devuelve la abreviatura del nombre.
+        virtual char devolver_abreviatura() = 0;
 
 };
 

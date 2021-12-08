@@ -1,5 +1,5 @@
-#ifndef PLANTAELECTRICA_H
-#define PLANTAELECTRICA_H
+#ifndef PLANTAELECTRICA_H_INCLUDED
+#define PLANTAELECTRICA_H_INCLUDED
 
 #include "Edificio.h"
 
@@ -11,17 +11,17 @@ class PlantaElectrica: public Edificio{
     // POST: Inicializa y crea la planta electrica.
     PlantaElectrica(std::string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios);
 
-    //PRE:
-    //POS: Muestra la informacion de la planta electrica.
+    //PRE: -
+    //POST: Muestra la informacion de la planta electrica.
     void mostrar();
 
     //PRE: -
-    //POS: Destruye la planta electrica.
+    //POST: Destruye la planta electrica.
     ~PlantaElectrica();
 
-    //PRE:
-    //POS: Retorta su abreviatura de su propio nombre
-    char getAbreviaturaDeNombre();
+    //PRE: -
+    //POST: Devuelve la abreviatura del edificio.
+    char devolver_abreviatura();
 };
 
-#endif //PLANTAELECTRICA_H
+#endif //PLANTAELECTRICA_H_INCLUDED

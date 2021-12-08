@@ -30,10 +30,14 @@ class Material{
     // PRE: -
     // POST: Devuelve la cantidad del material.
     int devolver_cantidad_material();
-
+    
+    // PRE: -
+    // POST: Muestra la informacion del material.
     void mostrar();
-
-    char getAbreviaturaDeNombre();
+     
+    // PRE: -
+    // POST: Devuelve la abreviatura del material
+    char devolver_abreviatura();
 
 };
 

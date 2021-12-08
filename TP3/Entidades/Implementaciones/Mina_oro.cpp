@@ -18,6 +18,6 @@ void Mina_oro::mostrar(){
 
 Mina_oro::~Mina_oro(){}
 
-char Mina_oro::getAbreviaturaDeNombre(){
+char Mina_oro::devolver_abreviatura(){
     return  CARACTER_MINA_ORO;
 }

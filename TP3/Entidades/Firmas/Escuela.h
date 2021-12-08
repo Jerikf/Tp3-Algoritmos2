@@ -1,31 +1,28 @@
-#ifndef ESCUELA_H
-#define ESCUELA_H
+#ifndef ESCUELA_H_INCLUDED
+#define ESCUELA_H_INCLUDED
 
 #include "Edificio.h"
 
-class Escuela : public Edificio
-{
-    private:
-        /* data */
+class Escuela: public Edificio{
 
     public:
 
     //PRE: -
-    //POS: Inicializa y crea la escuela.
+    //POST: Inicializa y crea la escuela.
     Escuela(std::string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios);
         
     //PRE: -
     //POST: Muestra la informacion del edificio.
     void mostrar();
 
-    //PRE:
-    //POS:Destructor
+    //PRE: -
+    //POST:Destructor
     ~Escuela();
 
-    //PRE:
-    //POS: Retorta su abreviatura de su propio nombre
-    char getAbreviaturaDeNombre();
+    //PRE: -
+    //POST: Devuelve la abreviatura del edificio.
+    char devolver_abreviatura();
 
 };
 
-#endif //ESCUELA_H
+#endif //ESCUELA_H_INCLUDED

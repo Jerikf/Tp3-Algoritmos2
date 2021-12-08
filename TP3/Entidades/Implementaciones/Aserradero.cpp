@@ -20,6 +20,6 @@ Aserradero::Aserradero(string nombre_edificio, int cant_piedra, int cant_madera,
 
 Aserradero::~Aserradero(){}
 
-char Aserradero::getAbreviaturaDeNombre(){
+char Aserradero::devolver_abreviatura(){
     return CARACTER_ASERRADERO;
 }

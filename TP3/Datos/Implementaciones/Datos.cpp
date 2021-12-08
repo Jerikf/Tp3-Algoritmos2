@@ -76,8 +76,6 @@ void Datos::cargar_edificios(){
             designar_clase_edificio(edificio_2, nombre_edificio, cant_piedra, cant_madera, cant_metal, cant_max_edificios);
             dic_edificios_1->insertar(nombre_edificio, edificio);
             dic_edificios_2->insertar(nombre_edificio, edificio_2);
-
-
         }
 
         jugador_1.obtener_edificios(dic_edificios_1);
@@ -100,12 +98,15 @@ void Datos::cargar_mapa(){
 
         int cant_filas;
         int cant_columnas;
+        
         archivo_mapa >> cant_filas;
         archivo_mapa >> cant_columnas;
+        
         Mapa *mapa_1;
         Mapa *mapa_2;
         mapa_1 = new Mapa(cant_filas, cant_columnas);
         mapa_2 = new Mapa(cant_filas, cant_columnas);
+        
         char tipo;
         Casillero *casillero;
         Casillero *casillero_2;
@@ -115,22 +116,10 @@ void Datos::cargar_mapa(){
                 archivo_mapa >> tipo;
                 Coordenada coordenada(i, j);
 
-                if(tipo == 'C' || tipo == 'B' || tipo == 'M'){
-                    casillero = new Transitable(tipo);
-                    casillero_2 = new Transitable(tipo);
-                }
-                else if(tipo == 'T'){
-                    casillero = new Construible(tipo);
-                    casillero_2 = new Construible(tipo);
-                }else if(tipo == 'L'){
-                    casillero = new Inaccesible(tipo);
-                    casillero_2 = new Inaccesible(tipo);
-                }
-
-                mapa_1->agregarCasillero(casillero, coordenada);
-                mapa_2->agregarCasillero(casillero_2, coordenada);
-
-
+                designar_clase_casillero(casillero, coordenada, tipo);
+                designar_clase_casillero(casillero_2, coordenada, tipo);
+                mapa_1->agregar_casillero(casillero, coordenada);
+                mapa_2->agregar_casillero(casillero_2, coordenada);
             }
         }
 
@@ -168,9 +157,32 @@ void Datos::designar_clase_edificio(Edificio* &edificio, string nombre_edificio,
     else if(nombre_edificio == MINA_ORO){
         edificio = new Mina_oro(nombre_edificio, cant_piedra, cant_madera, cant_metal, cant_max_edificios);
     }
+    else{
+        cout << "Ese edificio no tiene clase." << endl;
+        return;
+    }
 
 }
 
+void Datos::designar_clase_casillero(Casillero* &casillero, Coordenada coordenada, char tipo){
+
+    if(tipo == CAMINO || tipo == BETUN || tipo == MUELLE){
+        
+        casillero = new Transitable(tipo);
+    }
+    else if(tipo == TERRENO){
+            
+        casillero = new Construible(tipo);
+    }
+    else if(tipo == LAGO){
+
+        casillero = new Inaccesible(tipo);
+    }
+    else{
+        cout << "Ese casillero no tiene clase." << endl;
+        return;
+    }
+}
 
 Jugador Datos::devovler_jugador_1(){
 

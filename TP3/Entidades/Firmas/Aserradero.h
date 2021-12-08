@@ -1,5 +1,5 @@
-#ifndef ASERRADERO_H
-#define ASERRADERO_H
+#ifndef ASERRADERO_H_INCLUDED
+#define ASERRADERO_H_INCLUDED
 
 #include "Edificio.h"
 
@@ -8,7 +8,7 @@ class Aserradero: public Edificio{
     public:
 
     //PRE: -
-    //POS: Inicializa y crea el aserradero.
+    //POST: Inicializa y crea el aserradero.
     Aserradero(std::string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios);
 
     //PRE:
@@ -16,12 +16,13 @@ class Aserradero: public Edificio{
     void mostrar();
 
     //PRE:
-    //POS: Destruye el aserradero.
+    //POST: Destruye el aserradero.
     ~Aserradero();
 
-    //PRE:
-    //POS: Retorta su abreviatura de su propio nombre
-    char getAbreviaturaDeNombre();
+    //PRE: -
+    //POST: Devuelve la abreviatura del edificio.
+    char devolver_abreviatura();
+
 };
 
-#endif //ASERRADERO_H
+#endif //ASERRADERO_H_INCLUDED

@@ -20,6 +20,6 @@ Escuela::Escuela(string nombre_edificio, int cant_piedra, int cant_madera, int c
 
 Escuela::~Escuela(){}
 
-char Escuela::getAbreviaturaDeNombre(){
+char Escuela::devolver_abreviatura(){
     return CARACTER_ESCUELA;
 }

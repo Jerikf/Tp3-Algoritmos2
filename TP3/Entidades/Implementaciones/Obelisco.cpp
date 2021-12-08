@@ -21,6 +21,6 @@ Obelisco::Obelisco(string nombre_edificio, int cant_piedra, int cant_madera, int
 
 Obelisco::~Obelisco(){}
 
-char Obelisco::getAbreviaturaDeNombre(){
+char Obelisco::devolver_abreviatura(){
     return CARACTER_OBELISCO;
 }

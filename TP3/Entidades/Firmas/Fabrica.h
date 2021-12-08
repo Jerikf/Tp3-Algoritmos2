@@ -1,9 +1,9 @@
-#ifndef FABRICA_H
-#define FABRICA_H
+#ifndef FABRICA_H_INCLUDED
+#define FABRICA_H_INCLUDED
 
 #include "Edificio.h"
 
-class Fabrica:public Edificio{
+class Fabrica: public Edificio{
    
     public:
         
@@ -12,16 +12,16 @@ class Fabrica:public Edificio{
     Fabrica(std::string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios);
 
     //PRE: -
-    //POS: Muestra la informacion del edificio.
+    //POST: Muestra la informacion del edificio.
     void mostrar();
 
     //PRE: -
-    //POS: Destruye la fabrica.
+    //POST: Destruye la fabrica.
     ~Fabrica();
 
-    //PRE:
-    //POS: Retorta su abreviatura de su propio nombre
-    char getAbreviaturaDeNombre();
+    //PRE: -
+    //POST: Devuelve la abreviatura del edificio.
+    char devolver_abreviatura();
 };
 
-#endif //FABRICA_H
+#endif //FABRICA_H_INCLUDED

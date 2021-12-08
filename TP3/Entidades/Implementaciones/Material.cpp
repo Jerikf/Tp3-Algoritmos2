@@ -1,5 +1,6 @@
 #include "../../Entidades/Firmas/Material.h"
 #include "../../Entidades/Firmas/constantes.h"
+#include "../../Entidades/Firmas/constantes.h"
 
 #include <iostream>
 
@@ -34,23 +35,21 @@ int Material::devolver_cantidad_material(){
 }
 
 void Material::mostrar(){
-    cout << "\n\n"; 
-	cout << "|---------------------------------------------|" << endl;
-	cout << "		" << nombre_material << endl;
-	cout << "	" << "CANDTIDAD MATERIAL : " << this->cantidad_material << endl;
-	cout << "|---------------------------------------------|" << endl;
-	cout << "\n"; 
+    
+    cout << "Nombre: " << nombre_material << endl;
+    cout << "Cantidad: " << cantidad_material << endl;
+    cout << endl;
 }
 
-char Material::getAbreviaturaDeNombre(){
+char Material::devolver_abreviatura(){
     
     char abreviatura = ' ';
     if(this->nombre_material == PIEDRA){
-        abreviatura = 'S';
+        abreviatura = CARACTER_PIEDRA;
     }else if(this->nombre_material == MADERA){
-        abreviatura = 'W';
+        abreviatura = CARACTER_MADERA;
     }else if(this->nombre_material == METAL){
-        abreviatura = 'I';
+        abreviatura = CARACTER_METAL;
     }
 
     return abreviatura;

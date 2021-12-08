@@ -9,38 +9,38 @@ const int ERROR = -1;
 const int EXITO = 0;
 
 template <typename T>
-class Vect
-{
-    private:
-        int cantidad;
-        T** datos;
+class Vect{
+    
+	private:
+    
+	int cantidad;
+    T** datos;
         
-
     public:
 
-		//PRE:
-		//POS: Construye el vector instanciando la cnatidad en 0 y los datos en NULL
-        Vect();
+	//PRE:
+	//POS: Construye el vector instanciando la cnatidad en 0 y los datos en NULL
+    Vect();
 
-		//PRE:
-		//POS: Libera la memoria de todo su contenido en los datos
-        ~Vect();
+	//PRE:
+	//POS: Libera la memoria de todo su contenido en los datos
+    ~Vect();
 
-		//PRE: Recibe un dato tipo T
-		//POS: Agregar el dato a los datos retornando 0 en caso de exito sino -1(ERROR)
-        int agregar(T*);
+	//PRE: Recibe un dato tipo T
+	//POS: Agregar el dato a los datos retornando 0 en caso de exito sino -1(ERROR)
+    int agregar(T*);
 
-		//PRE:
-		//POS: Retorna la cantidad de datos que tiene
-        int obtenerCantidad();
+	//PRE:
+	//POS: Retorna la cantidad de datos que tiene
+    int obtenerCantidad();
 
-		//PRE: El tipo T debe implementar el método mostrar() sino genera error
-		//POS: Muestra todos los datos que tiene(llamando a su propia instancia mostrar del contenido)
-        void mostrar();
+	//PRE: El tipo T debe implementar el método mostrar() sino genera error
+	//POS: Muestra todos los datos que tiene(llamando a su propia instancia mostrar del contenido)
+    void mostrar();
 
-		//PRE: Recibe la posición del vector en el rango correcto!
-		//POS: Devuelve el dato en dicha posición correcta
-		T* obtenerDato(int);
+	//PRE: Recibe la posición del vector en el rango correcto!
+	//POS: Devuelve el dato en dicha posición correcta
+	T* obtenerDato(int);
 
 };
 

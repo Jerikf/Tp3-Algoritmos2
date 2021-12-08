@@ -36,9 +36,13 @@ class Datos{
     // POST: Devuelve al jugador 2.
     Jugador devovler_jugador_2();
 
-    // PRE: -
+    // PRE: El edificio apunta correctamente, y estan bien pasados los parametros.
     // POST: Designa una clase a cada edificio dependiendo del nombre.
     void designar_clase_edificio(Edificio* &edificio, std::string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios);
+
+    // PRE: El casillero apunta correctamente, y estan bien pasados los parametros.
+    // POST: Designa una clase a cada casillero dependiendo del tipo de caracter.
+    void designar_clase_casillero(Casillero* &casillero, Coordenada coordenada, char tipo);
 
 };
 
