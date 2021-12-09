@@ -3,7 +3,7 @@
 
 const int ERROR = -1;
 
-Inaccesible::Inaccesible(){}
+Inaccesible::Inaccesible() : Casillero(){}
 Inaccesible::Inaccesible(char tipo) : Casillero(tipo){}
 Inaccesible::~Inaccesible(){}
 void Inaccesible::mostrar(){

@@ -5,7 +5,7 @@ const int ERROR = -1;
 const int EXITO = 0;
 
 
-Transitable::Transitable(){
+Transitable::Transitable() : Casillero(){
     this->material = NULL;
 }
 

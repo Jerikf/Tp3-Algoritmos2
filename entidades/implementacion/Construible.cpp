@@ -21,7 +21,7 @@ const string PLANTA = "planta";
 const string MINA = "mina";
 
 
-Construible::Construible(){
+Construible::Construible() : Casillero(){
     this->edificio = NULL;
 }
 Construible::~Construible(){

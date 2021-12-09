@@ -88,6 +88,7 @@ int main(){
     int jugador;
     cout << "Ingrese si es jugador 1 o 2 (con otro numero se rompe): ";
     cin >> jugador;
+    cout << "Cargando banca" << endl;
     Grafo grafo(mapa, jugador);
 
     Coordenada punto_inicial, punto_final;

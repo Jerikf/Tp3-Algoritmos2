@@ -3,6 +3,7 @@
 const int NO_HAY_JUGADOR = 0;
 
 Casillero::Casillero(char tipo){
+    jugador = NO_HAY_JUGADOR;
     this->tipo = tipo;
 }
 

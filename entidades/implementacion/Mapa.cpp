@@ -95,6 +95,7 @@ void Mapa::mostrar(){
         Edificio* edificio = NULL;
         Material* material = NULL;
         for(int columna = 0; columna < this->cantColumnas; columna++){
+
             if(this->casilleros[fila][columna]){
                 tipo = this->casilleros[fila][columna]->getTipo();
                 if( tipo == TERRENO){
@@ -102,9 +103,13 @@ void Mapa::mostrar(){
 
                     if(edificio){
                         cout << BGND_GREEN_2 << TXT_DARK_RED_52 << edificio->getAbreviaturaDeNombre() << END_COLOR;
-                    }else
+                    }
+                    else if(this->casilleros[fila][columna]->devolver_jugador_casillero() != NO_HAY_JUGADOR){
+                        cout << BGND_GREEN_2 << TXT_DARK_RED_52 << this->casilleros[fila][columna]->devolver_jugador_casillero() << END_COLOR;
+                    }
+                    else
                         cout << BGND_GREEN_2 << ' ' << END_COLOR;
-                   
+
                 }else if( tipo == CAMINO || tipo == BETUN || tipo == MUELLE ){
 
                     material = this->casilleros[fila][columna]->getMaterial();
@@ -119,82 +124,35 @@ void Mapa::mostrar(){
 
                     if(material){
                         cout << TXT_DARK_RED_52 << material->getAbreviaturaDeNombre() << END_COLOR;
+                    }
+                    else if(this->casilleros[fila][columna]->devolver_jugador_casillero() != NO_HAY_JUGADOR){
+                        cout << TXT_DARK_RED_52 << this->casilleros[fila][columna]->devolver_jugador_casillero() << END_COLOR;
                     }else
                         cout << ' ' << END_COLOR;
 
+                }else if(this->casilleros[fila][columna]->devolver_jugador_casillero() != NO_HAY_JUGADOR){
+                    cout << BGND_BLUE_27 << TXT_DARK_RED_52 << this->casilleros[fila][columna]->devolver_jugador_casillero() <<END_COLOR;
                 }else{
                     cout << BGND_BLUE_27 << ' ' <<END_COLOR;
                 }
+                cout << " ";
             }
-
         }
         cout << "\n";
+        cout << endl;
     }
 }
 
 void Mapa::mostrar_recorrido_jugador(Coordenada * recorrido, int tope_recorrido, int jugador){
     //si hay un material creo que lo deberia agregar por ahora no lo hace (imprime jugador por encima de material)
-    char tipo;
-    bool hay_jugador;
     for( int i = 0; i < tope_recorrido; i++ ){
-
-        this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_deja_casillero();
         this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_entra_casillero(jugador);
-        //ToDo esto debería llamar tope_recorrido veces a mostrar mapa pero por ahora queda asi
-        for(int fila = 0; fila < this->cantFilas; fila++){
-            Edificio* edificio = NULL;
-            Material* material = NULL;
-            for(int columna = 0; columna < this->cantColumnas; columna++){
-                hay_jugador = false;
-                if(recorrido[i].getFila() == fila && recorrido[i].getColumna() == columna )
-                    hay_jugador = true;
+        mostrar();
 
-                if(this->casilleros[fila][columna]){
-                    tipo = this->casilleros[fila][columna]->getTipo();
-                    if( tipo == TERRENO){
-                        edificio = this->casilleros[fila][columna]->getEdificio();
-
-                        if(edificio){
-                            cout << BGND_GREEN_2 << TXT_DARK_RED_52 << edificio->getAbreviaturaDeNombre() << END_COLOR;
-                        }
-                        else if(hay_jugador){
-                            cout << BGND_GREEN_2 << TXT_DARK_RED_52 << this->casilleros[fila][columna]->devolver_jugador_casillero() << END_COLOR;
-                        }
-                        else
-                            cout << BGND_GREEN_2 << ' ' << END_COLOR;
-
-                    }else if( tipo == CAMINO || tipo == BETUN || tipo == MUELLE ){
-
-                        material = this->casilleros[fila][columna]->getMaterial();
-
-                        if( tipo == CAMINO )
-                            cout << BGND_GRAY_245;
-
-                        else if( tipo == BETUN )
-                            cout << BGND_DARK_GRAY_239;
-
-                        else cout << BGND_BROWN_94;
-
-                        if(material){
-                            cout << TXT_DARK_RED_52 << material->getAbreviaturaDeNombre() << END_COLOR;
-                        }
-                        else if(hay_jugador){
-                            cout << TXT_DARK_RED_52 << this->casilleros[fila][columna]->devolver_jugador_casillero() << END_COLOR;
-                        }else
-                            cout << ' ' << END_COLOR;
-
-                    }else if(hay_jugador){
-                        cout << BGND_BLUE_27 << TXT_DARK_RED_52 << this->casilleros[fila][columna]->devolver_jugador_casillero() <<END_COLOR;
-                    }else{
-                        cout << BGND_BLUE_27 << ' ' <<END_COLOR;
-                    }
-
-                }
-
-            }
-            cout << "\n";
-        }
-        usleep(500000);
+        if( i != (tope_recorrido-1))
+            this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_deja_casillero();
+        usleep(400000);
         cout << "\x1B[2J\x1B[H";
     }
+
 }
