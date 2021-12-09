@@ -134,6 +134,51 @@ void Datos::cargar_mapa(){
 
 }
 
+void Datos::cargar_ubicaciones(){
+
+    ifstream archivo_ubicaciones(PATH_UBICACIONES);
+
+    if(!archivo_ubicaciones.fail()){
+
+        string nombre_elemento;
+        string coordenada_x;
+        string coordenada_y;
+        Vect<Coordenada>* coordenadas_materiales_1 = new Vect<Coordenada>();
+        Vect<Coordenada>* coordenadas_edificios_1 = new Vect<Coordenada>();
+        Coordenada* coordenada_1;
+
+
+        while(getline(archivo_ubicaciones, nombre_elemento, '(')){
+            getline(archivo_ubicaciones, coordenada_x, ',');
+            getline(archivo_ubicaciones, coordenada_y, ')');
+
+            for(int i = 0; i < jugador_1.devolver_inventario()->obtenerCantidad(); i++){
+                if(nombre_elemento == (jugador_1.devolver_inventario()->obtenerDato(i)->devolver_nombre_material() + ' ')){
+                    coordenada_1 = new Coordenada(stoi(coordenada_x), stoi(coordenada_y));
+                    coordenadas_materiales_1->agregar(coordenada_1);
+                }
+            }
+
+            /*if(jugador_1.devolver_edificios()->buscar(nombre_elemento - ' ') != NULL){
+                cout << "hola" << endl;
+                coordenada_1 = new Coordenada(stoi(coordenada_x), stoi(coordenada_y));
+                coordenadas_edificios_1->agregar(coordenada_1);
+            } */          
+
+        }
+        string nombre = "hola" += "ala";
+        cout << nombre;
+
+
+
+    }
+    else{
+        cout << "ERROR AL LEER EL ARCHIVO " << PATH_UBICACIONES << endl;
+    }
+ 
+
+}
+
 void Datos::designar_clase_edificio(Edificio* &edificio, string nombre_edificio, int cant_piedra, int cant_madera, int cant_metal, int cant_max_edificios){
 
     if(nombre_edificio == ASERRADERO){

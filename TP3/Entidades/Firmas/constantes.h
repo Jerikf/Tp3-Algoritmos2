@@ -5,6 +5,7 @@
 const std::string PATH_MATERIALES = "./Archivos/materiales.txt";
 const std::string PATH_EDIFICIOS = "./Archivos/edificios.txt";
 const std::string PATH_MAPA = "./Archivos/mapa.txt";
+const std::string PATH_UBICACIONES = "./Archivos/ubicaciones.txt";
 
 const int NULO = 0;
 const std::string VACIO = "-";
@@ -50,6 +51,8 @@ const char CAMINO = 'C';
 const char TERRENO = 'T';
 const char BETUN = 'B';
 const char MUELLE = 'M';
+
+
 #ifdef __linux__
 #define CLR_SCREEN "clear"
 #endif // __linux__

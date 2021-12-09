@@ -5,6 +5,9 @@ Jugador::Jugador(){
    edificios = nullptr;
    inventario = nullptr;
    mapa = nullptr;
+   coordenada_jugador = nullptr;
+   coordenadas_edificios = nullptr;
+   coordenadas_materiales = nullptr;
 
 
 }
@@ -53,4 +56,34 @@ Vect<Material>* Jugador::devolver_inventario(){
 void Jugador::limpiar_mapa(){
 
     delete mapa;
+}
+
+void Jugador::obtener_coordenadas_materiales(Vect<Coordenada>* coordenadas_materiales){
+
+    this-> coordenadas_materiales = coordenadas_materiales;
+}
+
+void Jugador::obtener_coordenadas_edificios(Vect<Coordenada>* coordenadas_edificios){
+    
+    this-> coordenadas_edificios = coordenadas_edificios;
+}
+
+void Jugador::obtener_corrdenadas_jugador(Vect<Coordenada>* devolver_coordenadas_jugadores){
+
+    this-> coordenada_jugador = coordenada_jugador;
+}
+
+Vect<Coordenada>* Jugador::devolver_coordenadas_materiales(){
+
+    return coordenadas_materiales;
+}
+
+Vect<Coordenada>* Jugador::devolver_coordenadas_edifcios(){
+
+    return coordenadas_edificios;
+}
+
+Vect<Coordenada>* Jugador::devolver_coordenadas_jugadores(){
+
+    return coordenada_jugador;
 }

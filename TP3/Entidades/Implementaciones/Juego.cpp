@@ -9,6 +9,7 @@ void Juego::obtener_datos(){
     datos.cargar_inventario();
     datos.cargar_edificios();
     datos.cargar_mapa();
+    datos.cargar_ubicaciones();
 }
 
 void Juego::inicializar_juego(){
