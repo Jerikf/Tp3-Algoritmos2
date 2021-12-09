@@ -112,6 +112,8 @@ int main(){
         cout << "(" << coordenadas_camino[i].getFila() << ";" << coordenadas_camino[i].getColumna() << ") ";
     }
     cout << endl;
+
+    mapa->mostrar_recorrido_jugador(coordenadas_camino, tope_camino, jugador);
     delete[] coordenadas_camino;
 
 

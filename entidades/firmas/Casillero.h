@@ -12,6 +12,7 @@ class Casillero
 {
     protected:
         char tipo;
+        int jugador;
     public:
 
         //PRE: recibe un tipo de casillero
@@ -29,6 +30,12 @@ class Casillero
         //PRE:
         //POS: Cada subClase implementará según sepa responder el mensaje
         virtual void mostrar()=0;
+
+        void jugador_entra_casillero( int jugador );
+
+        int devolver_jugador_casillero();
+
+        void jugador_deja_casillero();
 
         //PRE:
         //POS: Cada subClase implementará según sepa responder el mensaje

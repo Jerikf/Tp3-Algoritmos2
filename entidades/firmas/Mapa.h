@@ -25,6 +25,8 @@ class Mapa
         //POS: Muestra el mapa
         void mostrar();
 
+        void mostrar_recorrido_jugador( Coordenada * recorrido, int tope_recorrido, int jugador );
+
         //PRE: Recibe un casillero y una coordenada
         //POS: Agrega el casillero si la coordeanda es válida
         void agregarCasillero(Casillero*,Coordenada);

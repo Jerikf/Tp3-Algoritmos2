@@ -1,5 +1,6 @@
 #include "../firmas/Casillero.h"
-#include <iostream>
+
+const int NO_HAY_JUGADOR = 0;
 
 Casillero::Casillero(char tipo){
     this->tipo = tipo;
@@ -7,7 +8,21 @@ Casillero::Casillero(char tipo){
 
 Casillero::~Casillero(){}
 
-Casillero::Casillero(){}
+Casillero::Casillero(){
+    jugador = NO_HAY_JUGADOR;
+}
+
+void Casillero::jugador_entra_casillero(int jugador){
+    this->jugador = jugador;
+}
+
+int Casillero::devolver_jugador_casillero(){
+    return jugador;
+}
+
+void Casillero::jugador_deja_casillero(){
+    jugador = NO_HAY_JUGADOR;
+}
 
 char Casillero:: getTipo(){
     return this->tipo;
