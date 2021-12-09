@@ -8,10 +8,10 @@
 #include "Obelisco.h"
 #include "Fabrica.h"
 #include "Mina_oro.h"
-#include "Mapa.h"
 #include "Transitable.h"
 #include "Construible.h"
 #include "Inaccesible.h"
+#include "../../grafo/Grafo.h"
 #include "../../Estructuras/Firmas/Vect.h"
 
 class Jugador{
@@ -24,6 +24,8 @@ class Jugador{
     Vect<Coordenada>* coordenadas_materiales;
     Vect<Coordenada>* coordenadas_edificios;
     Vect<Coordenada>* coordenada_jugador;
+    Grafo* grafo;
+
 
     public:
     
@@ -86,6 +88,12 @@ class Jugador{
     void limpiar_diccionario();
 
     void limpiar_mapa();
+
+    void obtener_grafo(Grafo *grafo);
+
+    Grafo* devolver_grafo();
+
+    void limpiar_grafo();
 
 };
 

@@ -44,6 +44,10 @@ class Datos{
     // POST: Designa una clase a cada casillero dependiendo del tipo de caracter.
     void designar_clase_casillero(Casillero* &casillero, Coordenada coordenada, char tipo);
 
+    // PRE: -
+    // POST: Inicializa el grafo de ambos jugadores.
+    void inicialziar_grafos(Mapa* mapa_1, Mapa* mapa_2);
+
 };
 
 #endif //DATOS_H_INCLUDED

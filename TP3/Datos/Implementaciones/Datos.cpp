@@ -125,6 +125,12 @@ void Datos::cargar_mapa(){
 
         jugador_1.obtener_mapa(mapa_1);
         jugador_2.obtener_mapa(mapa_2);
+
+        inicialziar_grafos(jugador_1.devolver_mapa(), jugador_2.devolver_mapa());
+
+        
+
+
     }
     else{
         cout << "ERROR AL LEER EL ARCHIVO " << PATH_MAPA << endl;
@@ -166,8 +172,6 @@ void Datos::cargar_ubicaciones(){
             } */          
 
         }
-        string nombre = "hola" += "ala";
-        cout << nombre;
 
 
 
@@ -227,6 +231,16 @@ void Datos::designar_clase_casillero(Casillero* &casillero, Coordenada coordenad
         cout << "Ese casillero no tiene clase." << endl;
         return;
     }
+}
+
+void Datos::inicialziar_grafos(Mapa* mapa_1, Mapa* mapa_2){
+
+    jugador_1.obtener_mapa(mapa_1);
+    jugador_2.obtener_mapa(mapa_2);
+    Grafo* grafo = new Grafo(mapa_1);
+    Grafo* grafo_2 = new Grafo(mapa_2);
+    jugador_1.obtener_grafo(grafo);
+    jugador_2.obtener_grafo(grafo_2);
 }
 
 Jugador Datos::devovler_jugador_1(){

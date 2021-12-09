@@ -9,7 +9,7 @@ void Juego::obtener_datos(){
     datos.cargar_inventario();
     datos.cargar_edificios();
     datos.cargar_mapa();
-    datos.cargar_ubicaciones();
+   // datos.cargar_ubicaciones();
 }
 
 void Juego::inicializar_juego(){
@@ -26,6 +26,8 @@ void Juego::limpiar_memoria(){
     datos.devovler_jugador_2().limpiar_diccionario();
     datos.devovler_jugador_1().limpiar_mapa();
     datos.devovler_jugador_2().limpiar_mapa();
+    datos.devovler_jugador_1().limpiar_grafo();
+    datos.devovler_jugador_2().limpiar_grafo();
 }
 
 void Juego::generar_primer_menu(){

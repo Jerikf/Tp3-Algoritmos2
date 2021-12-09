@@ -85,7 +85,7 @@ void Grafo::cargar_matriz_adyacencia(){
                 matriz_adyacencia[i][j] = peso_arista;
             }
             else{
-                matriz_adyacencia[i][j] = 0;
+                matriz_adyacencia[i][j] = -1;
             }
         }
     }
@@ -99,15 +99,44 @@ Grafo::Grafo( Mapa * mapa ){
     cargar_tipo_terreno(mapa);
     inicializar_matriz_adyacencia();
     cargar_matriz_adyacencia();
+
+    algoritmo_camino_minimo = new Floyd(matriz_adyacencia, cant_vertices);
+    cout << endl;
 }
 
-void Grafo::imprimir_matriz_adyacencia(){
-    for( int i = 0; i < cant_vertices; i++ ){
-        for( int j = 0; j < cant_vertices; j++ ){
-            cout << matriz_adyacencia[i][j] << " ";
+int Grafo::obtener_posicion_vertice(Coordenada coordenada){
+    int posicion = -1;
+    bool encontro_vertice = false;
+    int i = 0;
+    Coordenada coordenada_actual;
+    while( !encontro_vertice && (i < cant_vertices)){
+        coordenada_actual = vertices[i].obtener_coordenada();
+        if((coordenada_actual.getFila() == coordenada.getFila()) && (coordenada_actual.getColumna() == coordenada.getColumna())){
+            posicion = i;
+            encontro_vertice = true;
         }
-        cout << endl;
+        i++;
     }
+    return posicion;
+}
+
+void Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final){
+    int posicion_vertice_1 = obtener_posicion_vertice(punto_inicial);
+    int posicion_vertice_2 = obtener_posicion_vertice(punto_final);
+    int tope_camino;
+    int * camino = algoritmo_camino_minimo->obtener_camino_minimo(posicion_vertice_1, posicion_vertice_2, &tope_camino);
+
+    Coordenada * coordenada_camino = new Coordenada[tope_camino];
+    for( int i = 0; i < tope_camino; i++ ){
+        coordenada_camino[i] = vertices[camino[i]].obtener_coordenada();
+    };
+    //esto es solo para las pruebas
+    for( int i = 0; i < tope_camino; i++ ){
+        cout << "(" << coordenada_camino[i].getFila() << ";" << coordenada_camino[i].getColumna() << ") ";
+    }
+    cout << endl;
+    delete[] camino;
+    delete[] coordenada_camino;
 }
 
 Grafo::~Grafo(){
@@ -115,6 +144,6 @@ Grafo::~Grafo(){
         delete[] matriz_adyacencia[i];
     }
     delete[] matriz_adyacencia;
-
     delete[] vertices;
+    delete algoritmo_camino_minimo;
 }

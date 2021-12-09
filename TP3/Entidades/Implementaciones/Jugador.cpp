@@ -8,6 +8,7 @@ Jugador::Jugador(){
    coordenada_jugador = nullptr;
    coordenadas_edificios = nullptr;
    coordenadas_materiales = nullptr;
+   grafo = nullptr;
 
 
 }
@@ -86,4 +87,19 @@ Vect<Coordenada>* Jugador::devolver_coordenadas_edifcios(){
 Vect<Coordenada>* Jugador::devolver_coordenadas_jugadores(){
 
     return coordenada_jugador;
+}
+
+void Jugador::obtener_grafo(Grafo* grafo){
+
+    this-> grafo = grafo;
+}
+
+Grafo* Jugador::devolver_grafo(){
+
+    return grafo;
+}
+
+void Jugador::limpiar_grafo(){
+
+    delete grafo;
 }
