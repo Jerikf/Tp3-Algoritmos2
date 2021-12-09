@@ -23,17 +23,16 @@ private:
     void cargar_tipo_terreno(Mapa * mapa);
     void inicializar_matriz_adyacencia();
     bool vertices_son_adyacentes( Coordenada coordenada1, Coordenada coordenada2 );
-    int determinar_peso_arista( int posicion_vertice );
-    void cargar_matriz_adyacencia();
+    int determinar_peso_arista( int posicion_vertice, int jugador );
+    void cargar_matriz_adyacencia(int jugador);
     int obtener_posicion_vertice(Coordenada coordenada);
 
 public:
     // pre: el mapa debe estar cargado correctamente
-    // post: crea un grafo con la matriz de adyacencia del mapa inicializada
-    Grafo( Mapa * mapa );
+    // post: crea un grafo con la matriz de adyacencia del mapa inicializada dependiendo del jugador
+    Grafo( Mapa * mapa, int jugador);
 
-    //ToDo ==> esto deberia devolver un vector de coordenadas al jugador para que sepa como moverse
-    void obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final);
+    Coordenada * obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final, int * tope_camino, int * costo_camino);
 
     ~Grafo();
 

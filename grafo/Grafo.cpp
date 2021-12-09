@@ -8,11 +8,15 @@ const char BETUN = 'B';
 
 //estas constantes deberian ir en la clase jugador creo pero por ahora quedan aca
 //tambien hay que ajustar valores dependiendo de si es el jugador 1 o 2
+const int JUGADOR1 = 1;
+const int JUGADOR2 = 2;
 const int COSTO_TRANSITO_CAMINO = 4;
 const int COSTO_TRANSITO_BETUN = 0;
 const int COSTO_TRANSITO_TERRENO = 25;
-const int COSTO_TRANSITO_LAGO = 5;
-const int COSTO_TRANSITO_MUELLE = 2;
+const int COSTO_TRANSITO_LAGO_JUGADOR1 = 2;
+const int COSTO_TRANSITO_LAGO_JUGADOR2 = 5;
+const int COSTO_TRANSITO_MUELLE_JUGADOR1 = 5;
+const int COSTO_TRANSITO_MUELLE_JUGADOR2 = 2;
 
 
 void Grafo::cargar_vertices( int filas, int columnas){
@@ -58,7 +62,7 @@ bool Grafo::vertices_son_adyacentes( Coordenada coordenada1, Coordenada coordena
     return son_adyacentes;
 }
 
-int Grafo::determinar_peso_arista(int posicion_vertice){
+int Grafo::determinar_peso_arista(int posicion_vertice, int jugador){
     int peso_arista;
     char tipo_terreno = vertices[posicion_vertice].obtener_tipo_terreno();
 
@@ -68,20 +72,24 @@ int Grafo::determinar_peso_arista(int posicion_vertice){
         peso_arista = COSTO_TRANSITO_BETUN;
     else if( tipo_terreno == TERRENO )
         peso_arista = COSTO_TRANSITO_TERRENO;
-    else if( tipo_terreno == LAGO )
-        peso_arista = COSTO_TRANSITO_LAGO;
-    else if( tipo_terreno == MUELLE )
-        peso_arista = COSTO_TRANSITO_MUELLE;
+    else if( tipo_terreno == LAGO && jugador == JUGADOR1 )
+        peso_arista = COSTO_TRANSITO_LAGO_JUGADOR1;
+    else if( tipo_terreno == LAGO && jugador == JUGADOR2 )
+        peso_arista = COSTO_TRANSITO_LAGO_JUGADOR2;
+    else if( tipo_terreno == MUELLE && jugador == JUGADOR1 )
+        peso_arista = COSTO_TRANSITO_MUELLE_JUGADOR1;
+    else if( tipo_terreno == MUELLE && jugador == JUGADOR2 )
+        peso_arista = COSTO_TRANSITO_MUELLE_JUGADOR2;
 
     return peso_arista;
 }
 
-void Grafo::cargar_matriz_adyacencia(){
+void Grafo::cargar_matriz_adyacencia(int jugador){
     int peso_arista;
     for( int i = 0; i < cant_vertices; i++ ){
         for( int j = 0; j < cant_vertices; j++ ){
             if( vertices_son_adyacentes( vertices[i].obtener_coordenada(), vertices[j].obtener_coordenada() )){
-                peso_arista = determinar_peso_arista(j);
+                peso_arista = determinar_peso_arista(j, jugador);
                 matriz_adyacencia[i][j] = peso_arista;
             }
             else{
@@ -91,14 +99,14 @@ void Grafo::cargar_matriz_adyacencia(){
     }
 }
 
-Grafo::Grafo( Mapa * mapa ){
+Grafo::Grafo( Mapa * mapa, int jugador ){
     cant_vertices = mapa->getCantFilas() * mapa->getCantColumnas();
     vertices = new Vertice[cant_vertices];
 
     cargar_vertices(mapa->getCantFilas(), mapa->getCantColumnas());
     cargar_tipo_terreno(mapa);
     inicializar_matriz_adyacencia();
-    cargar_matriz_adyacencia();
+    cargar_matriz_adyacencia(jugador);
 
     algoritmo_camino_minimo = new Floyd(matriz_adyacencia, cant_vertices);
     cout << endl;
@@ -120,23 +128,18 @@ int Grafo::obtener_posicion_vertice(Coordenada coordenada){
     return posicion;
 }
 
-void Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final){
+Coordenada * Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final, int * tope_camino, int * costo_camino){
     int posicion_vertice_1 = obtener_posicion_vertice(punto_inicial);
     int posicion_vertice_2 = obtener_posicion_vertice(punto_final);
-    int tope_camino;
-    int * camino = algoritmo_camino_minimo->obtener_camino_minimo(posicion_vertice_1, posicion_vertice_2, &tope_camino);
+    int * camino = algoritmo_camino_minimo->obtener_camino_minimo(posicion_vertice_1, posicion_vertice_2, tope_camino, costo_camino);
 
-    Coordenada * coordenada_camino = new Coordenada[tope_camino];
-    for( int i = 0; i < tope_camino; i++ ){
-        coordenada_camino[i] = vertices[camino[i]].obtener_coordenada();
+    Coordenada * coordenadas_camino = new Coordenada[(*tope_camino)];
+
+    for( int i = 0; i < (*tope_camino); i++ ){
+        coordenadas_camino[i] = vertices[camino[i]].obtener_coordenada();
     };
-    //esto es solo para las pruebas
-    for( int i = 0; i < tope_camino; i++ ){
-        cout << "(" << coordenada_camino[i].getFila() << ";" << coordenada_camino[i].getColumna() << ") ";
-    }
-    cout << endl;
     delete[] camino;
-    delete[] coordenada_camino;
+    return coordenadas_camino;
 }
 
 Grafo::~Grafo(){

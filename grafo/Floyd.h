@@ -22,7 +22,7 @@ private:
 public:
     Floyd(int ** matriz_adyacencia, int cant_vertices);
 
-    int* obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino);
+    int* obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino, int * costo_camino);
 
     ~Floyd();
 };

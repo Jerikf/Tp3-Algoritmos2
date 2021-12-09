@@ -84,7 +84,11 @@ int main(){
     Mapa * mapa;
     datos->cargarDatosMapa(&mapa);
     mapa->mostrar();
-    Grafo grafo(mapa);
+
+    int jugador;
+    cout << "Ingrese si es jugador 1 o 2 (con otro numero se rompe): ";
+    cin >> jugador;
+    Grafo grafo(mapa, jugador);
 
     Coordenada punto_inicial, punto_final;
     int x;
@@ -100,7 +104,15 @@ int main(){
     cin >> x;
     punto_final.setColumna(x);
 
-    grafo.obtener_camino_minimo(punto_inicial, punto_final);
+    int  tope_camino;
+    int costo_camino;
+    Coordenada * coordenadas_camino = grafo.obtener_camino_minimo(punto_inicial, punto_final, &tope_camino, &costo_camino);
+    cout << "Costo camino: " << costo_camino << endl;
+    for( int i = 0; i < tope_camino; i++ ){
+        cout << "(" << coordenadas_camino[i].getFila() << ";" << coordenadas_camino[i].getColumna() << ") ";
+    }
+    cout << endl;
+    delete[] coordenadas_camino;
 
 
     delete mapa;

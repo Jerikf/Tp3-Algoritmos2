@@ -59,10 +59,11 @@ Floyd::Floyd(int ** matriz_adyacencia, int cant_vertices){
     calcular_matrices();
 }
 
-int* Floyd::obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino){
+int* Floyd::obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino, int * costo_camino){
     int * camino = new int[cant_vertices];
     int * aux = new int[cant_vertices];
     int aux2 = posicion_vertice_2;
+    (*costo_camino) = matriz_costos[posicion_vertice_1][posicion_vertice_2];
 
     (*tope_camino) = 0;
     while( posicion_vertice_1 != posicion_vertice_2 ){
