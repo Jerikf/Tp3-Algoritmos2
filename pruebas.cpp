@@ -75,7 +75,7 @@ int main(){
     */
     //Pruebas grafo
 
-    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
+    /*Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
     Vect<Edificio>* edificios = new Vect<Edificio>;
     Vect<Material>* materiales = new Vect<Material>;
     Juego juego(datos, edificios, materiales);
@@ -119,10 +119,7 @@ int main(){
     delete[] coordenadas_camino;
 
 
-    delete mapa;
-<<<<<<< HEAD:pruebas.cpp
-=======
-    */
+    delete mapa;*/
 
 
     //-----------------------------------Prueba con archivo Edificios y materiales -------------------------------------
@@ -170,8 +167,6 @@ int main(){
   //  delete jugador_1;
    // delete jugador_2;
 
-    
->>>>>>> decb8c8bc586a05ca3b877d7c9d855c906bd3ad1:main.cpp
 
 
     //--------------------------------------------PRUEBA DE GUARDADO DE MATERIALES Y EDIFICIOS----------------------

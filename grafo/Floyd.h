@@ -22,6 +22,10 @@ private:
 public:
     Floyd(int ** matriz_adyacencia, int cant_vertices);
 
+    // Pre: la cantidad de vertices debe ser la misma con la que se inicializo
+    // Post: se volvera a calcular la matriz de costos y la de recorrido de acuerdo con la nueva matriz de adyacencia
+    void actualizar_matrices(int ** matriz_adyacencia);
+
     int* obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino, int * costo_camino);
 
     ~Floyd();

@@ -13,6 +13,7 @@ class Grafo{
 
 private:
     //Atributos
+    int jugador;
     int ** matriz_adyacencia;
     Vertice * vertices;
     int cant_vertices;
@@ -32,6 +33,10 @@ public:
     // post: crea un grafo con la matriz de adyacencia del mapa inicializada dependiendo del jugador
     Grafo( Mapa * mapa, int jugador);
 
+    void actualizar_grafo( Mapa * mapa );
+
+    //ToDo --> el vector de coordenadas se crea dinamicamente pero el jugador se tiene que encargar de
+    //ToDo --> eliminarlo cada vez que lo usa, lo deberia eliminar grafo (2 formas o paso puntero por parametro o lo guardo como atributo, o no se encarga)
     Coordenada * obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final, int * tope_camino, int * costo_camino);
 
     ~Grafo();

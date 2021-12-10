@@ -5,6 +5,7 @@ const char CAMINO = 'C';
 const char LAGO = 'L';
 const char MUELLE = 'M';
 const char BETUN = 'B';
+const char CASILLERO_OCUPADO = 'X';
 
 //estas constantes deberian ir en la clase jugador creo pero por ahora quedan aca
 //tambien hay que ajustar valores dependiendo de si es el jugador 1 o 2
@@ -17,6 +18,7 @@ const int COSTO_TRANSITO_LAGO_JUGADOR1 = 2;
 const int COSTO_TRANSITO_LAGO_JUGADOR2 = 5;
 const int COSTO_TRANSITO_MUELLE_JUGADOR1 = 5;
 const int COSTO_TRANSITO_MUELLE_JUGADOR2 = 2;
+const int COSTO_CASILLERO_OCUPADO = 99999;
 
 
 void Grafo::cargar_vertices( int filas, int columnas){
@@ -38,7 +40,10 @@ void Grafo::cargar_tipo_terreno(Mapa * mapa){
             coordenada_actual.setFila(i);
             coordenada_actual.setColumna(j);
             casillero_actual = mapa->getCasillero(coordenada_actual);
-            vertices[contador].cargar_tipo_terreno( casillero_actual->getTipo());
+            if( !casillero_actual->getEdificio() && casillero_actual->devolver_jugador_casillero() != 0)
+                vertices[contador].cargar_tipo_terreno( CASILLERO_OCUPADO);
+
+            else vertices[contador].cargar_tipo_terreno( casillero_actual->getTipo());
             contador++;
         }
     }
@@ -80,6 +85,8 @@ int Grafo::determinar_peso_arista(int posicion_vertice, int jugador){
         peso_arista = COSTO_TRANSITO_MUELLE_JUGADOR1;
     else if( tipo_terreno == MUELLE && jugador == JUGADOR2 )
         peso_arista = COSTO_TRANSITO_MUELLE_JUGADOR2;
+    else if( tipo_terreno == CASILLERO_OCUPADO )
+        peso_arista = COSTO_CASILLERO_OCUPADO;
 
     return peso_arista;
 }
@@ -102,6 +109,7 @@ void Grafo::cargar_matriz_adyacencia(int jugador){
 Grafo::Grafo( Mapa * mapa, int jugador ){
     cant_vertices = mapa->getCantFilas() * mapa->getCantColumnas();
     vertices = new Vertice[cant_vertices];
+    this->jugador = jugador;
 
     cargar_vertices(mapa->getCantFilas(), mapa->getCantColumnas());
     cargar_tipo_terreno(mapa);
@@ -110,6 +118,12 @@ Grafo::Grafo( Mapa * mapa, int jugador ){
 
     algoritmo_camino_minimo = new Floyd(matriz_adyacencia, cant_vertices);
     cout << endl;
+}
+
+void Grafo::actualizar_grafo(Mapa * mapa){
+    cargar_tipo_terreno(mapa);
+    cargar_matriz_adyacencia(jugador);
+    algoritmo_camino_minimo->actualizar_matrices(matriz_adyacencia);
 }
 
 int Grafo::obtener_posicion_vertice(Coordenada coordenada){
@@ -131,6 +145,7 @@ int Grafo::obtener_posicion_vertice(Coordenada coordenada){
 Coordenada * Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final, int * tope_camino, int * costo_camino){
     int posicion_vertice_1 = obtener_posicion_vertice(punto_inicial);
     int posicion_vertice_2 = obtener_posicion_vertice(punto_final);
+
     int * camino = algoritmo_camino_minimo->obtener_camino_minimo(posicion_vertice_1, posicion_vertice_2, tope_camino, costo_camino);
 
     Coordenada * coordenadas_camino = new Coordenada[(*tope_camino)];

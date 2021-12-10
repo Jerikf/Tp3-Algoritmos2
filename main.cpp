@@ -28,8 +28,6 @@ const char* CLEAR_SCREEN = "clear";
 #endif
 
 int main(){
-<<<<<<< HEAD
-=======
     //---------------------PRUEBAS DEL USO DEL DICCIONAARIO IMPLEMENTADO CON UN ABB----------------
     /*
     //Creamos 3 Edificios
@@ -73,30 +71,7 @@ int main(){
     delete dicc;
 
     //---------------------------------------------FIN DE PRUEBAS DEL DICCIONARIO---------------------------
-    */
-    //Pruebas grafo
-    /*
->>>>>>> 985602d47d712d68b69f9966c115c9e64a1b5812
-    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
-    Vect<Edificio>* edificios = new Vect<Edificio>;
-    Vect<Material>* materiales = new Vect<Material>;
-    Juego juego(datos, edificios, materiales);
-    Interfaz interfaz(&juego);
-
-    juego.inicializarCargadoDatos();
-    system(CLEAR_SCREEN);
-
-<<<<<<< HEAD
-    interfaz.iniciar();
-
-
-    return 0;
-}
-=======
-    delete mapa;
-    */
-
-
+*/
     //-----------------------------------Prueba con archivo Edificios y materiales -------------------------------------
 
     Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
@@ -124,4 +99,3 @@ int main(){
 //para ejecutar
 //valgrind --tool=memcheck --leak-check=yes --leak-check=full --track-origins=yes ./tp
 
->>>>>>> 985602d47d712d68b69f9966c115c9e64a1b5812
