@@ -143,10 +143,10 @@ Juego::~Juego(){
 }
 
 void Juego::inicializarCargadoDatos(){
-    this->datos->cargarDatosEdificios(this->edificios);
-    this->datos->cargarDatosMateriales(this->materiales);
+    //this->datos->cargarDatosEdificios(this->edificios);
+    //this->datos->cargarDatosMateriales(this->materiales);
     this->datos->cargarDatosMapa(&(this->mapa));
-    this->datos->cargarDatosUbicaciones(this->mapa, this->edificios);
+    //this->datos->cargarDatosUbicaciones(this->mapa, this->edificios);
 }
 
 void Juego::mostrarMenu(){
