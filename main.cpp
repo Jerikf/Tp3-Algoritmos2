@@ -73,7 +73,7 @@ int main(){
     //---------------------------------------------FIN DE PRUEBAS DEL DICCIONARIO---------------------------
     */
     //Pruebas grafo
-
+    /*
     Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
     Vect<Edificio>* edificios = new Vect<Edificio>;
     Vect<Material>* materiales = new Vect<Material>;
@@ -119,6 +119,27 @@ int main(){
 
 
     delete mapa;
+    */
+
+
+    //-----------------------------------Prueba con archivo Edificios y materiales -------------------------------------
+
+    Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
+    Datos* datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
+    Vect<Material>* materialesJugador1 = new Vect<Material>;
+    Vect<Material>* materialesJguador2 = new Vect<Material>; 
+    datos->cargarDatosEdificios(diccEdificios);
+    datos->cargarDatosMateriales(materialesJugador1, materialesJguador2);
+    materialesJugador1->mostrar();
+    materialesJguador2->mostrar();
+    diccEdificios->mostrarInorder();
+
+    delete diccEdificios;
+    delete materialesJguador2;
+    delete materialesJugador1;
+    delete datos;
+
+    
 
 
     return 0;
@@ -127,3 +148,4 @@ int main(){
 //g++ -g ./entidades/implementacion/* ./estructura/* ./accesoDatos/implementacion/* ./interfaz/implementacion/* ./recursos/implementacion/* ./grafo/* main.cpp -o tp -Werror -Wall -Wconversion
 //para ejecutar
 //valgrind --tool=memcheck --leak-check=yes --leak-check=full --track-origins=yes ./tp
+
