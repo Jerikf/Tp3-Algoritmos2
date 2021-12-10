@@ -123,21 +123,32 @@ int main(){
 
 
     //-----------------------------------Prueba con archivo Edificios y materiales -------------------------------------
-
+    Mapa* mapa;
     Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
     Datos* datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
     Vect<Material>* materialesJugador1 = new Vect<Material>;
     Vect<Material>* materialesJguador2 = new Vect<Material>; 
+
+    Vect<Coordenada>* ubicacionesJugador1 = new Vect<Coordenada>;
+    Vect<Coordenada>* ubicacionesJugador2 = new Vect<Coordenada>;
     datos->cargarDatosEdificios(diccEdificios);
-    datos->cargarDatosMateriales(materialesJugador1, materialesJguador2);
-    materialesJugador1->mostrar();
-    materialesJguador2->mostrar();
+    //datos->cargarDatosMateriales(materialesJugador1, materialesJguador2);
+    datos->cargarDatosMapa(&mapa);
+    datos->cargarDatosUbicaciones(mapa, diccEdificios,ubicacionesJugador1, ubicacionesJugador2);
+    //materialesJugador1->mostrar();
+    //materialesJguador2->mostrar();
     diccEdificios->mostrarInorder();
+
+    ubicacionesJugador2->mostrar();
+    ubicacionesJugador1->mostrar();
 
     delete diccEdificios;
     delete materialesJguador2;
     delete materialesJugador1;
     delete datos;
+    delete mapa;
+    delete ubicacionesJugador2;
+    delete ubicacionesJugador1;
 
     
 
