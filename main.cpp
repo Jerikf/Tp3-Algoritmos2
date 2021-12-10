@@ -136,12 +136,14 @@ int main(){
     //datos->cargarDatosMateriales(materialesJugador1, materialesJguador2);
     datos->cargarDatosMapa(&mapa);
     datos->cargarDatosUbicaciones(mapa, diccEdificios,ubicacionesJugador1, ubicacionesJugador2);
-    int cant_energia = 100;
-    Grafo* grafo_1 = new Grafo(mapa, 1);
-    Grafo* grafo_2 = new Grafo(mapa, 2);
+   // int cant_energia = 100;
+    //Grafo* grafo_1 = new Grafo(mapa, 1);
+   // Grafo* grafo_2 = new Grafo(mapa, 2);//Van en juego
 
-    Jugador* jugador_1 = new Jugador(cant_energia, materialesJugador1, ubicacionesJugador1, grafo_1);
-    Jugador* jugador_2 = new Jugador(cant_energia, materialesJguador2, ubicacionesJugador2, grafo_2);
+
+    //Jugador* jugador_1 = new Jugador(grafo_1);
+   //Se carga en juego.
+   // Jugador* jugador_2 = new Jugador(grafo_2);
 
 
     //materialesJugador1->mostrar();
@@ -161,10 +163,10 @@ int main(){
     delete mapa;
     delete ubicacionesJugador2;
     delete ubicacionesJugador1;
-    delete grafo_1;
-    delete grafo_2;
-    delete jugador_1;
-    delete jugador_2;
+   // delete grafo_1;
+   // delete grafo_2;
+  //  delete jugador_1;
+   // delete jugador_2;
 
     
 

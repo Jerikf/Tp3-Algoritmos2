@@ -1,11 +1,11 @@
 #include "../../entidades/firmas/Jugador.h"
 
-Jugador::Jugador(int cant_energia, Vect<Material>* inventario, Vect<Coordenada>* ubicaciones, Grafo* grafo){
+Jugador::Jugador(Grafo* grafo){
 
-    this-> cant_energia = cant_energia;
-    this-> inventario = inventario;
-    this-> ubicaciones = ubicaciones;
-    this-> grafo = grafo;
+    this-> cant_energia = 100;
+    this-> inventario = new Vect<Material>(); // Se crea sin materiales
+    this-> ubicaciones = new Vect<Coordenada>();// Se crea sin ubiaciones
+    this-> grafo = grafo; // Lo recibe despues de cargarse el mapa.
 }
 
 void Jugador::establecer_energia(int cant_energia){

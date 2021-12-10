@@ -17,7 +17,7 @@ class Jugador{
 
     public:
 
-    Jugador(int cant_energia, Vect<Material>* inventario, Vect<Coordenada>* ubicaciones, Grafo* grafo);
+    Jugador(Grafo* grafo);
 
     // PRE: -
     // POST: Establece la energia del jugador.
