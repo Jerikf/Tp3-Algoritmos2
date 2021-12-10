@@ -11,11 +11,15 @@ class Interfaz
 
         //PRE: Recibe una opción del menu(tiene que ser un entero)
         //POS: Valida la opción que esté en ese rango
-        bool validarOpcion(int);
+        bool validarOpcion(int opcion, int limiteInferior, int limiteSuperior);
 
         //PRE:
         //POS: pide al usuario una opcion, retornará la opcion ya validada.
-        int obtenerOpcion();
+        int obtenerOpcion(int limiteInferior, int limiteSuperior);
+
+        void mostrarMenuInicial();
+        void iniciarMenuInicial();
+        void volver_menu();
 
     public:
 

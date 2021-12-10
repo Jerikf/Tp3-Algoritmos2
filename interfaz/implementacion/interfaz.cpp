@@ -1,6 +1,14 @@
 #include "../firma/Interfaz.h"
 #include <iostream>
 
+//opciones menu inicial
+const int MODIFICAR_EDIFICIO_POR_NOMBRE = 1;
+const int LISTAR_TODOS_LOS_EDIFICIOS_INICIAL = 2;
+const int MOSTRAR_MAPA_INICIAL = 3;
+const int COMENZAR_PARTIDA = 4;
+const int GUARDAR_Y_SALIR = 5;
+
+//opciones jugador
 const int CONSTRUIR_EDIFICIO_POR_NOMBRE = 1;
 const int LISTAR_LOS_EDIFICIOS_CONSTRUIDOS = 2;
 const int LISTAR_TODOS_LOS_EDIFICIOS = 3;
@@ -21,22 +29,23 @@ const int GUARDAR_SALIR = 10;
 
 #endif
 
-bool Interfaz::validarOpcion(int opcion){
-    return (opcion >= 1 && opcion <= 10);
+bool Interfaz::validarOpcion(int opcion, int limiteInferior, int limiteSuperior){
+    return (opcion >= limiteInferior && opcion <= limiteSuperior);
 }
 
-int Interfaz::obtenerOpcion(){
+int Interfaz::obtenerOpcion( int limiteInferior, int limiteSuperior ){
     int opcion = 0;
 	bool esValido = false;
-	while(!esValido){
-		cout << "\n\n";
-		cout << "SELECCIONE UNA OPCIÒN DEL 1 AL 10 " << endl;
-		cin >> opcion;
-		if(this->validarOpcion(opcion))
-			esValido = true;
-		else
-			cout << "OPCIÓN INCORRECTA!" << endl;
-	}
+	while(!esValido) {
+        cout << "SELECCIONE UNA OPCIÒN DEL " << limiteInferior << " AL " << limiteSuperior << endl;
+        cin >> opcion;
+        if (validarOpcion(opcion, limiteInferior, limiteSuperior))
+            esValido = true;
+        else {
+            system(CLEAR);
+            cout << "OPCIÓN INCORRECTA. LAS OPCIONES SON ENTRE " << limiteInferior << " Y " << limiteSuperior << endl;
+        }
+    }
 	return opcion;
 }
 
@@ -46,15 +55,90 @@ Interfaz::Interfaz(Juego* juego){
 
 Interfaz::~Interfaz(){}
 
+void Interfaz::mostrarMenuInicial(){
+    cout << "╔═════════════╗" << endl;
+    cout << "║ Preparacion:║ " << endl;
+    cout << "╚═════════════╝" << endl;
+
+    cout << "\t" << "╔════════════════════════════════════════╗" << endl;
+    cout << "\t" << "║ 1)- Modificar edificio por nombre.     ║" << endl;
+    cout << "\t" << "║                                        ║" << endl;
+    cout << "\t" << "║ 2)- Listar todos los edificios.        ║" << endl;
+    cout << "\t" << "║                                        ║" << endl;
+    cout << "\t" << "║ 3)- Mostrar mapa.                      ║" << endl;
+    cout << "\t" << "║                                        ║" << endl;
+    cout << "\t" << "║ 4)- Comenzar partida.                  ║" << endl;
+    cout << "\t" << "║                                        ║" << endl;
+    cout << "\t" << "║ 5)- Guardar y salir.                   ║" << endl;
+    cout << "\t" << "╚════════════════════════════════════════╝" << endl;
+}
+
+void Interfaz::volver_menu(){
+
+    cout << "        " << "╔══════════════════════════════╗" << endl;
+    cout << "        " << "║Oprima 0 para volver al menu: ║" << endl;
+    cout << "        " << "╚══════════════════════════════╝" << endl;
+
+    string numero = "1";
+    cin >> numero;
+
+    while (numero != "0"){
+        cout << "            " << "╔══════════════════════════╗" << endl;
+        cout << "            " << "║ ----CARACTER INVALIDO----║" << endl;
+        cout << "            " << "╚══════════════════════════╝" << endl;
+
+        cout << endl;
+        cout << "          " << "╔══════════════════════════════╗" << endl;
+        cout << "          " << "║Oprima 0 para volver al menu: ║" << endl;
+        cout << "          " << "╚══════════════════════════════╝" << endl;
+
+        cin >> numero;
+    }
+}
+
+void Interfaz::iniciarMenuInicial(){
+    int opcion = 0;
+    while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR ){
+        system(CLEAR);
+        mostrarMenuInicial();
+        opcion = obtenerOpcion(1,5);
+        switch (opcion) {
+            case MODIFICAR_EDIFICIO_POR_NOMBRE:
+                cout << "work in progress" << endl;
+                break;
+            case LISTAR_TODOS_LOS_EDIFICIOS_INICIAL:
+                cout << "work in progress" << endl;
+                break;
+            case MOSTRAR_MAPA_INICIAL:
+                system(CLEAR);
+                cout << "		MOSTRANDO MAPA" << endl;
+                this->juego->mostrarMapa();
+                cout << "\n";
+                break;
+            case COMENZAR_PARTIDA:
+                cout << "work in progress" << endl;
+                break;
+            case GUARDAR_Y_SALIR:
+                cout << "work in progress" << endl;
+                break;
+        }
+        if(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR)
+            volver_menu();
+    }
+}
 
 void Interfaz::iniciar(){
 
-    int opcion ;
+    /*int opcion ;
 	Coordenada coordenada;
     int fila, columna = 0;
 	string nombre = "";
-	bool salir = false;
-	do{
+	bool salir = false;*/
+
+    iniciarMenuInicial();
+
+    //esto va a ser el menu del jugador
+	/*do{
 		this->juego->mostrarMenu();
 		opcion = this->obtenerOpcion();
 		switch (opcion){
@@ -171,7 +255,7 @@ void Interfaz::iniciar(){
 				break;
 		}
 	}while(!salir);
-
+    */
 	cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
 }
 

@@ -94,6 +94,7 @@ void Mapa::mostrar(){
     for(int fila = 0; fila < this->cantFilas; fila++){
         Edificio* edificio = NULL;
         Material* material = NULL;
+        cout << "        ";
         for(int columna = 0; columna < this->cantColumnas; columna++){
 
             if(this->casilleros[fila][columna]){
