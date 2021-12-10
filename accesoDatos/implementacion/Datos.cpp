@@ -31,6 +31,9 @@ const char MUELLE = 'M';
 const string JUGADOR1 = "1";
 const string JUGADOR2 = "2";
 
+const int JUGADOR1_INT = 1;
+const int JUGADOR2_INT = 2;
+
 const int CANT_EDIFICIOS = 7;
 
 
@@ -335,19 +338,66 @@ void Datos::guardarDatosMapa(Mapa* mapa){
     }
 }
 
-void Datos::guardarDatosUbicaciones(Mapa* mapa){
-    ofstream archivoUbicaciones(this->nombreArchivoUbicaciones);
-    Edificio* edificio = NULL;
 
+void Datos::asignarJugadorAlArchivoUbicaciones(ofstream* archivoUbicaciones, Coordenada coordenada, int numJugador){
+    *(archivoUbicaciones) << numJugador << ' ' << '(' << coordenada.getFila() << ", " << coordenada.getColumna() << ")\n";
+}
+
+
+void Datos::asignarEdificiosConstruidosDelJugadorAlArchivoUbicaciones(ofstream* archivoUbicaciones, Mapa* mapa, Vect<Coordenada>* coordenadasDeEdificiosConstruidos){
+    Edificio* edificio = NULL;
+    for(int i = 0; i < coordenadasDeEdificiosConstruidos->obtenerCantidad(); i++){
+        edificio = mapa->getCasillero(*(coordenadasDeEdificiosConstruidos->obtenerDato(i)))->getEdificio(); //Siempre se obtiene un edificio porque se supone que el vector de ubicaciones son válidos
+        *archivoUbicaciones << edificio->getNombre() << ' ' << '(' << coordenadasDeEdificiosConstruidos->obtenerDato(i)->getFila() << ", " << coordenadasDeEdificiosConstruidos->obtenerDato(i)->getColumna() << ")\n";
+        edificio = NULL;
+    }
+}
+
+void Datos::guardarDatosUbicaciones(Mapa* mapa, Vect<Coordenada>* ubicacionesJugador1, Vect<Coordenada>* ubicacionesJugador2){
+    
+
+    //Idea--> 1ero debemos cargar todos los materiales, osea que sea un casillero transitable esto lo sacamos recorriendo todo el mapa
+    //2do--> del vector coordenadas de cada jugador sacar los edificios que están construidos en el mapa
+    //3ero --> tener la coordenada del jugador! esto lo puedo sacar al recorrer el mapa para los materiales
+
+    ofstream archivoUbicaciones(this->nombreArchivoUbicaciones);
+    //Edificio* edificio = NULL;
+    Coordenada coordenadaJugador1;
+    Coordenada coordenadaJugador2;
+    Casillero* casillero = NULL;
+    Material* material = NULL;
+
+    //Acà guardo los materiales disponibles en el mapa, además me guardo la coordenada de los jugadores
     for(int fila = 0; fila < mapa->getCantFilas(); fila++){
         for(int col = 0; col < mapa->getCantColumnas(); col++){
+
             Coordenada coordenada(fila,col);
-            edificio = mapa->getCasillero(coordenada)->getEdificio();
-            //Como Construible puede o no tener edificio si lo tiene se tiene que guardar
-            //NO me preocupo si es un Casillero Inaccesible o Transitable porque devolveran NULL se aplica bien el polimorfismo
-            if(edificio){
-                archivoUbicaciones << edificio->getNombre() << ' ' << '(' << coordenada.getFila() << ", " << coordenada.getColumna() << ")\n"; 
+            casillero = mapa->getCasillero(coordenada);
+
+            if(casillero){
+                if(casillero->devolver_jugador_casillero() == JUGADOR1_INT){
+                    coordenadaJugador1.setFila(fila);
+                    coordenadaJugador1.setColumna(col);
+                }else if(casillero->devolver_jugador_casillero() == JUGADOR2_INT){
+                    coordenadaJugador2.setFila(fila);
+                    coordenadaJugador2.setColumna(col);
+                }else{
+                    material = casillero->getMaterial();
+                    if(material){
+                        archivoUbicaciones << material->getNombre() << ' ' << '(' << coordenada.getFila() << ", " << coordenada.getColumna() << ")\n";
+                    }
+
+                }
             }
         }
     }
+
+
+    asignarJugadorAlArchivoUbicaciones(&archivoUbicaciones, coordenadaJugador1, JUGADOR1_INT);
+    asignarEdificiosConstruidosDelJugadorAlArchivoUbicaciones(&archivoUbicaciones, mapa, ubicacionesJugador1);
+
+    asignarJugadorAlArchivoUbicaciones(&archivoUbicaciones, coordenadaJugador2, JUGADOR2_INT);
+    asignarEdificiosConstruidosDelJugadorAlArchivoUbicaciones(&archivoUbicaciones, mapa, ubicacionesJugador2);
+
+
 }

@@ -5,6 +5,7 @@
 
 #include "../../estructura/Vect.h"
 #include "../../accesoDatos/modelo/Datos.h"
+#include "../../entidades/firmas/Jugador.h"
 #include "Mapa.h"
 #include "Edificio.h"
 #include "Material.h"
@@ -15,9 +16,11 @@ class Juego
 {
     private:
         Datos* datos;
-        Vect<Edificio>* edificios;
-        Vect<Material>* materiales;
+        Vect<Edificio>* edificios; 
+        Vect<Material>* materiales; // Este es el inventario del jugador, hay que sacarlo de aca
         Mapa* mapa;
+       // Jugador* jugador_1;
+       // Jugador* jugador_2;
 
         //PRE: Recibe el nombre de un edificio
         //POS: Devuelve un vector de coordenadas que se bucaron en el mapa, en caso de no haber ningún edificio con dicho nombre devuelve null
@@ -46,6 +49,10 @@ class Juego
         //PRE: Recibe la clase datos, un vector de edificios y materiales
         //POS: Construye el juego y instancia los datos pasados por parametros, además instancia en NULL EL MAPA
         Juego(Datos*, Vect<Edificio>*, Vect<Material>*);
+
+        // PRE: -
+        // POST: Inicializa el jugador, sin parametros.
+       // Juego();
 
         //PRE:
         //POS: Libera la memoria de los datos, edificios, material y del mapa(en caso no esté vacío)
@@ -98,6 +105,16 @@ class Juego
         //PRE:
         //POS: Muestra el mapa según pedido en la consigna
         void mostrarMapa();
+        
+        // PRE: -
+        // POS: Obtiene al jugador 1.
+        //Jugador* obtener_jugador_1();
+
+        // PRE: -
+        // POS: Obtiene al jugador 2.
+        //Jugador* obtener_jugador_2();
+
+        //No se si son necesarias las funciones de set.
 
 };
 

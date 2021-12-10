@@ -125,19 +125,34 @@ void Juego::recolectarMateriales(int cantDeMaterialesARecolectar, Material* mate
 
 //----------------------------------------------------------------------------------------------------------------
 
-
+                                                          //No va
 
 Juego::Juego(Datos* datos, Vect<Edificio>* edificios, Vect<Material>* materiales){
-    this->datos = datos;
-    this->edificios = edificios;
-    this->materiales = materiales;
-    this->mapa = NULL;
+    this-> datos = datos;
+    this-> edificios = edificios;
+    this-> materiales = materiales; // No va
+    this-> mapa = NULL;
+    this-> jugador_1 = NULL;
+    this-> jugador_2 = NULL;
+    
 }
 
+/*Juego::Juego(){
+
+    this-> datos = new Datos();
+    this-> mapa = NULL;
+    this-> edificios = new Diccionario<Edificio>();
+    this-> jugador_1 = new Jugador();
+    this-> jugador_2 = new Jugador();
+
+}
+*/
 Juego::~Juego(){
     delete datos;
     delete edificios;
-    delete materiales;
+    delete materiales; // Va en jugador
+    //delete jugador_1;
+    //delete jugador_2;
     if(mapa)
         delete mapa;
 }
@@ -167,7 +182,7 @@ void Juego::mostrarMenu(){
 
 }
 
-void Juego::mostrarInventario(){
+void Juego::mostrarInventario(){ //La fucnion la dejamos, cambia el llamadao de materiales, es mediante el jugador.
     this->materiales->mostrar();
 }
 
@@ -380,3 +395,18 @@ void Juego::lluviaDeRecursos(){
 void Juego::mostrarMapa(){
     this->mapa->mostrar();
 }
+
+/*
+Jugador* Juego::obtener_jugador_1(){
+
+    return jugador_1;
+}
+*/
+
+/*
+Jugador* Juego::obtener_jugador_2(){
+
+    return jugador_2;
+}
+*/
+

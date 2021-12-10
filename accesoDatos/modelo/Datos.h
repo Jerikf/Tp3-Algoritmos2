@@ -40,6 +40,14 @@ class Datos
         //PRE: Recibe una cade que como mìnimo tendrà un digito numèrico
         //POS: Devuelve todos los dígitos que se encuentra en la cadena
         int obtenerDatoNumerico(string);
+
+        //PRE: Recibe una direccion de un archivo abierto, la coordenada y un entero que representa el número del jugador(ya sea 1 o 2 para cada jugador respectivamente)
+        //POS: Asigna el jugador y su coordenada en el archivo ubicaciones
+        void asignarJugadorAlArchivoUbicaciones(ofstream*, Coordenada, int);
+
+        //PRE: Recibe un arhivo de ubicaciones abierto, ademàs un mapa y un vector de coordendas que indican los edificios construidos de dicho jugador que están en el mapa
+        //POS: Asigna todos los nombres de edificios que se encuentran en el vector de coordenadas.
+        void asignarEdificiosConstruidosDelJugadorAlArchivoUbicaciones(ofstream*, Mapa*, Vect<Coordenada>*);
         
     public:
     
@@ -80,9 +88,9 @@ class Datos
 		//POS: Actualiza el archivo mapa, guardando los datos que almacena el mapa
         void guardarDatosMapa(Mapa* mapa);
         
-        //PRE: Recibe un mapa
-		//POS: Actualiza el archivo ubicaciones, según sea cada edificio del casillero construible
-        void guardarDatosUbicaciones(Mapa* mapa);
+        //PRE: Recibe un mapa y dos vectores de coordenadas de edificios construidos de cada jugador
+		//POS: Actualiza el archivo ubicaciones, según los materiales que haya en el mapa y los edificios de cada jugador
+        void guardarDatosUbicaciones(Mapa* mapa, Vect<Coordenada>*, Vect<Coordenada>*);
 
         
 
