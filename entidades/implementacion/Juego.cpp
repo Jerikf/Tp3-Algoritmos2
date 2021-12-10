@@ -344,10 +344,10 @@ void Juego::recolectarRecursosProducidos(){
 }
 
 void Juego::guardarSalir(){
-    this->datos->gurdarDatosEdificios(this->edificios);
-    this->datos->guardarDatosMateriales(this->materiales);
-    this->datos->guardarDatosMapa(this->mapa);
-    this->datos->guardarDatosUbicaciones(this->mapa);
+    //this->datos->gurdarDatosEdificios(this->edificios);
+    //this->datos->guardarDatosMateriales(this->materiales);
+    //this->datos->guardarDatosMapa(this->mapa);
+    //this->datos->guardarDatosUbicaciones(this->mapa);
 
     cout << "\n\n\n SE GUARDÓ CON ÉXITO LOS EDIFICIO, MATERILES, MAPA Y UBICACIONES" << endl;
 }

@@ -124,7 +124,7 @@ int main(){
 
 
     //-----------------------------------Prueba con archivo Edificios y materiales -------------------------------------
-    Mapa* mapa;
+    /*Mapa* mapa;
     Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
     Datos* datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
     Vect<Material>* materialesJugador1 = new Vect<Material>;
@@ -162,13 +162,34 @@ int main(){
     delete datos;
     delete mapa;
     delete ubicacionesJugador2;
-    delete ubicacionesJugador1;
+    delete ubicacionesJugador1;*/
    // delete grafo_1;
    // delete grafo_2;
   //  delete jugador_1;
    // delete jugador_2;
 
     
+
+
+    //--------------------------------------------PRUEBA DE GUARDADO DE MATERIALES Y EDIFICIOS----------------------
+
+    Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
+    Datos* datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
+    Vect<Material>* materialesJugador1 = new Vect<Material>;
+    Vect<Material>* materialesJugador2 = new Vect<Material>;
+
+    datos->cargarDatosEdificios(diccEdificios);
+    datos->cargarDatosMateriales(materialesJugador1, materialesJugador2);
+
+    //---> llamo a la funcion guardar datos de edificios y materiales, debería verse reflejado en el mismo forma de archivo
+    datos->gurdarDatosEdificios(diccEdificios);
+    datos->guardarDatosMateriales(materialesJugador1, materialesJugador2);
+
+    delete diccEdificios;
+    delete datos;
+    delete materialesJugador1;
+    delete materialesJugador2;
+
 
 
     return 0;
