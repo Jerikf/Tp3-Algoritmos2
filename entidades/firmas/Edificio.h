@@ -11,6 +11,7 @@ const char ASERRADERO_ABREVIATURA = 'A';
 const char FABRICA_ABREVIATURA = 'F';
 const char ESCUELA_ABREVIATURA = 'E';
 const char MINA_ABREVIATURA = 'M';
+const char MINA_ORO_ABREVIATURA = 'G';
 
 class Edificio
 {
