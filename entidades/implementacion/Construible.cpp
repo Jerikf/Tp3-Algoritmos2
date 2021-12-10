@@ -7,6 +7,7 @@
 #include "../firmas/Fabrica.h"
 #include "../firmas/Escuela.h"
 #include "../firmas/Mina.h"
+#include "../firmas/MinaOro.h"
 
 
 const int EXITO = 0;
@@ -14,6 +15,7 @@ const int ERROR = -1;
 
 const string PLATAN_ELECTRICA = "planta electrica";
 const string ASERRADERO = "aserradero";
+const string MINA_ORO = "mina oro";
 const string OBELISCO = "obelisco";
 const string FABRICA = "fabrica";
 const string ESCUELA = "escuela";
@@ -80,6 +82,8 @@ int Construible::construirEdificio(Edificio* edificio){
             edificioConstruido = new Escuela(nombre, cantPiedra, cantMadera, cantMetal, cantMaxPermitidos);
         }else if(MINA == nombre){
             edificioConstruido = new Mina(nombre, cantPiedra, cantMadera, cantMetal, cantMaxPermitidos);
+        }else if(MINA_ORO == nombre){
+            edificioConstruido = new MinaOro(nombre, cantPiedra, cantMadera, cantMetal, cantMaxPermitidos);
         }
 
         //Me construyo el edificio
