@@ -25,7 +25,7 @@ Datos::Datos(string nombreArchivoEdificios, string nombreArchivoMateriales, stri
 
 Datos::~Datos(){}
 
-void Datos:: cargarDatosEdificios(Vect<Edificio>* edificios){
+void Datos:: cargarDatosEdificios(Diccionario<Edificio>* edificios){
 
     fstream archivoEdificios(this->nombreArchivoEdificios, ios::in);
 	if(!archivoEdificios.is_open()){
@@ -39,6 +39,7 @@ void Datos:: cargarDatosEdificios(Vect<Edificio>* edificios){
 	while(archivoEdificios >> nombre){
         if(nombre == PLANTA){
             archivoEdificios >> nombreComplemento;
+            nombre = nombre + " " + nombreComplemento; // Mantengo todo el nombre completo en una misma variable
         }
 		archivoEdificios >> cantPiedra;
 		archivoEdificios >> cantMadera;
@@ -46,8 +47,8 @@ void Datos:: cargarDatosEdificios(Vect<Edificio>* edificios){
 		archivoEdificios >> cantMaxPermitidos;
 
 		// verifico que edificio es y asigno los valores
-        if(nombre + " " + nombreComplemento == PLATAN_ELECTRICA){
-            edificio = new PlantaElectrica(nombre + " " + nombreComplemento,(int)stol(cantPiedra),(int)stol(cantMadera),(int)stol(cantMetal),(int)stol(cantMaxPermitidos));
+        if(nombre == PLATAN_ELECTRICA){
+            edificio = new PlantaElectrica(nombre,(int)stol(cantPiedra),(int)stol(cantMadera),(int)stol(cantMetal),(int)stol(cantMaxPermitidos));
         }else if(nombre == ASERRADERO){
             edificio = new Aserradero(nombre,(int)stol(cantPiedra),(int)stol(cantMadera),(int)stol(cantMetal),(int)stol(cantMaxPermitidos));
         }else if(nombre == OBELISCO){
@@ -64,7 +65,7 @@ void Datos:: cargarDatosEdificios(Vect<Edificio>* edificios){
 
         //Ahora lo agrego a vec de edificios
         if(edificio){
-            edificios->agregar(edificio);
+            edificios->insertar(nombre, edificio);
             edificio = NULL; // Sirve cuando NO exista un edificio reconcible no intente agregar otra vez el guardado anterior.
         }
 
@@ -73,7 +74,7 @@ void Datos:: cargarDatosEdificios(Vect<Edificio>* edificios){
 	archivoEdificios.close();
 }
 
-void Datos:: cargarDatosMateriales(Vect<Material>* materiales){
+void Datos:: cargarDatosMateriales(Vect<Material>* materialesJugador1, Vect<Material>* materialesJugador2){
 	fstream archivoMateriales(this->nombreArchivoMateriales, ios::in);
 	if(!archivoMateriales.is_open()){
 		cout << "NO SE ENCONTRÒ EL ARCHIVO " << this->nombreArchivoMateriales << endl;
@@ -82,14 +83,18 @@ void Datos:: cargarDatosMateriales(Vect<Material>* materiales){
 		archivoMateriales.open(this->nombreArchivoMateriales, ios::in);
 	}
 
-	string nombre, cantMaterial;
-	Material* material;
+	string nombre, cantMaterial1, cantMaterial2;
+	Material* material1;
+    Material* material2;
 
 	while(archivoMateriales >> nombre){
-		archivoMateriales >> cantMaterial;
+		archivoMateriales >> cantMaterial1;
+        archivoMateriales >> cantMaterial2;
 
-		material = new Material(nombre,(int)stol(cantMaterial));
-		materiales->agregar(material);
+		material1 = new Material(nombre,(int)stol(cantMaterial1));
+		materialesJugador1->agregar(material1);
+        material2 = new Material(nombre, (int)stol(cantMaterial2));
+        materialesJugador2->agregar(material2);
 	}
 
 	archivoMateriales.close();
@@ -149,7 +154,7 @@ Coordenada Datos::extraerCoordenada(string ubicacion1, string ubicacion2){
     return coordenada;
 }
 
-void Datos::cargarDatosUbicaciones(Mapa* mapa, Vect<Edificio> *edificios){
+void Datos::cargarDatosUbicaciones(Mapa* mapa, Vect<Edificio>* edificios){
     fstream archivoUbicaciones(this->nombreArchivoUbicaciones, ios::in);
 	if(!archivoUbicaciones.is_open()){
 		cout << "NO SE ENCONTRÒ EL ARCHIVO " << this->nombreArchivoUbicaciones << endl;
