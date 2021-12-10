@@ -5,6 +5,7 @@
 
 #include "../../entidades/firmas/Coordenada.h"
 #include "../../estructura/Vect.h"
+#include "../../estructura/Diccionario.h"
 #include "../../entidades/firmas/Mapa.h"
 #include "../../entidades/firmas/Edificio.h"
 #include "../../entidades/firmas/PlantaElectrica.h"
@@ -47,11 +48,11 @@ class Datos
 
         //PRE: Recibe un vector de edificios
 		//POS: Carga los datos del archivo edificios al vector
-        void cargarDatosEdificios(Vect<Edificio>* edificios);
+        void cargarDatosEdificios(Diccionario<Edificio>* edificios);
         
         //PRE: Recibe un vector de materiales
 		//POS: Carga los datos del archivo materiales al vector
-        void cargarDatosMateriales(Vect<Material>* materiales);
+        void cargarDatosMateriales(Vect<Material>* materialesJugador1, Vect<Material>* materialesJugador2);
         
         //PRE: Recibe la dirección de un mapa(se modificará desde acá)
 		//POS: Construye el mapa cargando los datos del archivo mapa
