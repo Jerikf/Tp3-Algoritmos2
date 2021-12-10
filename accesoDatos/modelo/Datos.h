@@ -68,13 +68,13 @@ class Datos
         //      jugador los edificios de cada uno.
         void cargarDatosUbicaciones(Mapa* mapa, Diccionario<Edificio> *edificios, Vect<Coordenada>* ubicacionesJugador1, Vect<Coordenada>* ubicacionesJugador2);
 
-        //PRE: Recibe un vector de materiales
+        //PRE: Recibe dos vectores de materiales(tanto del jugador1 como del jugador2)
 		//POS: Actualiza el archivo materiales, guardando los datos que almacena el vector
-        void guardarDatosMateriales(Vect<Material>* materiales);
+        void guardarDatosMateriales(Vect<Material>* materiales, Vect<Material>* materiales2);
         
-        //PRE: Recibe un vector de edificios
+        //PRE: Recibe un Diccionario de edificios
 		//POS: Actualiza el archivo edificios, guardando los datos que almacena el vector
-        void gurdarDatosEdificios(Vect<Edificio>* edificios);
+        void gurdarDatosEdificios(Diccionario<Edificio>* edificios);
         
         //PRE: Recibe un mapa
 		//POS: Actualiza el archivo mapa, guardando los datos que almacena el mapa

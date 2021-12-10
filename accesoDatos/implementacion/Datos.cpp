@@ -31,6 +31,8 @@ const char MUELLE = 'M';
 const string JUGADOR1 = "1";
 const string JUGADOR2 = "2";
 
+const int CANT_EDIFICIOS = 7;
+
 
 Datos::Datos(string nombreArchivoEdificios, string nombreArchivoMateriales, string nombreArchivoMapa, string nombreArchivoUbicaciones){
     this->nombreArchivoEdificios = nombreArchivoEdificios;
@@ -290,22 +292,28 @@ void Datos::cargarDatosUbicaciones(Mapa* mapa, Diccionario<Edificio> *edificios,
 }
 
 
-void Datos:: guardarDatosMateriales(Vect<Material>* materiales){
+void Datos:: guardarDatosMateriales(Vect<Material>* materiales, Vect<Material>* materiales2){
 	ofstream archivoMateriales(this->nombreArchivoMateriales);
 	for(int pos = 0; pos < materiales->obtenerCantidad(); pos++){
-		archivoMateriales << materiales->obtenerDato(pos)->getNombre() << ' ' << materiales->obtenerDato(pos)->getCantidad() << '\n';
+		archivoMateriales << materiales->obtenerDato(pos)->getNombre() << ' ' << materiales->obtenerDato(pos)->getCantidad() << ' ' << materiales2->obtenerDato(pos)->getCantidad()<< '\n';
 	}
 
 }
 
-void Datos::gurdarDatosEdificios(Vect<Edificio>* edificios){
+void Datos::gurdarDatosEdificios(Diccionario<Edificio>* edificios){
+    string claves[] = {PLATAN_ELECTRICA, ASERRADERO, OBELISCO, FABRICA, ESCUELA, MINA, MINA_ORO};
+    Edificio* edificio = NULL;
 	ofstream archivoEdificios(nombreArchivoEdificios);
-	for(int pos = 0; pos < edificios->obtenerCantidad(); pos++){
-		archivoEdificios << edificios->obtenerDato(pos)->getNombre() << ' '
-										 << edificios->obtenerDato(pos)->getCantPiedra() << ' '
-										 << edificios->obtenerDato(pos)->getCantMadera() << ' '
-										 << edificios->obtenerDato(pos)->getCantMetal() << ' '
-										 << edificios->obtenerDato(pos)->getMaxCantPermitidos() << '\n';
+	for(int pos = 0; pos < CANT_EDIFICIOS; pos++){
+        edificio = edificios->buscar(claves[pos]);
+        if(edificio){
+            archivoEdificios << edificio->getNombre() << ' '
+										 << edificio->getCantPiedra() << ' '
+										 << edificio->getCantMadera() << ' '
+										 << edificio->getCantMetal() << ' '
+										 << edificio->getMaxCantPermitidos() << '\n';
+
+        }
 	}
 }
 
