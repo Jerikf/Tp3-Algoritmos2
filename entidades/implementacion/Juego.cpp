@@ -143,10 +143,10 @@ Juego::~Juego(){
 }
 
 void Juego::inicializarCargadoDatos(){
-    this->datos->cargarDatosEdificios(this->edificios);
-    this->datos->cargarDatosMateriales(this->materiales);
+    //this->datos->cargarDatosEdificios(this->edificios);
+    //this->datos->cargarDatosMateriales(this->materiales);
     this->datos->cargarDatosMapa(&(this->mapa));
-    this->datos->cargarDatosUbicaciones(this->mapa, this->edificios);
+    //this->datos->cargarDatosUbicaciones(this->mapa, this->edificios);
 }
 
 void Juego::mostrarMenu(){
@@ -344,10 +344,10 @@ void Juego::recolectarRecursosProducidos(){
 }
 
 void Juego::guardarSalir(){
-    this->datos->gurdarDatosEdificios(this->edificios);
-    this->datos->guardarDatosMateriales(this->materiales);
-    this->datos->guardarDatosMapa(this->mapa);
-    this->datos->guardarDatosUbicaciones(this->mapa);
+    //this->datos->gurdarDatosEdificios(this->edificios);
+    //this->datos->guardarDatosMateriales(this->materiales);
+    //this->datos->guardarDatosMapa(this->mapa);
+    //this->datos->guardarDatosUbicaciones(this->mapa);
 
     cout << "\n\n\n SE GUARDÓ CON ÉXITO LOS EDIFICIO, MATERILES, MAPA Y UBICACIONES" << endl;
 }

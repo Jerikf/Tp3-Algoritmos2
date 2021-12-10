@@ -14,6 +14,7 @@
 #include "./entidades/firmas/Juego.h"
 #include "./interfaz/firma/Interfaz.h"
 #include "./entidades/firmas/Coordenada.h"
+#include "./entidades/firmas/Jugador.h"
 #include "./grafo/Grafo.h"
 #include "./grafo/Floyd.h"
 #include <iostream>
@@ -119,6 +120,79 @@ int main(){
 
 
     delete mapa;
+<<<<<<< HEAD:pruebas.cpp
+=======
+    */
+
+
+    //-----------------------------------Prueba con archivo Edificios y materiales -------------------------------------
+    /*Mapa* mapa;
+    Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
+    Datos* datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
+    Vect<Material>* materialesJugador1 = new Vect<Material>;
+    Vect<Material>* materialesJguador2 = new Vect<Material>; 
+
+    Vect<Coordenada>* ubicacionesJugador1 = new Vect<Coordenada>;
+    Vect<Coordenada>* ubicacionesJugador2 = new Vect<Coordenada>;
+    datos->cargarDatosEdificios(diccEdificios);
+    //datos->cargarDatosMateriales(materialesJugador1, materialesJguador2);
+    datos->cargarDatosMapa(&mapa);
+    datos->cargarDatosUbicaciones(mapa, diccEdificios,ubicacionesJugador1, ubicacionesJugador2);
+   // int cant_energia = 100;
+    //Grafo* grafo_1 = new Grafo(mapa, 1);
+   // Grafo* grafo_2 = new Grafo(mapa, 2);//Van en juego
+
+
+    //Jugador* jugador_1 = new Jugador(grafo_1);
+   //Se carga en juego.
+   // Jugador* jugador_2 = new Jugador(grafo_2);
+
+
+    //materialesJugador1->mostrar();
+    //materialesJguador2->mostrar();
+    //diccEdificios->mostrarInorder();
+
+   // ubicacionesJugador2->mostrar();
+   // ubicacionesJugador1->mostrar();
+
+  // jugador_1->obtener_ubiaciones()->mostrar();
+    
+
+    delete diccEdificios;
+    delete materialesJguador2;
+    delete materialesJugador1;
+    delete datos;
+    delete mapa;
+    delete ubicacionesJugador2;
+    delete ubicacionesJugador1;*/
+   // delete grafo_1;
+   // delete grafo_2;
+  //  delete jugador_1;
+   // delete jugador_2;
+
+    
+>>>>>>> decb8c8bc586a05ca3b877d7c9d855c906bd3ad1:main.cpp
+
+
+    //--------------------------------------------PRUEBA DE GUARDADO DE MATERIALES Y EDIFICIOS----------------------
+
+    Diccionario<Edificio>* diccEdificios = new Diccionario<Edificio>;
+    Datos* datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
+    Vect<Material>* materialesJugador1 = new Vect<Material>;
+    Vect<Material>* materialesJugador2 = new Vect<Material>;
+
+    datos->cargarDatosEdificios(diccEdificios);
+    datos->cargarDatosMateriales(materialesJugador1, materialesJugador2);
+
+    //---> llamo a la funcion guardar datos de edificios y materiales, debería verse reflejado en el mismo forma de archivo
+    datos->gurdarDatosEdificios(diccEdificios);
+    datos->guardarDatosMateriales(materialesJugador1, materialesJugador2);
+
+    delete diccEdificios;
+    delete datos;
+    delete materialesJugador1;
+    delete materialesJugador2;
+
 
 
     return 0;
