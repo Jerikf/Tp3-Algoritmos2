@@ -14,6 +14,7 @@
 #include "./entidades/firmas/Juego.h"
 #include "./interfaz/firma/Interfaz.h"
 #include "./entidades/firmas/Coordenada.h"
+#include "./entidades/firmas/Jugador.h"
 #include "./grafo/Grafo.h"
 #include "./grafo/Floyd.h"
 #include <iostream>
@@ -135,12 +136,23 @@ int main(){
     //datos->cargarDatosMateriales(materialesJugador1, materialesJguador2);
     datos->cargarDatosMapa(&mapa);
     datos->cargarDatosUbicaciones(mapa, diccEdificios,ubicacionesJugador1, ubicacionesJugador2);
+    int cant_energia = 100;
+    Grafo* grafo_1 = new Grafo(mapa, 1);
+    Grafo* grafo_2 = new Grafo(mapa, 2);
+
+    Jugador* jugador_1 = new Jugador(cant_energia, materialesJugador1, ubicacionesJugador1, grafo_1);
+    Jugador* jugador_2 = new Jugador(cant_energia, materialesJguador2, ubicacionesJugador2, grafo_2);
+
+
     //materialesJugador1->mostrar();
     //materialesJguador2->mostrar();
-    diccEdificios->mostrarInorder();
+    //diccEdificios->mostrarInorder();
 
-    ubicacionesJugador2->mostrar();
-    ubicacionesJugador1->mostrar();
+   // ubicacionesJugador2->mostrar();
+   // ubicacionesJugador1->mostrar();
+
+  // jugador_1->obtener_ubiaciones()->mostrar();
+    
 
     delete diccEdificios;
     delete materialesJguador2;
@@ -149,6 +161,10 @@ int main(){
     delete mapa;
     delete ubicacionesJugador2;
     delete ubicacionesJugador1;
+    delete grafo_1;
+    delete grafo_2;
+    delete jugador_1;
+    delete jugador_2;
 
     
 
