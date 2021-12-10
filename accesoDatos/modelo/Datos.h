@@ -14,6 +14,7 @@
 #include "../../entidades/firmas/Fabrica.h"
 #include "../../entidades/firmas/Escuela.h"
 #include "../../entidades/firmas/Mina.h"
+#include "../../entidades/firmas/MinaOro.h"
 #include "../../entidades/firmas/Material.h"
 
 #include "../../entidades/firmas/Casillero.h"
@@ -35,6 +36,10 @@ class Datos
         //PRE: Recibe 2 partes del archivo leído ---> 1ero: (valor,  2do: valor) 
 		//POS: Devuele la coordenada extraída de las 2 partes pasadas por parámetro
         Coordenada extraerCoordenada(string,string);
+
+        //PRE: Recibe una cade que como mìnimo tendrà un digito numèrico
+        //POS: Devuelve todos los dígitos que se encuentra en la cadena
+        int obtenerDatoNumerico(string);
         
     public:
     
@@ -58,9 +63,10 @@ class Datos
 		//POS: Construye el mapa cargando los datos del archivo mapa
         void cargarDatosMapa(Mapa** mapa);
         
-        //PRE: Recibe un mapa y un vectore de edificios
-		//POS: Llena el mapa con edificios según diga el archivo de ubicaciones
-        void cargarDatosUbicaciones(Mapa* mapa, Vect<Edificio>*);
+        //PRE: Recibe un mapa, un diccionario de edificios, y 2 vectores de coordenadas de cada jugador
+		//POS: Llena el mapa con edificios según diga el archivo de ubicaciones, además carga en las coordenadas de cada
+        //      jugador los edificios de cada uno.
+        void cargarDatosUbicaciones(Mapa* mapa, Diccionario<Edificio> *edificios, Vect<Coordenada>* ubicacionesJugador1, Vect<Coordenada>* ubicacionesJugador2);
 
         //PRE: Recibe un vector de materiales
 		//POS: Actualiza el archivo materiales, guardando los datos que almacena el vector
