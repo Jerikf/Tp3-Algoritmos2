@@ -170,7 +170,20 @@ void Juego::inicializarCargadoDatos(){
     this-> datos->cargarDatosUbicaciones(mapa, edificios, jugador_1->obtener_ubiaciones(), jugador_2->obtener_ubiaciones());
 }
 
-void Juego::mostrarMenu(){
+void Juego::mostrar_primer_menu(){
+
+    cout << "\n\n\n";
+	cout << "------------------MENU------------------" << endl;
+	cout << "1.  MODIFICAR EDIFICIO POR NOMBRE       |" << endl;
+	cout << "2.  LISTAR TODOS LOS EDIFICIOS          |" << endl;
+	cout << "3.  MOSTRAR MAPA                        |" << endl;
+    cout << "4.  COMENZAR PARTIDA                    |" << endl;
+	cout << "5. GUARDAR Y SALIR                     |" << endl;
+	cout << "----------------------------------------" << endl;
+	cout << "\n\n";
+}
+
+void Juego::mostrar_segundo_menu(){
     cout << "\n\n\n";
 	cout << "------------------MENU------------------" << endl;
 	cout << "1.  CONSTRUIR EDIFICIO POR NOMBRE       |" << endl;
@@ -416,6 +429,16 @@ Jugador* Juego::obtener_jugador_1(){
 Jugador* Juego::obtener_jugador_2(){
 
     return jugador_2;
+}
+
+Diccionario<Edificio>* Juego::obtener_edificios(){
+
+    return edificios;
+}
+
+Mapa* Juego::obtener_mapa(){
+
+    return mapa;
 }
 
 

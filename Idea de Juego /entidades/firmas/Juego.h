@@ -61,10 +61,14 @@ class Juego
         //PRE:
         //POS: Carga todos los datos de edificios, materiales y mapa
         void inicializarCargadoDatos();
+        
+        // PRE: -
+        // POS: Muestra el primer menu del juego.
+        void mostrar_primer_menu();
 
         //PRE:
         //POS: Muestra el menu de opciones
-        void mostrarMenu();
+        void mostrar_segundo_menu();
 
         //PRE:
         //POS: Lista todos los edificios construidos
@@ -113,6 +117,14 @@ class Juego
         // PRE: -
         // POS: Obtiene al jugador 2.
         Jugador* obtener_jugador_2();
+        
+        // PRE: -
+        // POS: Obtiene los edificios.
+        Diccionario<Edificio>* obtener_edificios();
+        
+        // PRE: -
+        // POS: Obtiene el mapa.
+        Mapa* obtener_mapa();
 
         //No se si son necesarias las funciones de set.
 

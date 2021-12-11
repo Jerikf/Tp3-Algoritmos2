@@ -50,7 +50,9 @@ class Jugador{
     // PRE: -
     // POST: Obtiene el grafo del jugador.
     Grafo* obtener_grafo();
-
+     
+    // PRE: -
+    // POS: Destruye el jugador.
     ~Jugador();
 };
 

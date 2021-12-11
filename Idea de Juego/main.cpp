@@ -225,9 +225,14 @@ int main(){
 
     Juego* juego = new Juego();
     juego->inicializarCargadoDatos();
-    juego->obtener_jugador_1()->obtener_inventario()->mostrar();
+    Interfaz* interfaz = new Interfaz(juego);
+    interfaz->iniciar_primer_menu(1);
+    
+
+    
 
     delete juego;
+    delete interfaz;
 
     return 0;
 }
