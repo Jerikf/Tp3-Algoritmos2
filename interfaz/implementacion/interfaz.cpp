@@ -309,7 +309,7 @@ void Interfaz::iniciar_segundo_menu(int numero){
 }
 
 void Interfaz::iniciar(){
-
+	juego->inicializarCargadoDatos();
     iniciarMenuInicial();
 
 
