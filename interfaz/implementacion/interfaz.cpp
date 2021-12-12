@@ -53,6 +53,11 @@ Interfaz::Interfaz(Juego* juego){
     this->juego = juego;
 }
 
+Interfaz::Interfaz(){
+    this->juego = new Juego();
+}
+
+
 Interfaz::~Interfaz(){}
 
 void Interfaz::mostrarMenuInicial(){
@@ -71,6 +76,27 @@ void Interfaz::mostrarMenuInicial(){
     cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 5)- Guardar y salir.                   ║" << endl;
     cout << "\t" << "╚════════════════════════════════════════╝" << endl;
+}
+
+void Interfaz::mostrar_segundo_menu(){
+    cout << "\n\n\n";
+	cout << "------------------MENU------------------" << endl;
+	cout << "1.  CONSTRUIR EDIFICIO POR NOMBRE       |" << endl;
+	cout << "2.  LISTAR MIS EDIFICIOS CONSTRUIDOS    |" << endl;
+	cout << "3.  DEMOLER UN EDIFICIO POR COORDENADA  |" << endl;
+	cout << "4.  ATACAR UN EDIFICIO POR COORDENADA   |" << endl;
+	cout << "5.  REPARAR UN EDIFICIO POR COORDENADA  |" << endl;
+    cout << "6.  COMPRAR BOMBAS                      |" << endl;
+    cout << "7.  CONSULTAR COORDENADA                |" << endl;
+    cout << "8.  MOSTRAR INVENTARIO                  |" << endl;
+    cout << "9.  MOSTRAR OBJETIVOS                   |" << endl;
+	cout << "10. RECOLECTAR RECURSOS PRODUCIDOS      |" << endl;
+    cout << "11. MOVERSE A UNA COORDENADA            |" << endl;
+    cout << "12. FINALIZAR TURNO                     |" << endl;
+    cout << "13. GUARDAR Y SALIR                     |" << endl;
+	cout << "----------------------------------------" << endl;
+	cout << "\n\n";
+
 }
 
 void Interfaz::volver_menu(){
@@ -117,6 +143,7 @@ void Interfaz::iniciarMenuInicial(){
                 break;
             case COMENZAR_PARTIDA:
                 cout << "work in progress" << endl;
+                this->mostrar_segundo_menu();
                 break;
             case GUARDAR_Y_SALIR:
                 cout << "work in progress" << endl;
@@ -127,20 +154,16 @@ void Interfaz::iniciarMenuInicial(){
     }
 }
 
-void Interfaz::iniciar(){
+void Interfaz::iniciar_segundo_menu(int numero){
 
-    /*int opcion ;
+    int opcion ;
 	Coordenada coordenada;
     int fila, columna = 0;
 	string nombre = "";
-	bool salir = false;*/
-
-    iniciarMenuInicial();
-
-    //esto va a ser el menu del jugador
-	/*do{
-		this->juego->mostrarMenu();
-		opcion = this->obtenerOpcion();
+	bool salir = false;
+	do{
+		this->mostrar_segundo_menu();
+		opcion = this->obtenerOpcion(1,13);
 		switch (opcion){
 			case CONSTRUIR_EDIFICIO_POR_NOMBRE:
 
@@ -160,16 +183,25 @@ void Interfaz::iniciar(){
                 coordenada.setFila(fila);
 				coordenada.setColumna(columna);
 				system(CLEAR);
-				this->juego->construirEdificioPorNombre(nombre, coordenada);
+				if(numero == 1){
+					this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
+				}
+				else if(numero == 2){
+					this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
+				}
+				
 				break;
 
 			case LISTAR_LOS_EDIFICIOS_CONSTRUIDOS:
-
+                
+				/*
 				cout << "\n\n\n"; //en caso no funcione en windows el limpiar :v
 				system(CLEAR); 
 				this->juego->listarEdificiosConstruidos();
 				cout << "\n\n";
 				break;
+				*/
+			    cout << "Error " << endl;
 
 			case LISTAR_TODOS_LOS_EDIFICIOS:
 
@@ -179,7 +211,7 @@ void Interfaz::iniciar(){
 				break;
 
 			case DEMOLER_EDIFICIO_POR_COORDENADA:
-
+                
 				system(CLEAR);
                 cout << "\n\n\n";
 				cout << "DEMOLICIÓN DE UN EDIFICIO POR COORDENADA" << endl;
@@ -191,8 +223,14 @@ void Interfaz::iniciar(){
                 coordenada.setFila(fila);
 				coordenada.setColumna(columna);
 				system(CLEAR);
-				this->juego->demolerEdificioPorCoordenada(coordenada);
+				if(numero == 1){
+					this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_1());
+				}
+				else if(numero == 2){
+					this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
+				}
 				break;
+				
 
 			case MOSTRAR_MAPA:
 				cout << "\n\n\n";
@@ -222,24 +260,35 @@ void Interfaz::iniciar(){
 				cout << "\n\n\n\n\n";
 				system(CLEAR);
 				cout << "		MUESTRA DE INVENTARIO" << endl;
-				this->juego->mostrarInventario();
+				if(numero == 1){
+					this->juego->mostrarInventario(juego->obtener_jugador_1());
+				}
+				else if(numero == 2){
+					this->juego->mostrarInventario(juego->obtener_jugador_2());
+				}
+				
 				break;
 
 			case RECOLECTAR_RECURSOS_PRODUCIDOS:
-
+                /*
 				cout << "\n\n\n";
 				system(CLEAR);
 				cout << "RECOLECTOR DE RECURSOS PRODUCIDOS" << endl;
 				this->juego->recolectarRecursosProducidos();
 				break;
+				*/
+			cout << "Error" << endl;
 
 			case LLUVIA_DE_RECURSOS:
-
+                
+				/*
 				cout << "\n\n\n";
 				this->juego->lluviaDeRecursos();
 				system(CLEAR);
 				cout << "LLUVIA DE RECURSOS | SI HUBO ESPACIO EN LOS CAMINOS SE COMPLETÓ CORRECTAMENTE" << endl;
 				break;
+				*/
+			    cout << "Error" << endl; 
 
 			case GUARDAR_SALIR:
 
@@ -255,7 +304,15 @@ void Interfaz::iniciar(){
 				break;
 		}
 	}while(!salir);
-    */
+
+	cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
+}
+
+void Interfaz::iniciar(){
+
+    iniciarMenuInicial();
+
+
 	cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
 }
 

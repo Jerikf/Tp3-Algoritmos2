@@ -17,15 +17,36 @@ class Interfaz
         //POS: pide al usuario una opcion, retornará la opcion ya validada.
         int obtenerOpcion(int limiteInferior, int limiteSuperior);
 
+        //PRE:
+        //POS: Muestra el primer Menu
         void mostrarMenuInicial();
+
+        //PRE:
+        //POS: Incia el Primer menu
         void iniciarMenuInicial();
+
+        //PRE:
+        //POS: Muentra un sub menu para regresar al menu
         void volver_menu();
+
+        //PRE:
+        //POS: Muestra el menu de opciones
+        void mostrar_segundo_menu();
+
+
+        //PRE:
+        //POS: Inicializa el programa, donde se comenzará a escoger opciones del menu
+        void iniciar_segundo_menu(int numero);
 
     public:
 
         //PRE: Recibe un juego, 
         //POS: Construye la interfaz, instancia el argumento pasado con el atributo
         Interfaz(Juego*);
+
+        //PRE: Constructor Vacio 
+        //POS: Construye la interfaz, instancia el juego
+        Interfaz();
 
         //PRE:
         //POS: Destructor
