@@ -33,7 +33,7 @@ class Interfaz
         
         // PRE: -
         // POST: Inicialza el primer menu del juego.
-        void iniciar_primer_menu(int numero);
+        void iniciar_primer_menu();
 
 
 

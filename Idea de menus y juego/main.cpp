@@ -226,8 +226,7 @@ int main(){
     Juego* juego = new Juego();
     juego->inicializarCargadoDatos();
     Interfaz* interfaz = new Interfaz(juego);
-    interfaz->iniciar_primer_menu(1);
-    interfaz->iniciar_primer_menu(2);
+    interfaz->iniciar_primer_menu();
     interfaz->iniciar_segundo_menu(1);
     interfaz->iniciar_segundo_menu(2);
     

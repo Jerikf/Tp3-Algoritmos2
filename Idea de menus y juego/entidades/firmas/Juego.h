@@ -28,7 +28,7 @@ class Juego
 
         //PRE: Recibe el nombre de un edificio
         //POS: Devuelve el edificio en caso de encontrarse en el vect de edificios, caso contrario devuelve NULL
-        Diccionario <Edificio>* obtenerEdificio(string);
+        Edificio* obtenerEdificio(string);
 
         //PRE:
         //POS: Devuelve una coordenada aleatoria válida(que esté en el rango del mapa, tanto fila como columna)
@@ -84,11 +84,11 @@ class Juego
 
         //PRE: Recibe un nombre de edificio y una coordenada
         //POS: Construye el edificio en caso que sea correcto los parámetros
-        void construirEdificioPorNombre(string,Coordenada);
+        void construirEdificioPorNombre(string,Coordenada, Jugador*);
 
         //PRE: Recibe una coordenada
         //POS: Demuele el edificio si la coordenada es correcta
-        void demolerEdificioPorCoordenada(Coordenada, Jugador* jugador);
+        void demolerEdificioPorCoordenada(Coordenada, Jugador*);
 
         //PRE: Recibe una coordeanda
         //POS: Muestra que hay en el casillero según la coordeanda pasa, este sabe responderse a sí mismo y llama a su contenido
@@ -96,7 +96,7 @@ class Juego
 
         //PRE:
         //POS: Recolecta los materiales que pueden producir o no los edificios construidos, modificando así la cantidad de los materiales
-        void recolectarRecursosProducidos();
+        void recolectarRecursosProducidos(Jugador*);
 
         //PRE:
         //POS: Actualiza los arhicvos edificios, materiales, mapas y ubicaciones
@@ -125,6 +125,10 @@ class Juego
         // PRE: -
         // POS: Obtiene el mapa.
         Mapa* obtener_mapa();
+
+        // PRE: -
+        // POS: Modicia el diccionario de edificios y el archivo.
+        void modificiar_edificios();
 
         //No se si son necesarias las funciones de set.
 

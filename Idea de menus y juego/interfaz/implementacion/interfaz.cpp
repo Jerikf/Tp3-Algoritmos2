@@ -1,6 +1,16 @@
 #include "../firma/Interfaz.h"
 #include <iostream>
 
+
+//----------------------------PRIMER MENU---------------------------------
+
+const int MODIFICAR_EDIFICIO_POR_NOMBRE = 1;
+const int LISTAR__EDIFICIOS = 2;
+const int MOSTRAR_MAPA_PRIMER = 3;
+const int COMENZAR_PARTIDA = 4;
+const int GUARDAR_SALIR_PRIMER = 5;
+
+//----------------------------SEGUNDO MENU--------------------------------
 const int CONSTRUIR_EDIFICIO_POR_NOMBRE = 1;
 const int LISTAR_LOS_EDIFICIOS_CONSTRUIDOS = 2;
 const int LISTAR_TODOS_LOS_EDIFICIOS = 3;
@@ -46,7 +56,7 @@ Interfaz::Interfaz(Juego* juego){
 
 Interfaz::~Interfaz(){}
 
-void Interfaz::iniciar_primer_menu(int numero){
+void Interfaz::iniciar_primer_menu(){
 
 	int opcion = -1;
 	bool anulador = false;
@@ -55,21 +65,21 @@ void Interfaz::iniciar_primer_menu(int numero){
 
 		this-> juego->mostrar_primer_menu();
 		opcion = this->obtenerOpcion();
-		if(opcion == 1){
-			cout << "Error" << endl;
+		if(opcion == MODIFICAR_EDIFICIO_POR_NOMBRE){
+			juego->modificiar_edificios();
 		}
-		else if(opcion == 2){
+		else if(opcion == LISTAR__EDIFICIOS){
 			juego->obtener_edificios()->mostrarInorder();
 		}
-		else if(opcion == 3){
+		else if(opcion == MOSTRAR_MAPA_PRIMER){
 			juego->obtener_mapa()->mostrar();
 
 		}
-		else if(opcion == 4){
+		else if(opcion == COMENZAR_PARTIDA){
 			cout << "Error" << endl;
 			anulador = true;
 		}
-		else if(opcion == 5){
+		else if(opcion == GUARDAR_SALIR_PRIMER){
 			anulador = true;
 		}
 
@@ -92,7 +102,7 @@ void Interfaz::iniciar_segundo_menu(int numero){
 		switch (opcion){
 			case CONSTRUIR_EDIFICIO_POR_NOMBRE:
 
-				/*system(CLEAR);
+				system(CLEAR);
                 cout << "\n\n\n";
 				cout << "		CONSTRUCCIÓN DEL EDIFICIO" << endl;
 				cout << "\nINGRESE EL NOMBRE DEL EDIFICIO PARA CONSTRUIRLO" << endl;
@@ -108,10 +118,14 @@ void Interfaz::iniciar_segundo_menu(int numero){
                 coordenada.setFila(fila);
 				coordenada.setColumna(columna);
 				system(CLEAR);
-				this->juego->construirEdificioPorNombre(nombre, coordenada);
+				if(numero == 1){
+					this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
+				}
+				else if(numero == 2){
+					this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
+				}
+				
 				break;
-				*/
-			    cout << "Error" << endl;
 
 			case LISTAR_LOS_EDIFICIOS_CONSTRUIDOS:
                 
@@ -132,7 +146,7 @@ void Interfaz::iniciar_segundo_menu(int numero){
 				break;
 
 			case DEMOLER_EDIFICIO_POR_COORDENADA:
-                /*
+                
 				system(CLEAR);
                 cout << "\n\n\n";
 				cout << "DEMOLICIÓN DE UN EDIFICIO POR COORDENADA" << endl;
@@ -144,10 +158,14 @@ void Interfaz::iniciar_segundo_menu(int numero){
                 coordenada.setFila(fila);
 				coordenada.setColumna(columna);
 				system(CLEAR);
-				this->juego->demolerEdificioPorCoordenada(coordenada);
+				if(numero == 1){
+					this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_1());
+				}
+				else if(numero == 2){
+					this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
+				}
 				break;
-				*/
-			cout << "Error" << endl;
+				
 
 			case MOSTRAR_MAPA:
 				cout << "\n\n\n";
