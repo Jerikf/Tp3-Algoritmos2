@@ -29,6 +29,9 @@ const char* CLEAR_SCREEN = "clear";
 
 int main(){
 
+    Interfaz* interfaz = new Interfaz();
+    interfaz->iniciar();
+
 
     return 0;
 }
