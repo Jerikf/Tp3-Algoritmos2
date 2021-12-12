@@ -4,9 +4,19 @@ Jugador::Jugador(Grafo* grafo){
 
     this-> cant_energia = 100;
     this-> inventario = new Vect<Material>(); // Se crea sin materiales
-    this-> ubicaciones = new Vect<Coordenada>();// Se crea sin ubiaciones
+    this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();// Se crea sin ubiaciones
     this-> grafo = grafo; // Lo recibe despues de cargarse el mapa.
 }
+
+
+Jugador::Jugador(){
+
+    this-> cant_energia = 100;
+    this-> inventario = new Vect<Material>(); 
+    this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();
+    this-> grafo = NULL; 
+}
+
 
 void Jugador::establecer_energia(int cant_energia){
 
@@ -18,14 +28,14 @@ void Jugador::establecer_inventario(Vect<Material>* inventario){
     this-> inventario = inventario;
 }
 
-void Jugador::establecer_ubicaciones(Vect<Coordenada>* ubicaciones){
+void Jugador::establecer_ubicaciones(Vect<Coordenada>* coordenadasDeEdificiosConstruidos){
 
-    this-> ubicaciones = ubicaciones;
+    this-> coordenadasDeEdificiosConstruidos = coordenadasDeEdificiosConstruidos;
 }
 
-void Jugador::establecer_grafo(Grafo* grafo){
+void Jugador::establecer_grafo(Mapa* mapa, int numero){
 
-    this-> grafo = grafo;
+    grafo = new Grafo(mapa, numero);
 }
 
 int Jugador::obtener_cant_energia(){
@@ -33,17 +43,30 @@ int Jugador::obtener_cant_energia(){
     return cant_energia;
 }
 
+Coordenada Jugador::obtenerMiPosicion(int numeroDeJugador, Mapa* mapa){
+    return mapa->obtenerPosicionDeJugador(numeroDeJugador);
+}
+
 Vect<Material>* Jugador::obtener_inventario(){
 
     return inventario;
 }
 
-Vect<Coordenada>* Jugador::obtener_ubiaciones(){
+Vect<Coordenada>* Jugador::obtener_coordenadasDeEdificiosConstruidos(){
 
-    return ubicaciones;
+    return this->coordenadasDeEdificiosConstruidos;
 }
 
 Grafo* Jugador::obtener_grafo(){
 
     return grafo;
+}
+
+Jugador::~Jugador(){
+
+    delete inventario;
+    delete this->coordenadasDeEdificiosConstruidos;
+    if(grafo){
+        delete grafo;
+    }
 }

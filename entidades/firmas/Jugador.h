@@ -12,12 +12,18 @@ class Jugador{
 
     int cant_energia;
     Vect<Material>* inventario;
-    Vect<Coordenada>* ubicaciones;
+    Vect<Coordenada>* coordenadasDeEdificiosConstruidos;
     Grafo* grafo;
 
     public:
 
+    //PRE:
+    //POS: Construye su Jugador, e instancia sus atributos privados, además asiganar el grafo pasado por paràmetro al grafo del jugador
     Jugador(Grafo* grafo);
+
+    //PRE:
+    //POS: Construye el jugador Instanciando todos sus atributos privados
+    Jugador();
 
     // PRE: -
     // POST: Establece la energia del jugador.
@@ -33,11 +39,15 @@ class Jugador{
 
     // PRE: -
     // POST: Establece el grafo del jugador.
-    void establecer_grafo(Grafo* grafo);
+    void establecer_grafo(Mapa* mapa, int numero);
 
     // PRE: -
     // POST: Obtiene la cantidad de energia del jugador.
     int obtener_cant_energia();
+
+    //PRE: Recibe su número del jugador y un mapa
+    //POS: Devuelve la coordeanda del jugador que se encuentra en el mapa
+    Coordenada obtenerMiPosicion(int, Mapa*);
 
     // PRE: -
     // POST: Obtiene el inventario del jugador.
@@ -45,11 +55,15 @@ class Jugador{
 
     // PRE: -
     // POST: Obtiene las ubicaciones del jugador.
-    Vect<Coordenada>* obtener_ubiaciones();
+    Vect<Coordenada>* obtener_coordenadasDeEdificiosConstruidos();
 
     // PRE: -
     // POST: Obtiene el grafo del jugador.
     Grafo* obtener_grafo();
+
+    // PRE: -
+    // POS: Destruye el jugador.
+    ~Jugador();
 };
 
 #endif // JUGADOR_H_
