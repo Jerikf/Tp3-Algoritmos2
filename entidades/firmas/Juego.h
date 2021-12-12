@@ -16,11 +16,10 @@ class Juego
 {
     private:
         Datos* datos;
-        Vect<Edificio>* edificios; 
-        Vect<Material>* materiales; // Este es el inventario del jugador, hay que sacarlo de aca
+        Diccionario<Edificio>* edificios;
         Mapa* mapa;
-       // Jugador* jugador_1;
-       // Jugador* jugador_2;
+        Jugador* jugador_1;
+        Jugador* jugador_2;
 
         //PRE: Recibe el nombre de un edificio
         //POS: Devuelve un vector de coordenadas que se bucaron en el mapa, en caso de no haber ningún edificio con dicho nombre devuelve null
@@ -31,7 +30,7 @@ class Juego
         Material* obtenerMaterial(string);
 
         //PRE: Recibe el nombre de un edificio
-        //POS: Devuelve el edificio en caso de encontrarse en el vect de edificios, caso contrario devuelve NULL
+        //POS: Devuelve el edificio en caso de encontrarse en el Diccionario de edificios, caso contrario devuelve NULL
         Edificio* obtenerEdificio(string);
 
         //PRE:
@@ -46,13 +45,15 @@ class Juego
         
     public:
 
-        //PRE: Recibe la clase datos, un vector de edificios y materiales
+        //PRE: Recibe la clase datos, un diccionario de edificios y materiales
         //POS: Construye el juego y instancia los datos pasados por parametros, además instancia en NULL EL MAPA
-        Juego(Datos*, Vect<Edificio>*, Vect<Material>*);
+        Juego(Datos*, Diccionario<Edificio>*);
+
+
 
         // PRE: -
         // POST: Inicializa el jugador, sin parametros.
-       // Juego();
+        Juego();
 
         //PRE:
         //POS: Libera la memoria de los datos, edificios, material y del mapa(en caso no esté vacío)
@@ -62,59 +63,86 @@ class Juego
         //POS: Carga todos los datos de edificios, materiales y mapa
         void inicializarCargadoDatos();
 
-        //PRE:
-        //POS: Muestra el menu de opciones
-        void mostrarMenu();
-
-        //PRE:
-        //POS: Lista todos los edificios construidos
-        void listarEdificiosConstruidos();
+        // PRE: -
+        // POS: Modicia el diccionario de edificios y el archivo.
+        void modificar_edificio_por_nombre();
 
         //PRE:
         //POS: Lista todos los edificios existentes
         void listarTodosLosEdificios();
 
         //PRE:
-        //POS: Muestra todos los materiales existentes
-        void mostrarInventario();
-
-        //PRE: Recibe un nombre de edificio y una coordenada
-        //POS: Construye el edificio en caso que sea correcto los parámetros
-        void construirEdificioPorNombre(string,Coordenada);
-
-        //PRE: Recibe una coordenada
-        //POS: Demuele el edificio si la coordenada es correcta
-        void demolerEdificioPorCoordenada(Coordenada);
-
-        //PRE: Recibe una coordeanda
-        //POS: Muestra que hay en el casillero según la coordeanda pasa, este sabe responderse a sí mismo y llama a su contenido
-        void consultarCoordenada(Coordenada);
-
-        //PRE:
-        //POS: Recolecta los materiales que pueden producir o no los edificios construidos, modificando así la cantidad de los materiales
-        void recolectarRecursosProducidos();
+        //POS: Muestra el mapa según pedido en la consigna
+        void mostrarMapa();
 
         //PRE:
         //POS: Actualiza los arhicvos edificios, materiales, mapas y ubicaciones
         void guardarSalir(); 
 
+
+        //PRE: Recibe un nombre de edificio, una coordenada y un jugador
+        //POS: Construye el edificio del jugador en caso que sea correcto los parámetros
+        void construirEdificioPorNombre(string, Coordenada, Jugador*);
+
+        //PRE: Recibe un  jugador
+        //POS: Lista todos los edificios construidos del jugador
+        void listarEdificiosConstruidos(Jugador*);
+
+        //PRE: Recibe una coordenada y un  jugador
+        //POS: Demuele el edificio del jugador si la coordenada es correcta
+        void demolerEdificioPorCoordenada(Coordenada, Jugador*);
+
+        //PRE: Recibe una coordenada y un  jugador a atacar
+        //POS: Ataca a un edificio del rival si la coordenada es válida, cuando se ataca se respeta la consigna pedida
+        void atacarEdificioPorCoordenada(Coordenada, Jugador*);
+
+        //PRE: Recibe una coordeanda y un  jugador
+        //POS: Si en dicha coordenada hay un edificio reparable del jugador, se lo reparará con el criterio pedido en la consiga
+        void repararEdificioPorCoordenada(Coordenada, Jugador*);
+
+        //PRE: Recibe la cantidad de bombas que desea comprar, y un  jugador
+        //POS: Comprará bombas si es que tiene 100 AndyCoins
+        void comprarBombas(Jugador*, Jugador*);
+
+        //PRE: Recibe una coordeanda
+        //POS: Muestra que hay en el casillero según la coordeanda pasa, este sabe responderse a sí mismo y llama a su contenido
+        void consultarCoordenada(Coordenada);
+
+        //PRE: Recibe un  jugador
+        //POS: Muestra los objetivos que cumplir, y el progreso de dicho jugador
+        void mostrarObjetivos(Jugador*);
+
+        //PRE: Recibe un entero que hace referencia al  jugador que quier mostrar su inventario
+        //POS: Muestra todos los materiales existente del jugador especificado
+        void mostrarInventario(Jugador*);
+
+        //PRE: Recibe un  jugador
+        //POS: Recolecta los materiales del jugador que pueden producir o no los edificios construidos, modificando así la cantidad de los materiales
+        void recolectarRecursosProducidos(Jugador*);
+
+        //moversePorCoordenada-> falta lo de caminos mínimos ..
+
         //PRE:
         //POS: Crea cantidad  de Materiales aleatorios con cada material, además también tiene coordenadas aleatorias y lo contruye en el casillero correspondiente de ser Transitable
         void lluviaDeRecursos();
 
-        //PRE:
-        //POS: Muestra el mapa según pedido en la consigna
-        void mostrarMapa();
+        
         
         // PRE: -
-        // POS: Obtiene al jugador 1.
-        //Jugador* obtener_jugador_1();
+        // POS: Devuelve al jugador 1.
+        Jugador* obtener_jugador_1();
 
         // PRE: -
-        // POS: Obtiene al jugador 2.
-        //Jugador* obtener_jugador_2();
-
-        //No se si son necesarias las funciones de set.
+        // POS: Devuelve al jugador 2.
+        Jugador* obtener_jugador_2();
+        
+        // PRE: -
+        // POS: Devuelve los edificios.
+        Diccionario<Edificio>* obtener_edificios();
+        
+        // PRE: -
+        // POS: Devuelve el mapa.
+        Mapa* obtener_mapa();
 
 };
 

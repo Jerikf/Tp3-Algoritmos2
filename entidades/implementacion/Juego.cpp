@@ -50,7 +50,7 @@ Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio){
     }
     return coordenadasDelEdificioConstruido;
 }
-
+/*
 Material* Juego::obtenerMaterial(string nombreMaterial){
     int pos = 0;
     bool seEncontro = false;
@@ -64,22 +64,12 @@ Material* Juego::obtenerMaterial(string nombreMaterial){
 
     return material;
     
-}
+}*/
 
 Edificio* Juego::obtenerEdificio(string nombreEdificio){
 
     Edificio* edificio = NULL;
-    bool seEncontro = false;
-    int pos = 0;
-    while(!seEncontro && pos < this->edificios->obtenerCantidad()){
-        edificio = this->edificios->obtenerDato(pos);
-        if(edificio->getNombre() == nombreEdificio)
-            seEncontro = true;
-        else
-            edificio = NULL;
-        pos++;
-        
-    }
+    edificio = this->edificios->buscar(nombreEdificio);
     return edificio;
 }
 
@@ -127,78 +117,60 @@ void Juego::recolectarMateriales(int cantDeMaterialesARecolectar, Material* mate
 
                                                           //No va
 
-Juego::Juego(Datos* datos, Vect<Edificio>* edificios, Vect<Material>* materiales){
+Juego::Juego(Datos* datos, Diccionario<Edificio>* edificios){
     this-> datos = datos;
     this-> edificios = edificios;
-    this-> materiales = materiales; // No va
     this-> mapa = NULL;
     this-> jugador_1 = NULL;
     this-> jugador_2 = NULL;
     
 }
 
-/*Juego::Juego(){
+Juego::Juego(){
 
-    this-> datos = new Datos();
+    this-> datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
     this-> mapa = NULL;
     this-> edificios = new Diccionario<Edificio>();
     this-> jugador_1 = new Jugador();
     this-> jugador_2 = new Jugador();
 
 }
-*/
+
 Juego::~Juego(){
     delete datos;
     delete edificios;
-    delete materiales; // Va en jugador
-    //delete jugador_1;
-    //delete jugador_2;
+    delete jugador_1;
+    delete jugador_2;
     if(mapa)
         delete mapa;
 }
 
 void Juego::inicializarCargadoDatos(){
-    //this->datos->cargarDatosEdificios(this->edificios);
-    //this->datos->cargarDatosMateriales(this->materiales);
-    this->datos->cargarDatosMapa(&(this->mapa));
-    //this->datos->cargarDatosUbicaciones(this->mapa, this->edificios);
+    this-> datos->cargarDatosEdificios(edificios);
+    this-> datos->cargarDatosMateriales(jugador_1->obtener_inventario(), jugador_2->obtener_inventario());
+    this-> datos->cargarDatosMapa(&mapa);
+    this-> jugador_1->establecer_grafo(mapa, 1);
+    this-> jugador_2->establecer_grafo(mapa, 2);
+    this-> datos->cargarDatosUbicaciones(mapa, edificios, jugador_1->obtener_coordenadasDeEdificiosConstruidos(), jugador_2->obtener_coordenadasDeEdificiosConstruidos());
 }
 
-void Juego::mostrarMenu(){
-    cout << "\n\n\n";
-	cout << "------------------MENU------------------" << endl;
-	cout << "1.  CONSTRUIR EDIFICIO POR NOMBRE       |" << endl;
-	cout << "2.  LISTAR EDIFICIOS CONSTRUIDOS        |" << endl;
-	cout << "3.  LISTAR TODOS LOS EDIFICIOS          |" << endl;
-	cout << "4.  DEMOLER UN EDIFICIO POR COORDENADA  |" << endl;
-	cout << "5.  MOSTRAR MAPA                        |" << endl;
-    cout << "6.  CONSULTAR COORDENADA                |" << endl;
-    cout << "7.  MOSTRAR INVENTARIO                  |" << endl;
-    cout << "8.  RECOLECTAR RECURSOS PRODUCIDOS      |" << endl;
-    cout << "9.  LLUVIA DE RECURSOS                  |" << endl;
-	cout << "10. GUARDAR Y SALIR                     |" << endl;
-	cout << "----------------------------------------" << endl;
-	cout << "\n\n";
 
+void Juego::mostrarInventario(Jugador* jugador){ 
+    jugador->obtener_inventario()->mostrar();
 }
 
-void Juego::mostrarInventario(){ //La fucnion la dejamos, cambia el llamadao de materiales, es mediante el jugador.
-    this->materiales->mostrar();
-}
-
-void Juego::listarEdificiosConstruidos(){
+void Juego::listarEdificiosConstruidos(Jugador* jugador){
     Recurso recursos;
     Vect<Coordenada>* coordenadasDelEdificioConstruido = NULL;
     string nombre;
 
 	cout << "\n\n\n\n LISTADO DE TODOS LOS EDIFICIOS CONSTRUIDOS";
-    for(int pos = 0; pos < this->edificios->obtenerCantidad(); pos++){
+    for(int pos = 0; pos < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); pos++){
 
-        nombre = this->edificios->obtenerDato(pos)->getNombre();
+        nombre = this->mapa->getCasillero(*(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(pos)))->getEdificio()->getNombre();
         coordenadasDelEdificioConstruido = this->obtenerCoordenadas(nombre);
+        //TODO--> SE VAN A REPETIR LOS EDIFICIOS, LUEGO VERIFICAR QUE NO SUCEDA ESO.
         if(coordenadasDelEdificioConstruido->obtenerCantidad() != VACIO){
-            //TODO --> ESTO PODRÍA IR EN RECURSOS, YA QUE SERÍA COMO UN SCHEMA DE MOSTRAR DATOS DE DISTINTA MANERA
-            // IGUAL ACÁ NO APLICAN TANTO EL MODELO DE CAPAZ O RESPONSABILIDAD DE COSAS..
 
             cout << "\n\n"; 
             cout << "|---------------------------------------------|" << endl;
@@ -216,6 +188,7 @@ void Juego::listarEdificiosConstruidos(){
 
 
 void Juego::listarTodosLosEdificios(){
+    /*
     Edificio* edificio = NULL;
     Vect<Coordenada>* coordenadasDelEdificioConstruido = NULL;
     cout << "       lISTADO DE TODOS LOS EDIFICIOS \n\n" ;
@@ -229,11 +202,17 @@ void Juego::listarTodosLosEdificios(){
 
         delete coordenadasDelEdificioConstruido;
         coordenadasDelEdificioConstruido = NULL;
-    }
+    }*/
+    edificios->mostrarInorder();
+    //TODO--> falta los criterior de cantid construidos y faltan construir, ¿se puede saber a priori? 
+    //porque si es general cuanto hay permitidos es para los dos?, si se tiene 5 aserrador, como maximo entre j1 yj2 solo pueden crear 5 aserraderos?
+    
+
 }
 
 
-void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada){
+void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jugador*){
+    /*
 
     Vect<Coordenada>* coordenadasDelEdificioConstruido  = NULL;
     Casillero* casillero = NULL;
@@ -282,9 +261,11 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada){
     }else
         cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO EXISTE EL NOMBRE DEL EDIFICIO \n\n" << endl;
     delete coordenadasDelEdificioConstruido;
+    */
 }
 
-void Juego::demolerEdificioPorCoordenada(Coordenada coordenada){
+void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador){
+    /*
     Casillero* casillero = this->mapa->getCasillero(coordenada);
     Edificio* edificio = NULL;
     if(casillero){
@@ -310,6 +291,7 @@ void Juego::demolerEdificioPorCoordenada(Coordenada coordenada){
 
     }else
         cout << "\n\n ERROR--> COORDENADA FUERA DE RANGO DEL MAPA" << endl;
+    */
 
 }
 
@@ -322,8 +304,8 @@ void Juego::consultarCoordenada(Coordenada coordenada){
 
 }
 
-void Juego::recolectarRecursosProducidos(){
-
+void Juego::recolectarRecursosProducidos(Jugador* jugador){
+    /*
     Material* piedra = NULL;
     Material* madera = NULL;
     Material* metal = NULL;
@@ -356,20 +338,21 @@ void Juego::recolectarRecursosProducidos(){
     }
 
     cout << "\n\n\nSE RECOLECTARON LOS RECURSOS EN CASO HAYA EXISITDO UN EDIFICIO QUE BRINDE RECURSOS" << endl;
+    */
 }
 
 void Juego::guardarSalir(){
-    //this->datos->gurdarDatosEdificios(this->edificios);
-    //this->datos->guardarDatosMateriales(this->materiales);
-    //this->datos->guardarDatosMapa(this->mapa);
-    //this->datos->guardarDatosUbicaciones(this->mapa);
+    this->datos->gurdarDatosEdificios(this->edificios);
+    this->datos->guardarDatosMateriales(this->jugador_1->obtener_inventario(), this->jugador_2->obtener_inventario());
+    this->datos->guardarDatosMapa(this->mapa);
+    this->datos->guardarDatosUbicaciones(this->mapa, this->jugador_1->obtener_coordenadasDeEdificiosConstruidos(), this->jugador_2->obtener_coordenadasDeEdificiosConstruidos());
 
     cout << "\n\n\n SE GUARDÓ CON ÉXITO LOS EDIFICIO, MATERILES, MAPA Y UBICACIONES" << endl;
 }
 
 
 void Juego::lluviaDeRecursos(){
-    
+    /*
     Recurso recurso;
     srand((unsigned)time(0));
     
@@ -388,25 +371,127 @@ void Juego::lluviaDeRecursos(){
     this->recolectarMateriales(cantPiedra, piedra);
     this->recolectarMateriales(cantMadera, madera);
     this->recolectarMateriales(cantMetal, metal);
-
+    */
 }
 
+void Juego::modificar_edificio_por_nombre(){
+
+    string nombre_edificio;
+
+    cout << "Indique el nombre del edificio que desea modificar:" << endl;
+    cin >> nombre_edificio;
+    if(edificios->buscar(nombre_edificio) != NULL){
+        if(nombre_edificio == "obelisco"){
+            cout << "El obelisco no se puede modificar" << endl;
+        }
+        else{
+            
+            int contador_material = 0;
+            while(contador_material < 3){
+
+                string decision;
+
+                if(contador_material == 0){
+                    cout << "Desea modificar los valores de piedra?" << endl;
+                    cin >> decision;
+                    if(decision == "si"){
+                        cout << "Indique los nuevos valores de la piedra entre 0 y 50000: " << endl;
+                        int cant_piedra;
+                        cin >> cant_piedra;
+
+                        if(cant_piedra > 0 || cant_piedra < 50000){
+                            edificios->buscar(nombre_edificio)->setCantPiedra(cant_piedra);
+                            cout << "Ahora el edifico se construye con " << cant_piedra << " de piedra." << endl;
+                        }
+                        else{
+                            cout << "No cumple con los limites establecidos." << endl;
+                        }
+                        
+                    }
+                    else{
+                        cout << "No se modificaron los valores de la piedra." << endl;
+                        cout << endl;
+                    }
+                }
+                else if(contador_material == 1){
+                    cout << "Desea modificar los valores de madera?" << endl;
+                    cin >> decision;
+                    if(decision == "si"){
+                        cout << "Indique los nuevos valores de la madera: " << endl;
+
+                        int cant_madera;
+                        cin >> cant_madera;
+
+                        if(cant_madera > 0 || cant_madera < 50000){
+                            edificios->buscar(nombre_edificio)->setCantMadera(cant_madera);
+                            cout << "Ahora el edifico se construye con " << cant_madera << " de madera." << endl;
+                        }
+                        else{
+                            cout << "No cumple con los limites establecidos." << endl;
+                        }
+                    }
+                    else{
+                        cout << "No se modificaron los valores de la madera." << endl;
+                        cout << endl;
+                    }
+                }
+                else if(contador_material == 2){
+                    cout << "Desea modificar los valores de metal?" << endl;
+                    cin >> decision;
+                    if(decision == "si"){
+                        cout << "Indique los nuevos valores del metal: " << endl;
+
+                        int cant_metal;
+                        cin >> cant_metal;
+
+                        if(cant_metal > 0 || cant_metal < 50000){
+                            edificios->buscar(nombre_edificio)->setCantMadera(cant_metal);
+                            cout << "Ahora el edifico se construye con " << cant_metal << " de metal." << endl;
+                        }
+                        else{
+                            cout << "No cumple con los limites establecidos." << endl;
+                        }
+
+                        edificios->buscar(nombre_edificio)->setCantMetal(cant_metal);
+                    }
+                    else{
+                        cout << "No se modificaron los valores de la madera." << endl;
+                        cout << endl;
+                    }
+                }
+
+                contador_material ++;
+            }
+        }
+    }
+    else{
+        cout << "No existe el edificio." << endl;
+    }
+
+
+}
 
 void Juego::mostrarMapa(){
     this->mapa->mostrar();
 }
 
-/*
 Jugador* Juego::obtener_jugador_1(){
 
-    return jugador_1;
+    return this->jugador_1;
 }
-*/
 
-/*
+
 Jugador* Juego::obtener_jugador_2(){
 
-    return jugador_2;
+    return this->jugador_2;
 }
-*/
 
+Diccionario<Edificio>* Juego::obtener_edificios(){
+
+    return this->edificios;
+}
+
+Mapa* Juego::obtener_mapa(){
+
+    return this->mapa;
+}
