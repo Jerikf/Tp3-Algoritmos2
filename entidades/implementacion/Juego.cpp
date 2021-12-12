@@ -50,13 +50,13 @@ Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio){
     }
     return coordenadasDelEdificioConstruido;
 }
-/*
-Material* Juego::obtenerMaterial(string nombreMaterial){
+
+Material* Juego::obtenerMaterial(string nombreMaterial, Jugador* jugador){
     int pos = 0;
     bool seEncontro = false;
     Material* material = NULL;
-    while(!seEncontro && pos < this->materiales->obtenerCantidad()){
-        material = this->materiales->obtenerDato(pos);
+    while(!seEncontro && pos < jugador->obtener_inventario()->obtenerCantidad()){
+        material = jugador->obtener_inventario()->obtenerDato(pos);
         if(material->getNombre() == nombreMaterial)
             seEncontro = true;
         pos++;
@@ -64,7 +64,7 @@ Material* Juego::obtenerMaterial(string nombreMaterial){
 
     return material;
     
-}*/
+}
 
 Edificio* Juego::obtenerEdificio(string nombreEdificio){
 
@@ -211,8 +211,8 @@ void Juego::listarTodosLosEdificios(){
 }
 
 
-void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jugador*){
-    /*
+void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jugador* jugador){
+    
 
     Vect<Coordenada>* coordenadasDelEdificioConstruido  = NULL;
     Casillero* casillero = NULL;
@@ -226,9 +226,9 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
     if(edificio){
 
         //Verifico que la cantidad de materiales sea el adecuado
-        piedra = this->obtenerMaterial(PIEDRA);
-        madera = this->obtenerMaterial(MADERA);
-        metal = this->obtenerMaterial(METAL);
+        piedra = this->obtenerMaterial(PIEDRA, jugador);
+        madera = this->obtenerMaterial(MADERA, jugador);
+        metal = this->obtenerMaterial(METAL, jugador);
 
         if(piedra->getCantidad() > edificio->getCantPiedra() && madera->getCantidad() > edificio->getCantMadera() && metal->getCantidad() > edificio->getCantMetal()){
             
@@ -245,6 +245,10 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
                         piedra->setCantidad(piedra->getCantidad() - edificio->getCantPiedra());
                         madera->setCantidad(madera->getCantidad() - edificio->getCantMadera());
                         metal->setCantidad(metal->getCantidad() - edificio->getCantMetal());
+
+                        //Agrego la coordenada al vector de coordendas del edificio del jugador
+                        Coordenada* coordenadaDelEdificioConstruido = new Coordenada(coordenada.getFila(), coordenada.getColumna());
+                        jugador->obtener_coordenadasDeEdificiosConstruidos()->agregar(coordenadaDelEdificioConstruido);
                     } 
                     
                 }else
@@ -261,7 +265,7 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
     }else
         cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO EXISTE EL NOMBRE DEL EDIFICIO \n\n" << endl;
     delete coordenadasDelEdificioConstruido;
-    */
+    
 }
 
 void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador){

@@ -25,9 +25,9 @@ class Juego
         //POS: Devuelve un vector de coordenadas que se bucaron en el mapa, en caso de no haber ningún edificio con dicho nombre devuelve null
         Vect<Coordenada>* obtenerCoordenadas(string);
 
-        //PRE: Recibe el nombre de un material
-        //POS: Devuelve el material en caso de encontrarse en el vect de materiales, caso contrario devuelve NULL
-        Material* obtenerMaterial(string);
+        //PRE: Recibe el nombre de un material y un jugador
+        //POS: Devuelve el material en caso de encontrarse en el vector de materilaes del jugador, caso contrario devuelve NULL
+        Material* obtenerMaterial(string, Jugador*);
 
         //PRE: Recibe el nombre de un edificio
         //POS: Devuelve el edificio en caso de encontrarse en el Diccionario de edificios, caso contrario devuelve NULL
