@@ -27,19 +27,21 @@ class Interfaz
 
         //PRE:
         //POS: Muentra un sub menu para regresar al menu
-        void volver_menu();
+        void volver_menu(int numero);
 
         //PRE:
         //POS: Muestra el menu de opciones
-        void mostrar_segundo_menu();
+        void mostrar_segundo_menu(int numero);
 
         //PRE:
         //POS: Inicializa el programa, donde se comenzará a escoger opciones del menu
-        void iniciar_segundo_menu(int numero);
+        int iniciar_segundo_menu(int numero);
 
         void establecer_posicion_personaje(int jugador);
 
         void establecer_jugadores(int jugador);
+
+        void correr_juego();
         
         //PRE: -
         //POS: Le pregunta al usuario si quiere ser el jugador 1 o jugador 2, despues se posicionaran a ambos jugadores en un casillero transitable del mapa.
