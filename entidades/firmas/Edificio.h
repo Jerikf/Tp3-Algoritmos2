@@ -60,6 +60,18 @@ class Edificio
         //POS:Retorna la cantidad maxima permitida para construir
         int getMaxCantPermitidos();
 
+        // PRE: -
+        // POS: Establece la cantidad de piedra.
+        void setCantPiedra(int cantPiedra);
+
+        // PRE: -
+        // POS: Establece la cantidad de madera.
+        void setCantMadera(int cantMadera);
+        
+        // PRE: -
+        // POS: Establece la cantidad de metal.
+        void setCantMetal(int cantMetal);
+
 };
 
 #endif //EDIFICIO_H

@@ -47,5 +47,19 @@ int Edificio::getMaxCantPermitidos(){
     return this->maxCantPermitidos;
 }
 
+void Edificio::setCantPiedra(int cantPiedra){
+
+    this-> cantPiedra = cantPiedra;
+}
+
+void Edificio::setCantMadera(int cantMadera){
+
+    this-> cantMadera = cantMadera;
+}
+
+void Edificio::setCantMetal(int cantMetal){
+
+    this-> cantMetal = cantMetal;
+}
 
 
