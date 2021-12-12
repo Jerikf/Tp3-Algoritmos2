@@ -32,6 +32,8 @@ class Datos
         string nombreArchivoMateriales;
         string nombreArchivoMapa;
         string nombreArchivoUbicaciones;
+        bool esta_archivo_ubiaciones;
+        int cant_lineas_ubicaiones;
 
         //PRE: Recibe 2 partes del archivo leído ---> 1ero: (valor,  2do: valor) 
 		//POS: Devuele la coordenada extraída de las 2 partes pasadas por parámetro
@@ -48,6 +50,10 @@ class Datos
         //PRE: Recibe un arhivo de ubicaciones abierto, ademàs un mapa y un vector de coordendas que indican los edificios construidos de dicho jugador que están en el mapa
         //POS: Asigna todos los nombres de edificios que se encuentran en el vector de coordenadas.
         void asignarEdificiosConstruidosDelJugadorAlArchivoUbicaciones(ofstream*, Mapa*, Vect<Coordenada>*);
+
+        // PRE: -
+        // POS: En el caso de que no este al archivo de ubiaciones, crea uno en blanco.
+        void crear_archivo_ubicaciones();
         
     public:
     
@@ -91,8 +97,15 @@ class Datos
         //PRE: Recibe un mapa y dos vectores de coordenadas de edificios construidos de cada jugador
 		//POS: Actualiza el archivo ubicaciones, según los materiales que haya en el mapa y los edificios de cada jugador
         void guardarDatosUbicaciones(Mapa* mapa, Vect<Coordenada>*, Vect<Coordenada>*);
-
         
+        // PRE: -
+        // POS: Obtiene la cantidad de lineas del archivo de ubicaiones, obtiene 0 si esta en blanco.
+        int obtener_cant_lineas();
+        
+        // PRE: -
+        // POS: Obtiene true si el archivo ubiaciones esta, false en caso contrario.
+        bool obtener_esta_ubicaciones();
+       
 
 };
 

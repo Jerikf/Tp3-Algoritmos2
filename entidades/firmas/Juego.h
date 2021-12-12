@@ -59,6 +59,10 @@ class Juego
         //POS: Libera la memoria de los datos, edificios, material y del mapa(en caso no esté vacío)
         ~Juego();
 
+        // PRE: -
+        // POS: Muestra la informacion de los edificios disponibles.
+        void mostrar_primer_edificios();
+
         //PRE:
         //POS: Carga todos los datos de edificios, materiales y mapa
         void inicializarCargadoDatos();
@@ -126,8 +130,6 @@ class Juego
         //POS: Crea cantidad  de Materiales aleatorios con cada material, además también tiene coordenadas aleatorias y lo contruye en el casillero correspondiente de ser Transitable
         void lluviaDeRecursos();
 
-        
-        
         // PRE: -
         // POS: Devuelve al jugador 1.
         Jugador* obtener_jugador_1();
@@ -143,6 +145,18 @@ class Juego
         // PRE: -
         // POS: Devuelve el mapa.
         Mapa* obtener_mapa();
+
+        // PRE: -
+        // POS: Guarda las modificaciones de edificios en el archivos de edificios.txt
+        void Gurdar_datos_edificios();
+
+        // PRE: -
+        // POS: Obtiene la cantidad de lineas del archivo de ubicaiones, obtiene 0 si esta en blanco, llamandose a datos.
+        int obtener_cant_lineas();
+        
+        // PRE: -
+        // POS: Obtiene true si el archivo ubiaciones esta, false en caso contrario., llamadose a datos.
+        bool obtener_esta_ubicaciones();
 
 };
 

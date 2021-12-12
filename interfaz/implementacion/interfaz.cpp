@@ -58,7 +58,9 @@ Interfaz::Interfaz(){
 }
 
 
-Interfaz::~Interfaz(){}
+Interfaz::~Interfaz(){
+	delete juego;
+}
 
 void Interfaz::mostrarMenuInicial(){
     cout << "╔═════════════╗" << endl;
@@ -130,14 +132,14 @@ void Interfaz::iniciarMenuInicial(){
         opcion = obtenerOpcion(1,5);
         switch (opcion) {
             case MODIFICAR_EDIFICIO_POR_NOMBRE:
-                cout << "work in progress" << endl;
+                juego->modificar_edificio_por_nombre();
                 break;
             case LISTAR_TODOS_LOS_EDIFICIOS_INICIAL:
-                cout << "work in progress" << endl;
+                juego->mostrar_primer_edificios();
                 break;
             case MOSTRAR_MAPA_INICIAL:
                 system(CLEAR);
-                cout << "		MOSTRANDO MAPA" << endl;
+                cout << "		MAPA" << endl;
                 this->juego->mostrarMapa();
                 cout << "\n";
                 break;
@@ -146,7 +148,7 @@ void Interfaz::iniciarMenuInicial(){
                 this->mostrar_segundo_menu();
                 break;
             case GUARDAR_Y_SALIR:
-                cout << "work in progress" << endl;
+                juego->Gurdar_datos_edificios();
                 break;
         }
         if(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR)
@@ -310,8 +312,14 @@ void Interfaz::iniciar_segundo_menu(int numero){
 
 void Interfaz::iniciar(){
 	juego->inicializarCargadoDatos();
-    iniciarMenuInicial();
-
+    if(!juego->obtener_esta_ubicaciones() || juego->obtener_cant_lineas() == 0){
+		iniciarMenuInicial();
+	}
+	else{
+		iniciar_segundo_menu(1);
+		iniciar_segundo_menu(2);
+	}
+	
 
 	cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
 }

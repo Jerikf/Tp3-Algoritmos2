@@ -42,6 +42,8 @@ Datos::Datos(string nombreArchivoEdificios, string nombreArchivoMateriales, stri
     this->nombreArchivoMateriales = nombreArchivoMateriales;
 	this->nombreArchivoMapa = nombreArchivoMapa;
 	this->nombreArchivoUbicaciones = nombreArchivoUbicaciones;
+    cant_lineas_ubicaiones = 0;
+    esta_archivo_ubiaciones = true;
 }
 
 Datos::~Datos(){}
@@ -197,11 +199,14 @@ Coordenada Datos::extraerCoordenada(string ubicacion1, string ubicacion2){
 
 void Datos::cargarDatosUbicaciones(Mapa* mapa, Diccionario<Edificio> *edificios, Vect<Coordenada>* ubicacionesJugador1, Vect<Coordenada>* ubicacionesJugador2){
     fstream archivoUbicaciones(this->nombreArchivoUbicaciones, ios::in);
-	if(!archivoUbicaciones.is_open()){
+	
+    if(!archivoUbicaciones.is_open()){
 		cout << "NO SE ENCONTRÒ EL ARCHIVO " << this->nombreArchivoUbicaciones << endl;
 		archivoUbicaciones.open(this->nombreArchivoUbicaciones, ios::out);
 		archivoUbicaciones.close();
 		archivoUbicaciones.open(this->nombreArchivoUbicaciones, ios::in);
+        esta_archivo_ubiaciones = false;
+        crear_archivo_ubicaciones();
 	}
 
  
@@ -214,7 +219,6 @@ void Datos::cargarDatosUbicaciones(Mapa* mapa, Diccionario<Edificio> *edificios,
     bool estadoActivoJugador1 = false;
     bool estadoActivoJugador2 = false;
     bool estadoActivoMateriales = true;
-
 
     while(archivoUbicaciones >> nombre){
 
@@ -288,6 +292,8 @@ void Datos::cargarDatosUbicaciones(Mapa* mapa, Diccionario<Edificio> *edificios,
 
             }
         }
+
+        cant_lineas_ubicaiones ++;
     }
     archivoUbicaciones.close();
     mapa->mostrar();
@@ -398,6 +404,21 @@ void Datos::guardarDatosUbicaciones(Mapa* mapa, Vect<Coordenada>* ubicacionesJug
 
     asignarJugadorAlArchivoUbicaciones(&archivoUbicaciones, coordenadaJugador2, JUGADOR2_INT);
     asignarEdificiosConstruidosDelJugadorAlArchivoUbicaciones(&archivoUbicaciones, mapa, ubicacionesJugador2);
+}
 
+int Datos::obtener_cant_lineas(){
 
+    return cant_lineas_ubicaiones;
+}
+
+bool Datos::obtener_esta_ubicaciones(){
+
+    return esta_archivo_ubiaciones;
+}
+
+void Datos::crear_archivo_ubicaciones(){
+
+    ofstream archivo_ubicaiones(this->nombreArchivoUbicaciones);
+
+    archivo_ubicaiones.close();
 }

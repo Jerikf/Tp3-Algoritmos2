@@ -403,7 +403,7 @@ void Juego::modificar_edificio_por_nombre(){
                         int cant_piedra;
                         cin >> cant_piedra;
 
-                        if(cant_piedra > 0 || cant_piedra < 50000){
+                        if(cant_piedra > 0 && cant_piedra < 50000){
                             edificios->buscar(nombre_edificio)->setCantPiedra(cant_piedra);
                             cout << "Ahora el edifico se construye con " << cant_piedra << " de piedra." << endl;
                         }
@@ -426,7 +426,7 @@ void Juego::modificar_edificio_por_nombre(){
                         int cant_madera;
                         cin >> cant_madera;
 
-                        if(cant_madera > 0 || cant_madera < 50000){
+                        if(cant_madera > 0 && cant_madera < 50000){
                             edificios->buscar(nombre_edificio)->setCantMadera(cant_madera);
                             cout << "Ahora el edifico se construye con " << cant_madera << " de madera." << endl;
                         }
@@ -448,7 +448,7 @@ void Juego::modificar_edificio_por_nombre(){
                         int cant_metal;
                         cin >> cant_metal;
 
-                        if(cant_metal > 0 || cant_metal < 50000){
+                        if(cant_metal > 0 && cant_metal < 50000){
                             edificios->buscar(nombre_edificio)->setCantMadera(cant_metal);
                             cout << "Ahora el edifico se construye con " << cant_metal << " de metal." << endl;
                         }
@@ -475,6 +475,11 @@ void Juego::modificar_edificio_por_nombre(){
 
 }
 
+void Juego::mostrar_primer_edificios(){
+
+    edificios->mostrarInorder();
+}
+
 void Juego::mostrarMapa(){
     this->mapa->mostrar();
 }
@@ -498,4 +503,20 @@ Diccionario<Edificio>* Juego::obtener_edificios(){
 Mapa* Juego::obtener_mapa(){
 
     return this->mapa;
+}
+
+void Juego::Gurdar_datos_edificios(){
+    
+    this->datos->gurdarDatosEdificios(this->edificios);
+    cout << "Se han guardado los datos." << endl;
+}
+
+int Juego::obtener_cant_lineas(){
+
+    return datos->obtener_cant_lineas();
+}
+
+bool Juego::obtener_esta_ubicaciones(){
+
+    return datos->obtener_esta_ubicaciones();
 }
