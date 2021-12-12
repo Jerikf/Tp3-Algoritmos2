@@ -46,7 +46,11 @@ class Mapa
         //PRE:
         //POS: Retorna la canti de columnas
         int getCantColumnas();
-    };
+
+        //PRE: Recibe el número de jugador que estoy buscando, debe existir dicho jugador en el mapa
+        //POS: Devuelve la coordenada donde se encuentra dicho jugador
+        Coordenada obtenerPosicionDeJugador(int);
+};
 
 
 
