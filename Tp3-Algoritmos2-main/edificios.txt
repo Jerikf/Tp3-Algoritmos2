@@ -1,0 +1,6 @@
+planta electrica 100 40 220 3
+aserradero 3 1 1 5
+fabrica 10 0 500 1
+escuela 45 125 140 2
+mina 60000 3 3 2
+mina oro 100 20 700 2
