@@ -142,6 +142,13 @@ int Grafo::obtener_posicion_vertice(Coordenada coordenada){
     return posicion;
 }
 
+int Grafo::obtenerCostoCamino(Coordenada puntoInicial, Coordenada puntoFinal){
+    int posicionVertice1 = obtener_posicion_vertice(puntoInicial);
+    int posicionVertice2 = obtener_posicion_vertice(puntoFinal);
+
+    return algoritmo_camino_minimo->obtenerCostoCamino(posicionVertice1, posicionVertice2);
+}
+
 Coordenada * Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada punto_final, int * tope_camino, int * costo_camino){
     int posicion_vertice_1 = obtener_posicion_vertice(punto_inicial);
     int posicion_vertice_2 = obtener_posicion_vertice(punto_final);

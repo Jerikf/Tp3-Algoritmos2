@@ -82,6 +82,10 @@ void Floyd::actualizar_matrices(int **matriz_adyacencia){
     calcular_matrices();
 }
 
+int Floyd::obtenerCostoCamino(int posicionVertice1, int posicionVertice2){
+    return matriz_costos[posicionVertice1][posicionVertice2];
+}
+
 int* Floyd::obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino, int * costo_camino){
     int * camino = new int[cant_vertices];
     int * aux = new int[cant_vertices];

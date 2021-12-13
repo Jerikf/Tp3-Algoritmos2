@@ -403,11 +403,11 @@ bool Interfaz::esCoordenadaValida(Coordenada coordenada){
     //int opcion ;
 }
 
-bool Interfaz::puedoMoverJugadorACoordenada( int jugador, Coordenada* puntoFinal ){
+bool Interfaz::puedoMoverJugadorACoordenada( Coordenada puntoInicial, Coordenada* puntoFinal, Grafo* grafo, int* costoCamino, int energiaJugador ){
     juego->mostrarMapa();
     int fil, col;
-    Casillero * casilleroActual;
-    bool esPosicionValida = false;
+    Casillero* casilleroActual;
+    bool puedoMoverJugador = false;
     cout << "Ingrese coordenada a la que desea moverse: " << endl;
     cout << "Fila: ";
     cin >> fil;
@@ -419,10 +419,24 @@ bool Interfaz::puedoMoverJugadorACoordenada( int jugador, Coordenada* puntoFinal
         casilleroActual = juego->obtener_mapa()->getCasillero(*puntoFinal);
         if( casilleroActual->devolver_jugador_casillero() != 0 || casilleroActual->getEdificio() != nullptr ) {
             cout << "La coordenada dada se encuentra ocupada" << endl;
+            return false;
         }
-        else esPosicionValida = true;
+        else puedoMoverJugador = true;
     }
-    return esPosicionValida;
+    (*costoCamino) = grafo->obtenerCostoCamino(puntoInicial, (*puntoFinal));
+    if( (*costoCamino) > energiaJugador){
+        cout << "No se cuenta con la energía suficiente para realizar el recorrido" << endl;
+        return false;
+    }
+    string x;
+    cout << "Costo recorrido: " << (*costoCamino) << endl << "Desea realizarlo?: Si | No" << endl;
+    cin >> x;
+    if( x != "Si" && x != "si") {
+        cout << "No se realizo el recorrido" << endl;
+        return false;
+    }
+    //aca deberia restar la energia del jugador
+    return puedoMoverJugador;
 }
 
 int Interfaz::iniciar_segundo_menu(int jugador){
@@ -595,40 +609,37 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             volver_menu(1);
         }
         else if(opcion == MOVERSE_A_COORDENADA){
-            Coordenada punto_final;
-            if(puedoMoverJugadorACoordenada(jugador, &punto_final)) {
-                Coordenada punto_inicial = juego->obtener_jugador_1()->obtenerMiPosicion(1, juego->obtener_mapa());
-                punto_inicial.mostrar();
-                int x;
-                /*cout << "Ingresa coordenada final:" << endl;
-                cout << "Ingrese la fila : " << endl;
-                cin >> x;
-                punto_final.setFila(x);
-                cout << "Ingrese la columna : " << endl;
-                cin >> x;
-                punto_final.setColumna(x);*/
+            Coordenada puntoInicial, puntoFinal;
+            Grafo * grafo;
+            int energiaJugador, costoCamino;
+            if(jugador == JUGADOR1) {
+                grafo = juego->obtener_jugador_1()->obtener_grafo();
+                energiaJugador = juego->obtener_jugador_1()->obtener_cant_energia();
+                puntoInicial = juego->obtener_jugador_1()->obtenerMiPosicion(1, juego->obtener_mapa());
+            }
+            else{
+                grafo = juego->obtener_jugador_2()->obtener_grafo();
+                energiaJugador = juego->obtener_jugador_2()->obtener_cant_energia();
+                puntoInicial = juego->obtener_jugador_1()->obtenerMiPosicion(2, juego->obtener_mapa());
+            }
 
-                int tope_camino;
-                int costo_camino;
-                //PROBAREMOS CON EL JUGADOR NÚMERO 1
-                Grafo *grafo = juego->obtener_jugador_1()->obtener_grafo();
-                if (!grafo) cout << "putoooo" << endl;
-                Coordenada *coordenadas_camino = grafo->obtener_camino_minimo(punto_inicial, punto_final, &tope_camino,
-                                                                              &costo_camino);
-                cout << "Costo camino: " << costo_camino << endl;
-                for (int i = 0; i < tope_camino; i++) {
-                    cout << "(" << coordenadas_camino[i].getFila() << ";" << coordenadas_camino[i].getColumna() << ") ";
+            if(puedoMoverJugadorACoordenada(puntoInicial, &puntoFinal, grafo, &costoCamino, energiaJugador)){
+                string x;
+                int topeCamino;
+                //grafo->actualizar_grafo(juego->obtener_mapa());
+                Coordenada* coordenadasCamino = grafo->obtener_camino_minimo(puntoInicial, puntoFinal, &topeCamino, &costoCamino);
+                cout << "Costo camino: " << costoCamino << endl;
+                for (int i = 0; i < topeCamino; i++) {
+                    cout << "(" << coordenadasCamino[i].getFila() << ";" << coordenadasCamino[i].getColumna() << ") ";
                 }
                 cout << endl;
-                cout << "Ingrese numero para avanzar";
+                cout << "Ingrese cualquier tecla para avanzar";
                 cin >> x;
-                juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadas_camino, tope_camino, 1);
-                delete[] coordenadas_camino;
-
-                cout << "FIN" << endl;
+                juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadasCamino, topeCamino, jugador);
+                delete[] coordenadasCamino;
             }
-        volver_menu(1);
-    }
+            volver_menu(1);
+        }
     else if(opcion == FINALIZAR_TURNO){
 
         salir = true;

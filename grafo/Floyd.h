@@ -26,6 +26,8 @@ public:
     // Post: se volvera a calcular la matriz de costos y la de recorrido de acuerdo con la nueva matriz de adyacencia
     void actualizar_matrices(int ** matriz_adyacencia);
 
+    int obtenerCostoCamino(int posicionVertice1, int posicionVertice2);
+
     int* obtener_camino_minimo(int posicion_vertice_1, int posicion_vertice_2, int * tope_camino, int * costo_camino);
 
     ~Floyd();

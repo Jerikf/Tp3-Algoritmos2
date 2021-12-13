@@ -38,7 +38,6 @@ void Jugador::establecer_grafo(Mapa* mapa, int numero){
 }
 
 int Jugador::obtener_cant_energia(){
-
     return cant_energia;
 }
 
