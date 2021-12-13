@@ -577,6 +577,13 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 			
 			seleccionar_jugador_energia(jugador, opcion);
 
+			if(jugador == 1){
+				juego->recolectar_recursos(juego->obtener_jugador_1());
+			}
+			else if(jugador == 2){
+				juego->recolectar_recursos(juego->obtener_jugador_2());
+			}
+
 			volver_menu(1);
 		}
 		else if(opcion == MOVERSE_A_COORDENADA){
