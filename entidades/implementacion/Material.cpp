@@ -16,7 +16,7 @@ void Material::mostrar(){
     cout << "\n\n"; 
 	cout << "|---------------------------------------------|" << endl;
 	cout << "		" << recurso.convertirAMayuscula(this->nombre) << endl;
-	cout << "	" << "CANDTIDAD MATERIAL : " << this->cantidad << endl;
+	cout << "	" << "CANTIDAD MATERIAL : " << this->cantidad << endl;
 	cout << "|---------------------------------------------|" << endl;
 	cout << "\n"; 
 }

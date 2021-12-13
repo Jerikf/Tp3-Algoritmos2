@@ -22,21 +22,21 @@ class Interfaz
         void mostrarMenuInicial();
 
         //PRE:
-        //POS: Incia el Primer menu
-        void iniciarMenuInicial();
+        //POS: Incia el Primer menu y devuelve COMENZAR_PARTIDA o GUARDAR_Y_SALIR
+        int iniciarMenuInicial();
 
         //PRE:
         //POS: Muentra un sub menu para regresar al menu
         void volver_menu();
 
         //PRE:
-        //POS: Muestra el menu de opciones
+        //POS: Muestra el menu de opciones y devuelve FINALIZAR_TURNO o GUARDAR_SALIR
         void mostrar_segundo_menu();
 
 
         //PRE:
         //POS: Inicializa el programa, donde se comenzará a escoger opciones del menu
-        void iniciar_segundo_menu(int numero);
+        int iniciar_segundo_menu(int jugador);
 
     public:
 

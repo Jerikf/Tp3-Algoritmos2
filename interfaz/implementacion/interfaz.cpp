@@ -3,22 +3,25 @@
 
 //opciones menu inicial
 const int MODIFICAR_EDIFICIO_POR_NOMBRE = 1;
-const int LISTAR_TODOS_LOS_EDIFICIOS_INICIAL = 2;
-const int MOSTRAR_MAPA_INICIAL = 3;
+const int LISTAR_TODOS_LOS_EDIFICIOS = 2;
+const int MOSTRAR_MAPA = 3;
 const int COMENZAR_PARTIDA = 4;
-const int GUARDAR_Y_SALIR = 5;
+const int GUARDAR_SALIR_MENU_INICIAL = 5;
 
 //opciones jugador
 const int CONSTRUIR_EDIFICIO_POR_NOMBRE = 1;
-const int LISTAR_LOS_EDIFICIOS_CONSTRUIDOS = 2;
-const int LISTAR_TODOS_LOS_EDIFICIOS = 3;
-const int DEMOLER_EDIFICIO_POR_COORDENADA = 4;
-const int MOSTRAR_MAPA = 5;
-const int CONSULTAR_COORDENADA = 6;
-const int MOSTRAR_INVENTARIO = 7;
-const int RECOLECTAR_RECURSOS_PRODUCIDOS = 8;
-const int LLUVIA_DE_RECURSOS = 9;
-const int GUARDAR_SALIR = 10;
+const int LISTAR_MIS_EDIFICIOS_CONSTRUIDOS = 2;
+const int DEMOLER_EDIFICIO_POR_COORDENADA = 3;
+const int ATACAR_EDIFICIO_POR_COORDENADA = 4;
+const int REPARAR_EDIFICIO_POR_COORDENADA = 5;
+const int COMPRAR_BOMBAS = 6;
+const int CONSULTAR_COORDENADA = 7;
+const int MOSTRAR_INVENTARIO = 8;
+const int MOSTRAR_OBJETIVOS = 9;
+const int RECOLECTAR_RECURSOS_PRODUCIDOS = 10;
+const int MOVERSE_A_UNA_COORDENADA = 11;
+const int FINALIZAR_TURNO = 12;
+const int GUARDAR_SALIR = 13;
 
 
 #ifdef _WIN32
@@ -124,9 +127,9 @@ void Interfaz::volver_menu(){
     }
 }
 
-void Interfaz::iniciarMenuInicial(){
+int Interfaz::iniciarMenuInicial(){
     int opcion = 0;
-    while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR ){
+    while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_SALIR_MENU_INICIAL ){
         system(CLEAR);
         mostrarMenuInicial();
         opcion = obtenerOpcion(1,5);
@@ -134,31 +137,32 @@ void Interfaz::iniciarMenuInicial(){
             case MODIFICAR_EDIFICIO_POR_NOMBRE:
                 juego->modificar_edificio_por_nombre();
                 break;
-            case LISTAR_TODOS_LOS_EDIFICIOS_INICIAL:
+            case LISTAR_TODOS_LOS_EDIFICIOS:
                 juego->mostrar_primer_edificios();
                 break;
-            case MOSTRAR_MAPA_INICIAL:
+            case MOSTRAR_MAPA:
                 system(CLEAR);
                 cout << "		MAPA" << endl;
                 this->juego->mostrarMapa();
                 cout << "\n";
                 break;
             case COMENZAR_PARTIDA:
-                cout << "work in progress" << endl;
-                this->mostrar_segundo_menu();
+                //cout << "work in progress" << endl;
+                //this->mostrar_segundo_menu();
                 break;
-            case GUARDAR_Y_SALIR:
+            case GUARDAR_SALIR_MENU_INICIAL:
                 juego->Gurdar_datos_edificios();
                 break;
         }
-        if(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR)
+        if(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_SALIR_MENU_INICIAL)
             volver_menu();
     }
+    return opcion;
 }
 
-void Interfaz::iniciar_segundo_menu(int numero){
 
-    int opcion ;
+int Interfaz::iniciar_segundo_menu(int jugador){
+    int opcion;
 	Coordenada coordenada;
     int fila, columna = 0;
 	string nombre = "";
@@ -168,7 +172,6 @@ void Interfaz::iniciar_segundo_menu(int numero){
 		opcion = this->obtenerOpcion(1,13);
 		switch (opcion){
 			case CONSTRUIR_EDIFICIO_POR_NOMBRE:
-
 				system(CLEAR);
                 cout << "\n\n\n";
 				cout << "		CONSTRUCCIÓN DEL EDIFICIO" << endl;
@@ -185,17 +188,18 @@ void Interfaz::iniciar_segundo_menu(int numero){
                 coordenada.setFila(fila);
 				coordenada.setColumna(columna);
 				system(CLEAR);
-				if(numero == 1){
+				if(jugador == 1){
 					this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
 				}
-				else if(numero == 2){
+				else if(jugador == 2){
 					this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
 				}
 				
 				break;
 
-			case LISTAR_LOS_EDIFICIOS_CONSTRUIDOS:
-                
+			case LISTAR_MIS_EDIFICIOS_CONSTRUIDOS:
+                cout << "work in progress" << endl;
+                break;
 				/*
 				cout << "\n\n\n"; //en caso no funcione en windows el limpiar :v
 				system(CLEAR); 
@@ -203,14 +207,14 @@ void Interfaz::iniciar_segundo_menu(int numero){
 				cout << "\n\n";
 				break;
 				*/
-			    cout << "Error " << endl;
+			    //cout << "Error " << endl;
 
-			case LISTAR_TODOS_LOS_EDIFICIOS:
+			/*case LISTAR_TODOS_LOS_EDIFICIOS:
 
                 cout << "\n\n\n";
 				system(CLEAR);
                 this->juego->listarTodosLosEdificios();
-				break;
+				break;*/
 
 			case DEMOLER_EDIFICIO_POR_COORDENADA:
                 
@@ -225,23 +229,26 @@ void Interfaz::iniciar_segundo_menu(int numero){
                 coordenada.setFila(fila);
 				coordenada.setColumna(columna);
 				system(CLEAR);
-				if(numero == 1){
+				if(jugador == 1){
 					this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_1());
 				}
-				else if(numero == 2){
+				else if(jugador == 2){
 					this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
 				}
 				break;
 				
 
-			case MOSTRAR_MAPA:
-				cout << "\n\n\n";
-				system(CLEAR);
-				cout << "		SE MOSTRARÁ EL MAPA" << endl;
-				this->juego->mostrarMapa();
-
-				cout << "\n\n";
+			case ATACAR_EDIFICIO_POR_COORDENADA:
+                cout << "work in progress" << endl;
 				break;
+
+            case REPARAR_EDIFICIO_POR_COORDENADA:
+                cout << "work in progress" << endl;
+                break;
+
+            case COMPRAR_BOMBAS:
+                cout << "work in progress" << endl;
+                break;
 
 			case CONSULTAR_COORDENADA:
 				system(CLEAR);
@@ -262,14 +269,17 @@ void Interfaz::iniciar_segundo_menu(int numero){
 				cout << "\n\n\n\n\n";
 				system(CLEAR);
 				cout << "		MUESTRA DE INVENTARIO" << endl;
-				if(numero == 1){
+				if(jugador == 1){
 					this->juego->mostrarInventario(juego->obtener_jugador_1());
 				}
-				else if(numero == 2){
+				else if(jugador == 2){
 					this->juego->mostrarInventario(juego->obtener_jugador_2());
 				}
-				
 				break;
+
+            case MOSTRAR_OBJETIVOS:
+                cout << "work in progress" << endl;
+                break;
 
 			case RECOLECTAR_RECURSOS_PRODUCIDOS:
                 /*
@@ -281,25 +291,22 @@ void Interfaz::iniciar_segundo_menu(int numero){
 				*/
 			cout << "Error" << endl;
 
-			case LLUVIA_DE_RECURSOS:
-                
-				/*
-				cout << "\n\n\n";
-				this->juego->lluviaDeRecursos();
-				system(CLEAR);
-				cout << "LLUVIA DE RECURSOS | SI HUBO ESPACIO EN LOS CAMINOS SE COMPLETÓ CORRECTAMENTE" << endl;
-				break;
-				*/
-			    cout << "Error" << endl; 
+            case MOVERSE_A_UNA_COORDENADA:
+                cout << "work in progress" << endl;
+                break;
 
-			case GUARDAR_SALIR:
+            case FINALIZAR_TURNO:
+                salir = true;
+                break;
 
-				cout << "\n\n\n";
-				system(CLEAR);
-				cout << "GUARDAR Y SALIR" << endl;
-				this->juego->guardarSalir();
-				salir = true;
-				break;
+            case GUARDAR_SALIR:
+                /*cout << "\n\n\n";
+                system(CLEAR);
+                cout << "GUARDAR Y SALIR" << endl;
+                this->juego->guardarSalir();*/
+                salir = true;
+                cout << "work in progress" << endl;
+                break;
 
 			default :
 				cout << "INGRESÒ UNA OPCIÓN INCORRECTA!!!" << endl;
@@ -307,21 +314,44 @@ void Interfaz::iniciar_segundo_menu(int numero){
 		}
 	}while(!salir);
 
-	cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
+    return opcion;
 }
 
 void Interfaz::iniciar(){
 	juego->inicializarCargadoDatos();
-    if(!juego->obtener_esta_ubicaciones() || juego->obtener_cant_lineas() == 0){
-		iniciarMenuInicial();
-	}
-	else{
-		iniciar_segundo_menu(1);
-		iniciar_segundo_menu(2);
-	}
-	
-
-	cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
+    bool terminoJuego = false;
+    if(!juego->obtener_esta_ubicaciones() || juego->obtener_cant_lineas() == 0) {
+        system(CLEAR);
+        if (iniciarMenuInicial() == COMENZAR_PARTIDA) {
+            while(!terminoJuego){
+                system(CLEAR);
+                cout << "MENU JUGADOR 1" << endl;
+                if(iniciar_segundo_menu(1) == GUARDAR_SALIR)
+                    terminoJuego = true;
+                if(!terminoJuego) {
+                    system(CLEAR);
+                    cout << "MENU JUGADOR 2" << endl;
+                    if (iniciar_segundo_menu(2) == GUARDAR_SALIR)
+                        terminoJuego = true;
+                }
+            }
+        }
+    }
+    else{//esto deberia ser jugar_juego
+        while(!terminoJuego){
+            system(CLEAR);
+            cout << "MENU JUGADOR 1" << endl;
+            if(iniciar_segundo_menu(1) == GUARDAR_SALIR)
+                terminoJuego = true;
+            if(!terminoJuego) {
+                system(CLEAR);
+                cout << "MENU JUGADOR 2" << endl;
+                if (iniciar_segundo_menu(2) == GUARDAR_SALIR)
+                    terminoJuego = true;
+            }
+        }
+    }
+    cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
 }
 
 
