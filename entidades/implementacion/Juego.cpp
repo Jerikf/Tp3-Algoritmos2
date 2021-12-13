@@ -29,23 +29,25 @@ const string PIEDRA = "piedra";
 const string MADERA = "madera";
 const string METAL = "metal";
 
+const int CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO = 15;
+
 
 //----------------------------IMPLEMENTACIÓN DE FUNCIONES PRIVADAS---------------------------------------
 
-Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio){
+Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio, Jugador* jugador){
+    
     Vect<Coordenada>* coordenadasDelEdificioConstruido = new Vect<Coordenada>;
     Coordenada* coordenada = NULL;
     Edificio* edificio = NULL;
 
-    for(int fil = 0; fil < this->mapa->getCantFilas(); fil++){
-        for(int col = 0; col < this->mapa->getCantColumnas(); col++){
-            coordenada = new Coordenada(fil,col);
-            edificio = this->mapa->getCasillero(*coordenada)->getEdificio();
-            if(edificio && edificio->getNombre() == nombreEdificio){
-                coordenadasDelEdificioConstruido->agregar(coordenada);
-            }else{
-                delete coordenada; // libero porque no lo guardaré en mi Vect de coordenadas, sino perdería memoria
-            }
+    for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
+        edificio = this->mapa->getCasillero(*(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)))->getEdificio();
+        
+        if(edificio && edificio->getNombre() == nombreEdificio){
+            int fila = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila();
+            int columna = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna();
+            coordenada = new Coordenada(fila, columna);
+            coordenadasDelEdificioConstruido->agregar(coordenada);
         }
     }
     return coordenadasDelEdificioConstruido;
@@ -169,7 +171,7 @@ void Juego::listarEdificiosConstruidos(Jugador* jugador){
     for(int pos = 0; pos < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); pos++){
 
         nombre = this->mapa->getCasillero(*(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(pos)))->getEdificio()->getNombre();
-        coordenadasDelEdificioConstruido = this->obtenerCoordenadas(nombre);
+        coordenadasDelEdificioConstruido = this->obtenerCoordenadas(nombre, jugador);
         //TODO--> SE VAN A REPETIR LOS EDIFICIOS, LUEGO VERIFICAR QUE NO SUCEDA ESO.
         if(coordenadasDelEdificioConstruido->obtenerCantidad() != VACIO){
 
@@ -222,51 +224,58 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
     Material* madera = NULL;
     Material* metal = NULL;
 
-    //Verifico que el nombre del edificio exista
-    edificio = this->obtenerEdificio(nombre);
-    if(edificio){
+    if(jugador->obtener_cant_energia() > CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO){
+        //Verifico que el nombre del edificio exista
+        edificio = this->obtenerEdificio(nombre);
+        if(edificio){
 
-        //Verifico que la cantidad de materiales sea el adecuado
-        piedra = this->obtenerMaterial(PIEDRA, jugador);
-        madera = this->obtenerMaterial(MADERA, jugador);
-        metal = this->obtenerMaterial(METAL, jugador);
+            //Verifico que la cantidad de materiales sea el adecuado
+            piedra = this->obtenerMaterial(PIEDRA, jugador);
+            madera = this->obtenerMaterial(MADERA, jugador);
+            metal = this->obtenerMaterial(METAL, jugador);
 
-        if(piedra->getCantidad() > edificio->getCantPiedra() && madera->getCantidad() > edificio->getCantMadera() && metal->getCantidad() > edificio->getCantMetal()){
-            
-            //Verifico que la cantidad de construidos sea el adecuado
-            coordenadasDelEdificioConstruido = this->obtenerCoordenadas(edificio->getNombre()); // al saber las coordenas tengo ya la cantidad de veces que se construyeron asi reutilizo la funcion y no me creo otra igual
-            if(coordenadasDelEdificioConstruido->obtenerCantidad() < edificio->getMaxCantPermitidos()){
+            if(piedra->getCantidad() > edificio->getCantPiedra() && madera->getCantidad() > edificio->getCantMadera() && metal->getCantidad() > edificio->getCantMetal()){
+                
+                //Verifico que la cantidad de construidos sea el adecuado
+                coordenadasDelEdificioConstruido = this->obtenerCoordenadas(edificio->getNombre(), jugador); // al saber las coordenas tengo ya la cantidad de veces que se construyeron asi reutilizo la funcion y no me creo otra igual
+                if(coordenadasDelEdificioConstruido->obtenerCantidad() < edificio->getMaxCantPermitidos()){
 
-                //Verifico que la coordenada sea válida!
-                casillero = this->mapa->getCasillero(coordenada);
-                if(casillero){
+                    //Verifico que la coordenada sea válida!
+                    casillero = this->mapa->getCasillero(coordenada);
+                    if(casillero){
 
-                    //Si es exitoso la construccion debo descontar los materiales usados
-                    if(casillero->construirEdificio(edificio) == EXITO){
-                        piedra->setCantidad(piedra->getCantidad() - edificio->getCantPiedra());
-                        madera->setCantidad(madera->getCantidad() - edificio->getCantMadera());
-                        metal->setCantidad(metal->getCantidad() - edificio->getCantMetal());
+                        //Si es exitoso la construccion debo descontar los materiales usados
+                        if(casillero->construirEdificio(edificio) == EXITO){
+                            piedra->setCantidad(piedra->getCantidad() - edificio->getCantPiedra());
+                            madera->setCantidad(madera->getCantidad() - edificio->getCantMadera());
+                            metal->setCantidad(metal->getCantidad() - edificio->getCantMetal());
 
-                        //Agrego la coordenada al vector de coordendas del edificio del jugador
-                        Coordenada* coordenadaDelEdificioConstruido = new Coordenada(coordenada.getFila(), coordenada.getColumna());
-                        jugador->obtener_coordenadasDeEdificiosConstruidos()->agregar(coordenadaDelEdificioConstruido);
-                    } 
-                    
+                            //Agrego la coordenada al vector de coordendas del edificio del jugador
+                            Coordenada* coordenadaDelEdificioConstruido = new Coordenada(coordenada.getFila(), coordenada.getColumna());
+                            jugador->obtener_coordenadasDeEdificiosConstruidos()->agregar(coordenadaDelEdificioConstruido);
+
+                            //Descuento la energia del jugador porque se construyò correctamente el edificio
+                            jugador->establecer_energia(jugador->obtener_cant_energia() - CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO);
+                        } 
+                        
+                    }else
+                        cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE LA COORDENADA ESTÁ FUERA DE RANGO DEL MAPA \n\n" << endl;
+
                 }else
-                    cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE LA COORDENADA ESTÁ FUERA DE RANGO DEL MAPA \n\n" << endl;
+                    cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO YA ALCANZÓ SU LÍMITE DE CANTIDAD PERMITIDO \n\n" << endl;
 
             }else
-                cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO YA ALCANZÓ SU LÍMITE DE CANTIDAD PERMITIDO \n\n" << endl;
+                cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO HAY SUFICIENTE MATERIAL PARA CONSTRUIR EL EDIFICIO \n\n" << endl;
+
+            
 
         }else
-            cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO HAY SUFICIENTE MATERIAL PARA CONSTRUIR EL EDIFICIO \n\n" << endl;
-
-        
+            cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO EXISTE EL NOMBRE DEL EDIFICIO \n\n" << endl;
+        delete coordenadasDelEdificioConstruido;
 
     }else
-        cout << "\n\n ERROR --> NO SE PUEDE CONTRUIR EDIFICIO PORQUE NO EXISTE EL NOMBRE DEL EDIFICIO \n\n" << endl;
-    delete coordenadasDelEdificioConstruido;
-    
+        cout << "\n\n ERROR --> NO TIENE ENERGÌA SUFICIENTE PARA PODER CONSTRUIR UN EDIFICIO" << endl;
+
 }
 
 void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador){
