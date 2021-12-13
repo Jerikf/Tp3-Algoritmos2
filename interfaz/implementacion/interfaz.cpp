@@ -518,6 +518,18 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 			
 			seleccionar_jugador_energia(jugador, opcion);
 
+			if(jugador == 1){
+				juego->comprar_bombas(juego->obtener_jugador_1());
+			}
+			else if(jugador == 2){
+				juego->comprar_bombas(juego->obtener_jugador_2());
+			}
+
+
+			volver_menu(1);
+		}
+		else if(opcion == CONSULTAR_COORDENADA){
+
 			/*
 			system(CLEAR);
 			cout << "\n\n\n";
@@ -532,32 +544,21 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 			system(CLEAR);
 			this->juego->consultarCoordenada(coordenada);
 			*/
-			volver_menu(1);
-		}
-		else if(opcion == CONSULTAR_COORDENADA){
-			/*
-			cout << "\n\n\n\n\n";
-			system(CLEAR);
-			cout << "		MUESTRA DE INVENTARIO" << endl;
-			if(numero == 1){
-				this->juego->mostrarInventario(juego->obtener_jugador_1());
-			}
-			else if(numero == 2){
-				this->juego->mostrarInventario(juego->obtener_jugador_2());
-			}
-			*/
+			
 			cout << "Error" << endl;
 			volver_menu(1);
 		}
 		else if(opcion == MOSTRAR_INVENTARIO){
-            /*
-			cout << "\n\n\n";
+
+
 			system(CLEAR);
-			cout << "RECOLECTOR DE RECURSOS PRODUCIDOS" << endl;
-			this->juego->recolectarRecursosProducidos();
-			break;
-			*/
-			cout << "Error" << endl;
+			if(jugador == 1){
+				this->juego->mostrarInventario(juego->obtener_jugador_1());
+			}
+			else if(jugador == 2){
+				this->juego->mostrarInventario(juego->obtener_jugador_2());
+			}
+
 			volver_menu(1);
 		}
 		else if(opcion == MOSTRAR_OBJETIVOS){

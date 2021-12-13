@@ -155,6 +155,8 @@ void Juego::inicializarCargadoDatos(){
 
 
 void Juego::mostrarInventario(Jugador* jugador){ 
+    
+    cout << "		INVENTARIO" << endl;
     jugador->obtener_inventario()->mostrar();
 }
 
@@ -473,6 +475,75 @@ void Juego::modificar_edificio_por_nombre(){
     else{
         cout << "No existe el edificio." << endl;
     }
+
+
+}
+
+void Juego::comprar_bombas(Jugador* jugador){
+
+    cout << "Cada bomba cuesta 100 andycoins, indique la cantidad que desea comprar:" << endl;
+    cout << "Cantidad: ";
+    int cantidad_bombas;
+    cin >> cantidad_bombas;
+    
+    int posicion = 0;
+    bool lo_encontro = false;
+    int cantidad_andycoins;
+    int cantidad_actual_bombas;
+    
+    while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
+
+        if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
+            
+            cantidad_andycoins = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+            lo_encontro == true;
+        }
+
+        posicion ++;
+    }
+
+    int total_pagar = 100 * cantidad_bombas;
+
+    if(cantidad_andycoins >= total_pagar){
+        if(cantidad_bombas == 1){
+            cout << "Se ha agregado " << cantidad_bombas << " bomba a su invnetario." << endl;
+        }
+        else if(cantidad_bombas > 1){
+            cout << "Se han agregado " << cantidad_bombas << " bombas a su invnetario." << endl;
+        }
+        
+        lo_encontro = false;
+        posicion = 0;
+        while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
+
+            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "bombas"){
+            
+                cantidad_actual_bombas = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_actual_bombas + cantidad_bombas);
+
+                lo_encontro = true;
+            }
+
+            posicion ++;
+        }
+        
+        lo_encontro = false;
+        posicion = 0;
+        while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
+
+            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
+            
+                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_andycoins - total_pagar);
+                lo_encontro = true;
+            }
+
+            posicion ++;
+        }
+    }
+    else{
+        cout << "No tene la cantidad suificente de dinero para comprar " << cantidad_bombas << " bombas." << endl;
+    }
+        
 
 
 }

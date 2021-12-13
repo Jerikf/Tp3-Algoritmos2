@@ -110,10 +110,6 @@ class Juego
         //POS: Si en dicha coordenada hay un edificio reparable del jugador, se lo reparará con el criterio pedido en la consiga
         void repararEdificioPorCoordenada(Coordenada, Jugador*);
 
-        //PRE: Recibe la cantidad de bombas que desea comprar, y un  jugador
-        //POS: Comprará bombas si es que tiene 100 AndyCoins
-        void comprarBombas(Jugador*, Jugador*);
-
         //PRE: Recibe una coordeanda
         //POS: Muestra que hay en el casillero según la coordeanda pasa, este sabe responderse a sí mismo y llama a su contenido
         void consultarCoordenada(Coordenada);
@@ -167,6 +163,9 @@ class Juego
         // POS: Obtiene true si el archivo ubiaciones esta, false en caso contrario., llamadose a datos.
         bool obtener_esta_ubicaciones();
         
+        // PRE: -
+        // POS: Agrega bombas en el invnetario del jugadro a camio de andycoins.
+        void comprar_bombas(Jugador* jugador);
         
 
 };
