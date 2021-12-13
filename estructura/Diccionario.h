@@ -175,8 +175,9 @@ T* Diccionario<T>::buscar(string clave){
 
 template<typename T>
 void Diccionario<T>::mostrarInorder(){
-    if(!this->estaVacio())
+    if(!this->estaVacio()){
         this->mostrarInorder_t(this->raiz);
+    }
     else{
         cout << "Está vacìo" << endl;
     }

@@ -22,16 +22,16 @@ class Interfaz
         void mostrarMenuInicial();
 
         //PRE:
-        //POS: Incia el Primer menu y devuelve COMENZAR_PARTIDA o GUARDAR_Y_SALIR
-        int iniciarMenuInicial();
+        //POS: Incia el Primer menu
+        void iniciarMenuInicial();
 
         //PRE:
         //POS: Muentra un sub menu para regresar al menu
-        void volver_menu();
+        void volver_menu(int forma);
 
-        //PRE:
-        //POS: Muestra el menu de opciones y devuelve FINALIZAR_TURNO o GUARDAR_SALIR
-        void mostrar_segundo_menu();
+        //PRE: El numero de jugador es igual a 1 o 2.
+        //POS: Muestra el menu de opciones
+        void mostrar_segundo_menu(int numero_jugador);
 
         //pre: tienen que estar cargados los datos del mapa
         //post: devuelve true si la coordenada esta dentro del mapa, false en caso contrario
@@ -43,8 +43,35 @@ class Interfaz
 
         void determinarPosicionJugador(int jugador);
         //PRE: -
+        //PRE: El numero de jugador es igual a 1 o 2.
         //POS: Inicializa el programa, donde se comenzará a escoger opciones del menu
-        int iniciar_segundo_menu(int jugador);
+        int iniciar_segundo_menu(int numero_jugador);
+        
+        //PRE: El numero de jugador es igual a 1 o 2.
+        //POS: Establece la ubicacion del personaje en el mapa.
+        void establecer_posicion_personaje(int numero_jugador);
+        
+        // PRE: El numero de jugador es igual a 1 o 2.
+        // POS: Determina que jugador es el usuario.
+        void establecer_jugadores(int numero_jugador);
+
+        // PRE: El jugador esta cargado.
+        // POS: Devuelve true si alcanza la cantidad de energia para la opcion, false en caso contrario
+        bool verificar_energia(Jugador* jugador, int opcion);
+
+        // PRE: Las opciones son validas y el jugador esta cargado.
+        // POS: Dependiendo de la opcion , modifca la cantidad de energia del jugador.
+        void modificar_energia(Jugador* jugador, int opcion);
+
+        void seleccionar_jugador_energia(int jugador_numero, int opcion);
+        
+        // PRE: -
+        // POS: Se encargara de ejecutar todas las funciones para que corra el juego, una vez comenzado.
+        void correr_juego();
+        
+        //PRE: -
+        //POS: Le pregunta al usuario si quiere ser el jugador 1 o jugador 2, despues se posicionaran a ambos jugadores en un casillero transitable del mapa.
+        void elegir_personaje();
 
     public:
 

@@ -41,7 +41,13 @@ class Juego
         //POS: Recolecta el material con la/las coordeanda aleatoria/s tantas veces sea la cantidad de material pasado
         void recolectarMateriales(int,Material*);
 
-        
+        // PRE: -
+        // POS: Modifica los valores de los materiales.
+        void modificar_valores_materiales(string material, string nombre_edificio);
+
+        // PRE: Los materiale son validos.
+        // POS: Dependiendo del nombre del material, modifica la cantdiad de construccion del edificio.
+        void modificar_valor_material(string material, int cantidad_material, string nombre_edificio);
         
     public:
 
@@ -160,6 +166,8 @@ class Juego
         // PRE: -
         // POS: Obtiene true si el archivo ubiaciones esta, false en caso contrario., llamadose a datos.
         bool obtener_esta_ubicaciones();
+        
+        
 
 };
 
