@@ -544,7 +544,52 @@ void Juego::comprar_bombas(Jugador* jugador){
         cout << "No tene la cantidad suificente de dinero para comprar " << cantidad_bombas << " bombas." << endl;
     }
         
+}
 
+void Juego::contar_edificios(int &cant_edificios, string nombre_edificio, Jugador* jugador){
+
+    int posicion = 0;
+    Coordenada coordenada;
+
+    while(posicion <  jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad()){
+
+        coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getFila());
+        coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getColumna());
+        cout << mapa->getCasillero(coordenada)->getEdificio()->getNombre() << endl;
+        if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == nombre_edificio){
+            cant_edificios ++;
+        }
+
+        posicion++;
+    }
+}
+
+
+
+void Juego::recolectar_recursos(Jugador* jugador){
+
+    int cant_aserraderos = 0;
+    int cant_minas = 0; 
+    int cant_plantas_electricas = 0;
+    int cant_minas_oro = 0;
+    int cant_escuelas = 0;
+    int cant_fabricas = 0;
+
+    contar_edificios(cant_aserraderos, "aserradero", jugador);
+    contar_edificios(cant_minas, "mina", jugador);
+    contar_edificios(cant_escuelas, "escuela", jugador);
+    contar_edificios(cant_fabricas, "fabrica", jugador);
+    contar_edificios(cant_minas_oro, "mina oro", jugador);
+    contar_edificios(cant_plantas_electricas, "planta electrica", jugador);
+    
+    /*
+    cout << "Aserraderos: " << cant_aserraderos << endl;
+    cout << "Minas: " << cant_minas << endl;
+    cout << "Escuelas: " << cant_escuelas << endl;
+    cout << "Fabrcias: " << cant_fabricas << endl;
+    cout << "Minas de oro: " << cant_minas_oro << endl;
+    cout << "Plantas electricas: " << cant_plantas_electricas << endl;
+    */
 
 }
 

@@ -48,6 +48,10 @@ class Juego
         // PRE: Los materiale son validos.
         // POS: Dependiendo del nombre del material, modifica la cantdiad de construccion del edificio.
         void modificar_valor_material(string material, int cantidad_material, string nombre_edificio);
+
+        // PRE: -
+        // POS: Modifica la cantidad de edificios, sumnadolos.
+        void contar_edificios(int &cant_edificios, string nombre_edificio, Jugador* jugador);
         
     public:
 
@@ -166,6 +170,10 @@ class Juego
         // PRE: -
         // POS: Agrega bombas en el invnetario del jugadro a camio de andycoins.
         void comprar_bombas(Jugador* jugador);
+
+        // PRE: -
+        // POS: Recolecta los recursos dependindo del jugador.
+        void recolectar_recursos(Jugador* jugador);
         
 
 };
