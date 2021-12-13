@@ -496,7 +496,7 @@ void Juego::comprar_bombas(Jugador* jugador){
         if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
             
             cantidad_andycoins = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
-            lo_encontro == true;
+            //lo_encontro == true;
         }
 
         posicion ++;

@@ -208,7 +208,7 @@ void Interfaz::establecer_posicion_personaje(int jugador){
 		cout << "Las coordenadas no son validas, vuelva a intentarar." << endl;
 	    }
 	    else{
-		    if(!juego->obtener_mapa()->getCasillero(coordenada_jugador)->getTipo() == 'T'){
+		    if(!(juego->obtener_mapa()->getCasillero(coordenada_jugador)->getTipo() == 'T')){
 		    	cout << "No es un casillero transitable, ponga otras coordenadas." << endl;
 	     	}
 		    else{
@@ -401,7 +401,7 @@ bool Interfaz::esCoordenadaValida(Coordenada coordenada){
     }
     else return true;
 
-    int opcion ;
+    //int opcion ;
 }
 
 void Interfaz::moverJugadorACoordenada( int jugador ){
@@ -421,7 +421,7 @@ void Interfaz::moverJugadorACoordenada( int jugador ){
 int Interfaz::iniciar_segundo_menu(int jugador){
     int opcion;
 	Coordenada coordenada;
-    int fila, columna = 0;
+    //int fila = 0, columna = 0;
 	string nombre = "";
 	bool salir = false;
 	while(!salir){
@@ -659,6 +659,52 @@ void Interfaz::determinarPosicionJugador(int jugador){
 void Interfaz::iniciar(){
 	juego->inicializarCargadoDatos();
 	system("clear");
+
+    // PRUEBAS GRAFO
+    Datos* datos = new Datos("edificios.txt","materiales.txt","mapa.txt","ubicaciones.txt");
+    //Vect<Edificio>* edificios = new Vect<Edificio>;
+    //Vect<Material>* materiales = new Vect<Material>;
+    //Juego juego(datos, edificios, materiales);
+    juego->inicializarCargadoDatos();
+
+    system(CLEAR);
+    int x;
+    Mapa * mapa;
+    datos->cargarDatosMapa(&mapa);
+    mapa->mostrar();
+    cout << "Ingrese numero para avanzar";
+    cin >> x;
+    system(CLEAR);
+    cout << "PRUEBAS GRAFO" << endl;
+    Grafo grafo(juego->obtener_mapa(), 1);
+    Coordenada punto_inicial, punto_final;
+    cout << "Ingresa coordenada inicial:" << endl;
+    cin >> x;
+    punto_inicial.setFila(x);
+    cin >> x;
+    punto_inicial.setColumna(x);
+
+    cout << "Ingresa coordenada final:" << endl;
+    cin >> x;
+    punto_final.setFila(x);
+    cin >> x;
+    punto_final.setColumna(x);
+
+    int  tope_camino;
+    int costo_camino;
+    Coordenada * coordenadas_camino = grafo.obtener_camino_minimo(punto_inicial, punto_final, &tope_camino, &costo_camino);
+    cout << "Costo camino: " << costo_camino << endl;
+    for( int i = 0; i < tope_camino; i++ ){
+        cout << "(" << coordenadas_camino[i].getFila() << ";" << coordenadas_camino[i].getColumna() << ") ";
+    }
+    cout << endl;
+    cout << "Ingrese numero para avanzar";
+    cin >> x;
+    juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadas_camino, tope_camino, 1);
+    delete[] coordenadas_camino;
+    delete mapa;
+    //FIN PRUEBAS GRAFO
+
     if(!juego->obtener_esta_ubicaciones() || juego->obtener_cant_lineas() == 0){
 		iniciarMenuInicial();
 	}
@@ -674,8 +720,8 @@ void Interfaz::correr_juego(){
 
     bool construyo_obelisco = false;
 	int opcion = -1;
-	int turno_jugador = 1;  
-    
+	int turno_jugador = 1;
+
 	while(construyo_obelisco == false && opcion != 13){
 
         if(turno_jugador == 1){
