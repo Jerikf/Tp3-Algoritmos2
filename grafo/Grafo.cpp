@@ -153,6 +153,8 @@ Coordenada * Grafo::obtener_camino_minimo(Coordenada punto_inicial, Coordenada p
     for( int i = 0; i < (*tope_camino); i++ ){
         coordenadas_camino[i] = vertices[camino[i]].obtener_coordenada();
     };
+    cout << endl;
+
     delete[] camino;
     return coordenadas_camino;
 }

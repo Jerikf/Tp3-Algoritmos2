@@ -61,6 +61,10 @@ class Jugador{
     // POST: Obtiene el grafo del jugador.
     Grafo* obtener_grafo();
 
+    //pre: el mapa tiene que estar cargado correctamente y las coordenadas ser posiciones validas
+    //post: devuelve nullptr si jugador no tiene la energia suficiente o un vector de coordenadas con el recorrido realizado
+    Coordenada * jugadorSeMueve(Coordenada puntoInicial, Coordenada puntoFinal, int* topeCamino, Mapa * mapa);
+
     // PRE: -
     // POS: Destruye el jugador.
     ~Jugador();

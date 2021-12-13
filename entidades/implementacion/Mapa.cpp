@@ -160,7 +160,7 @@ void Mapa::mostrar_recorrido_jugador(Coordenada * recorrido, int tope_recorrido,
 
 Coordenada Mapa::obtenerPosicionDeJugador(int jugador){
     bool seEncontro = false;
-    int fila, columna = 0;
+    int fila = 0, columna = 0;
     Coordenada coordenada;
 
     while(!seEncontro && fila < this->cantFilas){

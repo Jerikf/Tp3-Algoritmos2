@@ -23,6 +23,8 @@ const int MOVERSE_A_UNA_COORDENADA = 11;
 const int FINALIZAR_TURNO = 12;
 const int GUARDAR_SALIR = 13;
 
+const int JUGADOR1 = 1;
+const int JUGADOR2 = 2;
 
 #ifdef _WIN32
     const char* CLEAR = "cls";
@@ -160,6 +162,29 @@ int Interfaz::iniciarMenuInicial(){
     return opcion;
 }
 
+bool Interfaz::esCoordenadaValida(Coordenada coordenada){
+    if (coordenada.getFila() >= juego->obtener_mapa()->getCantFilas() || coordenada.getFila() < 0 ||
+        coordenada.getColumna() >= juego->obtener_mapa()->getCantColumnas() || coordenada.getColumna() < 0) {
+        cout << "Coordenada invalida" << endl;
+        return false;
+    }
+    else return true;
+
+}
+
+void Interfaz::moverJugadorACoordenada( int jugador ){
+    juego->mostrarMapa();
+    int fil, col;
+    cout << "Ingrese coordenada a la que desea moverse: " << endl;
+    cout << "Fila: ";
+    cin >> fil;
+    cout << "Columna: ";
+    cin >> col;
+    Coordenada puntoFinal(fil, col);
+    if(esCoordenadaValida(puntoFinal))
+        juego->moverJugador(puntoFinal, jugador);
+
+}
 
 int Interfaz::iniciar_segundo_menu(int jugador){
     int opcion;
@@ -292,7 +317,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 			cout << "Error" << endl;
 
             case MOVERSE_A_UNA_COORDENADA:
-                cout << "work in progress" << endl;
+                moverJugadorACoordenada(jugador);
                 break;
 
             case FINALIZAR_TURNO:
@@ -317,21 +342,55 @@ int Interfaz::iniciar_segundo_menu(int jugador){
     return opcion;
 }
 
+void Interfaz::determinarPosicionJugador( int jugador){
+    int fil, col;
+    Coordenada coordenada(-1,-1);
+    Casillero * casillero;
+    bool coordenadaValida = false;
+    while(!coordenadaValida) {
+        while (!esCoordenadaValida(coordenada)) {
+            system(CLEAR);
+            juego->obtener_mapa()->mostrar();
+            cout << "Ingrese ubicacion jugador " << jugador << ":" << endl;
+            cout << "Fila: ";
+            cin >> fil;
+            cout << "Columna: ";
+            cin >> col;
+            coordenada.setFila(fil);
+            coordenada.setColumna(col);
+        }
+        casillero = juego->obtener_mapa()->getCasillero(coordenada);
+        if (casillero->getEdificio() || casillero->devolver_jugador_casillero() != 0) {
+            cout << "El casillero se encuentra ocupado" << endl;
+            coordenada.setFila(-1);
+        }
+        else coordenadaValida = true;
+    }
+    if(jugador == 1)
+        casillero->jugador_entra_casillero(1);
+    else casillero->jugador_entra_casillero(2);
+
+    casillero = juego->obtener_mapa()->getCasillero(coordenada);
+
+}
+
 void Interfaz::iniciar(){
 	juego->inicializarCargadoDatos();
     bool terminoJuego = false;
     if(!juego->obtener_esta_ubicaciones() || juego->obtener_cant_lineas() == 0) {
         system(CLEAR);
         if (iniciarMenuInicial() == COMENZAR_PARTIDA) {
+            determinarPosicionJugador(1);
+            determinarPosicionJugador(2);
             while(!terminoJuego){
                 system(CLEAR);
                 cout << "MENU JUGADOR 1" << endl;
-                if(iniciar_segundo_menu(1) == GUARDAR_SALIR)
+                if(iniciar_segundo_menu(JUGADOR1) == GUARDAR_SALIR)
                     terminoJuego = true;
                 if(!terminoJuego) {
                     system(CLEAR);
                     cout << "MENU JUGADOR 2" << endl;
-                    if (iniciar_segundo_menu(2) == GUARDAR_SALIR)
+                    if (iniciar_segundo_menu(JUGADOR2) == GUARDAR_SALIR)
                         terminoJuego = true;
                 }
             }
@@ -341,12 +400,12 @@ void Interfaz::iniciar(){
         while(!terminoJuego){
             system(CLEAR);
             cout << "MENU JUGADOR 1" << endl;
-            if(iniciar_segundo_menu(1) == GUARDAR_SALIR)
+            if(iniciar_segundo_menu(JUGADOR1) == GUARDAR_SALIR)
                 terminoJuego = true;
             if(!terminoJuego) {
                 system(CLEAR);
                 cout << "MENU JUGADOR 2" << endl;
-                if (iniciar_segundo_menu(2) == GUARDAR_SALIR)
+                if (iniciar_segundo_menu(JUGADOR2) == GUARDAR_SALIR)
                     terminoJuego = true;
             }
         }

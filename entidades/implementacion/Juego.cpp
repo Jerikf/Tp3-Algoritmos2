@@ -127,7 +127,6 @@ Juego::Juego(Datos* datos, Diccionario<Edificio>* edificios){
 }
 
 Juego::Juego(){
-
     this-> datos = new Datos("edificios.txt", "materiales.txt", "mapa.txt", "ubicaciones.txt");
     this-> mapa = NULL;
     this-> edificios = new Diccionario<Edificio>();
@@ -343,6 +342,23 @@ void Juego::recolectarRecursosProducidos(Jugador* jugador){
 
     cout << "\n\n\nSE RECOLECTARON LOS RECURSOS EN CASO HAYA EXISITDO UN EDIFICIO QUE BRINDE RECURSOS" << endl;
     */
+}
+
+void Juego::moverJugador(Coordenada puntoFinal, int jugador){
+    Casillero * casilleroActual = mapa->getCasillero(puntoFinal);
+    Coordenada * caminoRecorrido;
+    int topeCamino = 0;
+    if( casilleroActual->devolver_jugador_casillero() != 0 || casilleroActual->getEdificio() != nullptr ) {
+        cout << "La coordenada dada se encuentra ocupada" << endl;
+    }
+    else if( jugador == 1)
+        caminoRecorrido = jugador_1->jugadorSeMueve(mapa->obtenerPosicionDeJugador(1), puntoFinal, &topeCamino, mapa);
+    else caminoRecorrido = jugador_2->jugadorSeMueve(mapa->obtenerPosicionDeJugador(2), puntoFinal, &topeCamino, mapa);
+
+    if(caminoRecorrido) {
+        mapa->mostrar_recorrido_jugador(caminoRecorrido, topeCamino, jugador);
+        delete[] caminoRecorrido;
+    }
 }
 
 void Juego::guardarSalir(){

@@ -33,8 +33,16 @@ class Interfaz
         //POS: Muestra el menu de opciones y devuelve FINALIZAR_TURNO o GUARDAR_SALIR
         void mostrar_segundo_menu();
 
+        //pre: tienen que estar cargados los datos del mapa
+        //post: devuelve true si la coordenada esta dentro del mapa, false en caso contrario
+        bool esCoordenadaValida(Coordenada coordenada);
 
-        //PRE:
+        //pre: el mapa debe estar cargado correctamente
+        //post: se interactuara con el usuario y en caso de que el jugador se pueda mover lo hara por el camino de minimo costo de energia
+        void moverJugadorACoordenada(int jugador);
+
+        void determinarPosicionJugador(int jugador);
+        //PRE: -
         //POS: Inicializa el programa, donde se comenzará a escoger opciones del menu
         int iniciar_segundo_menu(int jugador);
 

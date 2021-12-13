@@ -124,7 +124,10 @@ class Juego
         //POS: Recolecta los materiales del jugador que pueden producir o no los edificios construidos, modificando así la cantidad de los materiales
         void recolectarRecursosProducidos(Jugador*);
 
-        //moversePorCoordenada-> falta lo de caminos mínimos ..
+        //pre: el mapa debe estar cargado correctamente con el jugador ubicado en el mapa y la coordenada debe estar dentro del mapa
+        //post: si la coordenada se encuentra desocupada y se cuenta con la energia necesaria y el usuario quiere, se movera al jugador hasta dicha
+        //      coordenada recorriendo el camino de minimo costo de energia
+        void moverJugador(Coordenada puntoFinal, int jugador);
 
         //PRE:
         //POS: Crea cantidad  de Materiales aleatorios con cada material, además también tiene coordenadas aleatorias y lo contruye en el casillero correspondiente de ser Transitable

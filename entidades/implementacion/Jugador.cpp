@@ -1,7 +1,6 @@
 #include "../../entidades/firmas/Jugador.h"
 
 Jugador::Jugador(Grafo* grafo){
-
     this-> cant_energia = 100;
     this-> inventario = new Vect<Material>(); // Se crea sin materiales
     this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();// Se crea sin ubiaciones
@@ -34,8 +33,7 @@ void Jugador::establecer_ubicaciones(Vect<Coordenada>* coordenadasDeEdificiosCon
 }
 
 void Jugador::establecer_grafo(Mapa* mapa, int numero){
-
-    grafo = new Grafo(mapa, numero);
+    this->grafo = new Grafo(mapa, numero);
 }
 
 int Jugador::obtener_cant_energia(){
@@ -60,6 +58,17 @@ Vect<Coordenada>* Jugador::obtener_coordenadasDeEdificiosConstruidos(){
 Grafo* Jugador::obtener_grafo(){
 
     return grafo;
+}
+
+Coordenada * Jugador::jugadorSeMueve(Coordenada puntoInicial, Coordenada puntoFinal, int* topeCamino, Mapa * mapa){
+    int costoEnergia;
+    Casillero * casillero = mapa->getCasillero(puntoInicial);
+    establecer_grafo(mapa, casillero->devolver_jugador_casillero());
+    grafo->actualizar_grafo(mapa);
+    Coordenada * caminoRecorrido = grafo->obtener_camino_minimo(puntoInicial, puntoFinal, topeCamino, &costoEnergia);
+    //verificar si quiere hacerlo (para hacerlo antes de actualizar_grafo (que es pesado) necesito funcion que devuelva el costo de energia
+    //si no quiere hacerlo se devuelve null
+    return caminoRecorrido;
 }
 
 Jugador::~Jugador(){
