@@ -63,8 +63,7 @@ Grafo* Jugador::obtener_grafo(){
 
 Coordenada * Jugador::jugadorSeMueve(Coordenada puntoInicial, Coordenada puntoFinal, int* topeCamino, Mapa * mapa){
     int costoEnergia;
-    Casillero * casillero = mapa->getCasillero(puntoInicial);
-    establecer_grafo(mapa, casillero->devolver_jugador_casillero());
+    //Casillero * casillero = mapa->getCasillero(puntoInicial);
     grafo->actualizar_grafo(mapa);
     Coordenada * caminoRecorrido = grafo->obtener_camino_minimo(puntoInicial, puntoFinal, topeCamino, &costoEnergia);
     //verificar si quiere hacerlo (para hacerlo antes de actualizar_grafo (que es pesado) necesito funcion que devuelva el costo de energia

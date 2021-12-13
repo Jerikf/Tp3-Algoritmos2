@@ -38,9 +38,12 @@ class Interfaz
         bool esCoordenadaValida(Coordenada coordenada);
 
         //pre: el mapa debe estar cargado correctamente
-        //post: se interactuara con el usuario y en caso de que el jugador se pueda mover lo hara por el camino de minimo costo de energia
-        void moverJugadorACoordenada(int jugador);
+        //post: se interactuara con el usuario para que elija a que casillero quiere mover al jugador. Devuelve true si ese casillero esta libre
+        //      ,cargando puntoFinal con las coordenadas dadas, y false si no.
+        bool puedoMoverJugadorACoordenada(int jugador, Coordenada* puntoFinal);
 
+        //pre: el mapa debe estar cargado correctamente
+        //post: se interactuara con el usuario hasta que el jugador quede en una posicion valida para comenzar el juego
         void determinarPosicionJugador(int jugador);
         //PRE: -
         //PRE: El numero de jugador es igual a 1 o 2.
