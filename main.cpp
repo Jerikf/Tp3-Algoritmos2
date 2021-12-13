@@ -31,7 +31,9 @@ int main(){
 
     Interfaz* interfaz = new Interfaz();
     interfaz->iniciar();
+
     delete interfaz;
+
 
     return 0;
 }

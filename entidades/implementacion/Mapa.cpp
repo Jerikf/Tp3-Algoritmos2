@@ -177,3 +177,4 @@ Coordenada Mapa::obtenerPosicionDeJugador(int jugador){
     }
     return coordenada;
 }
+

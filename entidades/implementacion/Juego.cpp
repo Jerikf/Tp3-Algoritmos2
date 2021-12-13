@@ -378,6 +378,52 @@ void Juego::lluviaDeRecursos(){
     */
 }
 
+void Juego::modificar_valor_material(string material, int cant_material, string nombre_edificio){
+
+    if(material == "piedra"){
+
+        edificios->buscar(nombre_edificio)->setCantPiedra(cant_material);
+    }
+    else if(material == "madera"){
+
+        edificios->buscar(nombre_edificio)->setCantMadera(cant_material);
+    }
+    else if(material == "metal"){
+
+        edificios->buscar(nombre_edificio)->setCantMetal(cant_material);
+    }
+}
+
+void Juego::modificar_valores_materiales(string material, string nombre_edificio){
+    
+    string decision;
+
+    cout << "Desea modificar los valores de " <<  material << "?" << endl;
+    cin >> decision;
+    if(decision == "si"){
+        cout << "Indique los nuevos valores de " <<  material << " entre 0 y 50000: " << endl;
+        int cant_material;
+        cin >> cant_material;
+
+        if(cant_material > 0 && cant_material < 50000){
+            
+            modificar_valor_material(material, cant_material, nombre_edificio);
+            
+            cout << "Ahora el " << nombre_edificio << " se construye con " << cant_material << " de "<< material <<  "." << endl;
+        }
+        else{
+            cout << "No cumple con los limites establecidos." << endl;
+        }
+                        
+    }
+    else{
+        cout << "No se modificaron los valores de " << material << "." << endl;
+        cout << endl;
+    }
+
+
+}
+
 void Juego::modificar_edificio_por_nombre(){
 
     string nombre_edificio;
@@ -393,75 +439,15 @@ void Juego::modificar_edificio_por_nombre(){
             int contador_material = 0;
             while(contador_material < 3){
 
-                string decision;
-
                 if(contador_material == 0){
-                    cout << "Desea modificar los valores de piedra?" << endl;
-                    cin >> decision;
-                    if(decision == "si"){
-                        cout << "Indique los nuevos valores de la piedra entre 0 y 50000: " << endl;
-                        int cant_piedra;
-                        cin >> cant_piedra;
 
-                        if(cant_piedra > 0 && cant_piedra < 50000){
-                            edificios->buscar(nombre_edificio)->setCantPiedra(cant_piedra);
-                            cout << "Ahora el edifico se construye con " << cant_piedra << " de piedra." << endl;
-                        }
-                        else{
-                            cout << "No cumple con los limites establecidos." << endl;
-                        }
-                        
-                    }
-                    else{
-                        cout << "No se modificaron los valores de la piedra." << endl;
-                        cout << endl;
-                    }
+                    modificar_valores_materiales("piedra", nombre_edificio);
                 }
                 else if(contador_material == 1){
-                    cout << "Desea modificar los valores de madera?" << endl;
-                    cin >> decision;
-                    if(decision == "si"){
-                        cout << "Indique los nuevos valores de la madera: " << endl;
-
-                        int cant_madera;
-                        cin >> cant_madera;
-
-                        if(cant_madera > 0 && cant_madera < 50000){
-                            edificios->buscar(nombre_edificio)->setCantMadera(cant_madera);
-                            cout << "Ahora el edifico se construye con " << cant_madera << " de madera." << endl;
-                        }
-                        else{
-                            cout << "No cumple con los limites establecidos." << endl;
-                        }
-                    }
-                    else{
-                        cout << "No se modificaron los valores de la madera." << endl;
-                        cout << endl;
-                    }
+                    modificar_valores_materiales("madera", nombre_edificio);
                 }
                 else if(contador_material == 2){
-                    cout << "Desea modificar los valores de metal?" << endl;
-                    cin >> decision;
-                    if(decision == "si"){
-                        cout << "Indique los nuevos valores del metal: " << endl;
-
-                        int cant_metal;
-                        cin >> cant_metal;
-
-                        if(cant_metal > 0 && cant_metal < 50000){
-                            edificios->buscar(nombre_edificio)->setCantMadera(cant_metal);
-                            cout << "Ahora el edifico se construye con " << cant_metal << " de metal." << endl;
-                        }
-                        else{
-                            cout << "No cumple con los limites establecidos." << endl;
-                        }
-
-                        edificios->buscar(nombre_edificio)->setCantMetal(cant_metal);
-                    }
-                    else{
-                        cout << "No se modificaron los valores de la madera." << endl;
-                        cout << endl;
-                    }
+                    modificar_valores_materiales("metal", nombre_edificio);
                 }
 
                 contador_material ++;

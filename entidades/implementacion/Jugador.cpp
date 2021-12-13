@@ -2,7 +2,7 @@
 
 Jugador::Jugador(Grafo* grafo){
 
-    this-> cant_energia = 100;
+    this-> cant_energia = 50;
     this-> inventario = new Vect<Material>(); // Se crea sin materiales
     this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();// Se crea sin ubiaciones
     this-> grafo = grafo; // Lo recibe despues de cargarse el mapa.
@@ -11,7 +11,7 @@ Jugador::Jugador(Grafo* grafo){
 
 Jugador::Jugador(){
 
-    this-> cant_energia = 100;
+    this-> cant_energia = 50;
     this-> inventario = new Vect<Material>(); 
     this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();
     this-> grafo = NULL; 
