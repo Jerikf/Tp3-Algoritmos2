@@ -106,40 +106,28 @@ void Interfaz::mostrar_segundo_menu(int numero){
     cout << "\t" << "╔════════════════════════════════════════╗" << endl;
     cout << "\t" << "║ 1)- Construir edificio por nombre.     ║" << endl;
     cout << "\t" << "║   - Energia necesaria: 15.             ║" << endl;
-	cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 2)- Listar edificios construidos.      ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 0.              ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 3)- Demoler edificio por coordenada.   ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 15.             ║" << endl;
-	cout << "\t" << "║                                        ║" << endl;
 	cout << "\t" << "║ 4)- Atacar edifcio por coordenada.     ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 30.             ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
 	cout << "\t" << "║ 5)- Reparar edificio por coordenada.   ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 25.             ║" << endl;
-	cout << "\t" << "║                                        ║" << endl;
 	cout << "\t" << "║ 6)- Comprar bombas.                    ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 5.              ║" << endl;
-	cout << "\t" << "║                                        ║" << endl;
 	cout << "\t" << "║ 7)- Consultar coordenadas.             ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 0.              ║" << endl;
-	cout << "\t" << "║                                        ║" << endl;
 	cout << "\t" << "║ 8)- Mostrar inventario.                ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 0.              ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 9)- Mostrar objetivos.                 ║" << endl;
 	cout << "\t" << "║   - Energia necesaria: 0.              ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 10)- Recolectar recursos producidos.   ║" << endl;
 	cout << "\t" << "║    - Energia necesaria: 20.            ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 11)- Moverse a una coordenada.         ║" << endl;
 	cout << "\t" << "║    - Energia necesaria: Varia.         ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
 	cout << "\t" << "║ 12)- Finalizar turno.                  ║" << endl;
 	cout << "\t" << "║    - Energia necesaria: 0.             ║" << endl;
-    cout << "\t" << "║                                        ║" << endl;
     cout << "\t" << "║ 13)- Guardar y salir.                  ║" << endl;
 	cout << "\t" << "║    - Energia necesaria: 0.             ║" << endl;
     cout << "\t" << "╚════════════════════════════════════════╝" << endl;
@@ -405,10 +393,9 @@ void Interfaz::iniciarMenuInicial(){
     }
 }
 
-int Interfaz::iniciar_segundo_menu(int numero){
 bool Interfaz::esCoordenadaValida(Coordenada coordenada){
     if (coordenada.getFila() >= juego->obtener_mapa()->getCantFilas() || coordenada.getFila() < 0 ||
-        coordenada.getColumna() >= juego->obtener_mapa()->getCantColumnas() || coordenada.getColumna() < 0) {
+        coordenada.getColumna() >= juego->obtener_mapa()->getCantColumnas() || coordenada.getColumna() < 0){
         cout << "Coordenada invalida" << endl;
         return false;
     }
@@ -438,11 +425,11 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 	string nombre = "";
 	bool salir = false;
 	while(!salir){
-		this->mostrar_segundo_menu(numero);
+		this->mostrar_segundo_menu(jugador);
 		opcion = this->obtenerOpcion(1,13);
 		if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
             
-			seleccionar_jugador_energia(numero, opcion);
+			seleccionar_jugador_energia(jugador, opcion);
 
 			/*
 				    system(CLEAR);
@@ -482,7 +469,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		}
 		else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
 			
-			seleccionar_jugador_energia(numero, opcion);
+			seleccionar_jugador_energia(jugador, opcion);
 
             //cout << "\n\n\n";
 			//system(CLEAR);
@@ -492,7 +479,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
             
 			
-            seleccionar_jugador_energia(numero, opcion);
+            seleccionar_jugador_energia(jugador, opcion);
             
 			/*system(CLEAR);
             cout << "\n\n\n";
@@ -516,7 +503,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		}	
 		else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
 			
-			seleccionar_jugador_energia(numero, opcion);
+			seleccionar_jugador_energia(jugador, opcion);
 
 			/*
 			cout << "\n\n\n";
@@ -529,7 +516,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		}
 		else if(opcion == COMPRAR_BOMBAS){
 			
-			seleccionar_jugador_energia(numero, opcion);
+			seleccionar_jugador_energia(jugador, opcion);
 
 			/*
 			system(CLEAR);
@@ -587,7 +574,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		}
 		else if(opcion == RECOLECTAR_RECURSOS){               
 			
-			seleccionar_jugador_energia(numero, opcion);
+			seleccionar_jugador_energia(jugador, opcion);
 
 			volver_menu(1);
 		}
@@ -599,10 +586,10 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		else if(opcion == FINALIZAR_TURNO){
                 
 			salir = true;
-			if(numero == 1){
+			if(jugador == 1){
 				modificar_energia(juego->obtener_jugador_1(), opcion);
 			}
-			else if(numero == 2){
+			else if(jugador == 2){
 				modificar_energia(juego->obtener_jugador_2(), opcion);
 			}
 			volver_menu(2);		
@@ -618,9 +605,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 		else{
 			volver_menu(1);
 		}
-            case MOVERSE_A_UNA_COORDENADA:
-                moverJugadorACoordenada(jugador);
-                break;
 
 	}
 	
@@ -639,7 +623,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 	
 }
 
-void Interfaz::determinarPosicionJugador( int jugador){
+void Interfaz::determinarPosicionJugador(int jugador){
     int fil, col;
     Coordenada coordenada(-1,-1);
     Casillero * casillero;
