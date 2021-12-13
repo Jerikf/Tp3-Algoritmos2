@@ -676,7 +676,7 @@ void Interfaz::iniciar(){
     cin >> x;
     system(CLEAR);
     cout << "PRUEBAS GRAFO" << endl;
-    Grafo grafo(juego->obtener_mapa(), 1);
+    Grafo * grafo = new Grafo(juego->obtener_mapa(), 1);
     Coordenada punto_inicial, punto_final;
     cout << "Ingresa coordenada inicial:" << endl;
     cin >> x;
@@ -692,7 +692,7 @@ void Interfaz::iniciar(){
 
     int  tope_camino;
     int costo_camino;
-    Coordenada * coordenadas_camino = grafo.obtener_camino_minimo(punto_inicial, punto_final, &tope_camino, &costo_camino);
+    Coordenada * coordenadas_camino = grafo->obtener_camino_minimo(punto_inicial, punto_final, &tope_camino, &costo_camino);
     cout << "Costo camino: " << costo_camino << endl;
     for( int i = 0; i < tope_camino; i++ ){
         cout << "(" << coordenadas_camino[i].getFila() << ";" << coordenadas_camino[i].getColumna() << ") ";
@@ -702,6 +702,7 @@ void Interfaz::iniciar(){
     cin >> x;
     juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadas_camino, tope_camino, 1);
     delete[] coordenadas_camino;
+    delete grafo;
     delete mapa;
     //FIN PRUEBAS GRAFO
 
