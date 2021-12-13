@@ -441,8 +441,7 @@ bool Interfaz::puedoMoverJugadorACoordenada( Coordenada puntoInicial, Coordenada
 
 int Interfaz::iniciar_segundo_menu(int jugador){
     int opcion;
-    Coordenada coordenada;
-    //int fila = 0, columna = 0;
+    
     string nombre = "";
     bool salir = false;
     while(!salir){
@@ -451,29 +450,37 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         opcion = this->obtenerOpcion(1,13);
         if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
 
-            seleccionar_jugador_energia(jugador, opcion);
+			Coordenada coordenada;
+			int fila, columna;
+            system(CLEAR);
+            cout << "\n\n\n";
+            cout << "		CONSTRUCCIÓN DEL EDIFICIO" << endl;
+            cout << "\nINGRESE EL NOMBRE DEL EDIFICIO PARA CONSTRUIRLO" << endl;
+            cin >> nombre;
+            cout << "\n" ;
 
-            /*
-                    system(CLEAR);
-                    cout << "\n\n\n";
-                    cout << "		CONSTRUCCIÓN DEL EDIFICIO" << endl;
-                    cout << "\nINGRESE EL NOMBRE DEL EDIFICIO PARA CONSTRUIRLO" << endl;
-                    cin >> nombre;
-                    cout << "\n" ;
+            cout << "\n SE PEDIRÁ UNA COORDENADA INGRESANDO PRIMERO LA FILA Y LUEGO LA COLUMNA" << endl;
+	        cout << "\nINGRESE LA FILA" << endl;
+            cin >> fila;
+            cout << "\nINGRESE LA COLUMNA" << endl;
+            cin >> columna;
 
-                    cout << "\n SE PEDIRÁ UNA COORDENADA INGRESANDO PRIMERO LA FILA Y LUEGO LA COLUMNA" << endl;
-                    cout << "\nINGRESE LA FILA" << endl;
-                    cin >> fila;
-                    cout << "\nINGRESE LA COLUMNA" << endl;
-                    cin >> columna;
+            coordenada.setFila(fila);
+            coordenada.setColumna(columna);
+            system(CLEAR);
 
-                    coordenada.setFila(fila);
-                    coordenada.setColumna(columna);
-                    system(CLEAR);
+			if(jugador == JUGADOR1)
+				this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
+			else
+				this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
 
-                    this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
-                    //this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
-            */
+			juego->obtener_jugador_1()->obtener_coordenadasDeEdificiosConstruidos()->mostrar();
+			cout << juego->obtener_jugador_1()->obtener_cant_energia() << endl;
+
+			
+            
+
+            
 
             volver_menu(1);
         }

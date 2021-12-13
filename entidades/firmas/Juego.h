@@ -21,9 +21,9 @@ class Juego
         Jugador* jugador_1;
         Jugador* jugador_2;
 
-        //PRE: Recibe el nombre de un edificio
-        //POS: Devuelve un vector de coordenadas que se bucaron en el mapa, en caso de no haber ningún edificio con dicho nombre devuelve null
-        Vect<Coordenada>* obtenerCoordenadas(string);
+        //PRE: Recibe el nombre de un edificio y un jugador
+        //POS: Devuelve un vector de coordenadas que se bucarà en las coordenadas de los edificios Construidos del jugador, en caso de no haber ningún edificio con dicho nombre devuelve null
+        Vect<Coordenada>* obtenerCoordenadas(string, Jugador*);
 
         //PRE: Recibe el nombre de un material y un jugador
         //POS: Devuelve el material en caso de encontrarse en el vector de materilaes del jugador, caso contrario devuelve NULL
