@@ -20,7 +20,8 @@ class Juego
         Mapa* mapa;
         Jugador* jugador_1;
         Jugador* jugador_2;
-
+        Vect<string>* objetivos;
+        
         //PRE: Recibe el nombre de un edificio y un jugador
         //POS: Devuelve un vector de coordenadas que se bucarà en las coordenadas de los edificios Construidos del jugador, en caso de no haber ningún edificio con dicho nombre devuelve null
         Vect<Coordenada>* obtenerCoordenadas(string, Jugador*);
@@ -56,6 +57,18 @@ class Juego
         // PRE: -
         // POS: Agrega al inventario el recurso dependiendo de cantidad del recurso.
         void recolectar_recurso(int cantidad_recuso, Jugador* jugador, string nombre_material);
+
+        // PRE: -
+        // POS: Carga el vector con los objetivos.
+        void cargar_objetivos();
+
+        // PRE: -
+        // POS: Establece de manera aleatoria los objetivos del jugador.
+        void establecer_objetivos_jugadores();
+
+        // PRE: -
+        // POST: Agrega el objetivo al vector.
+        void agregar_objetivo(string nombre);
         
     public:
 
@@ -87,7 +100,7 @@ class Juego
 
         //PRE:
         //POS: Lista todos los edificios existentes
-        void listarTodosLosEdificios();
+        void listarTodosLosEdificios(Jugador* jugador);
 
         //PRE:
         //POS: Muestra el mapa según pedido en la consigna
@@ -178,6 +191,16 @@ class Juego
         // PRE: -
         // POS: Recolecta los recursos dependindo del jugador.
         void recolectar_recursos(Jugador* jugador);
+
+        // PRE: -
+        // POS: Obtiene todos los objetivos del juego.
+        Vect<string>* obtener_objetivos();
+
+        // PRE: -
+        // POS: Muestra los objetivos del jugador.
+        void mostrar_objetivos(Jugador* jugador);
+
+        
         
 
 };

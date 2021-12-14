@@ -15,6 +15,8 @@ Jugador::Jugador(){
     this-> inventario = new Vect<Material>(); 
     this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();
     this-> grafo = NULL; 
+    this-> primer_objetivo = NULL;
+    this-> segundo_objetivo = NULL;
 }
 
 
@@ -29,6 +31,7 @@ void Jugador::establecer_inventario(Vect<Material>* inventario){
 }
 
 void Jugador::establecer_ubicaciones(Vect<Coordenada>* coordenadasDeEdificiosConstruidos){
+
     this-> coordenadasDeEdificiosConstruidos = coordenadasDeEdificiosConstruidos;
 }
 
@@ -76,4 +79,20 @@ Jugador::~Jugador(){
     if(grafo){
         delete grafo;
     }
+}
+
+void Jugador::establecer_objetivos(string *primer_objetivo, string *segundo_objetivo){
+
+    this-> primer_objetivo = primer_objetivo;
+    this-> segundo_objetivo = segundo_objetivo;
+}
+
+string* Jugador::obtener_primer_objetivo(){
+
+    return primer_objetivo;
+}
+
+string* Jugador::obtener_segundo_objetivo(){
+
+    return segundo_objetivo;
 }
