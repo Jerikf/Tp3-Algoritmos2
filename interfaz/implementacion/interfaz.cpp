@@ -261,8 +261,10 @@ void Interfaz::elegir_personaje(){
 
 void Interfaz::iniciarMenuInicial(){
     int opcion = 0;
+
     while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR ){
         system(CLEAR);
+        mostrarMenuInicial();
         opcion = obtenerOpcion(1,5);
         switch (opcion) {
             case MODIFICAR_EDIFICIO_POR_NOMBRE:
@@ -447,8 +449,10 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == CONSULTAR_COORDENADA){
 
-            /*
+            
             system(CLEAR);
+            Coordenada coordenada;
+            int fila, columna;
             cout << "\n\n\n";
             cout << "CONSULTAR COORDENADA" << endl;
             cout << "\nINGRESE LA FILA" << endl;
@@ -460,9 +464,8 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             coordenada.setColumna(columna);
             system(CLEAR);
             this->juego->consultarCoordenada(coordenada);
-            */
-
-            cout << "Error" << endl;
+            
+            
             volver_menu(1);
         }
         else if(opcion == MOSTRAR_INVENTARIO){
