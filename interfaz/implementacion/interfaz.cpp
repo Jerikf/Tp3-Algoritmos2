@@ -422,12 +422,9 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             
             if(jugador == JUGADOR1)
 				this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_1());
-			else
+			else if(jugador == JUGADOR2)
 				this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
 
-           
-            system(CLEAR);
-            //this->juego->listarTodosLosEdificios();
             volver_menu(MENU_1);
         }
         else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
