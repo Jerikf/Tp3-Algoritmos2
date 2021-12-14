@@ -44,8 +44,8 @@ void Floyd::calcular_matrices(){
         for( int i = 0; i < cant_vertices; i++ ){
             for( int j = 0; j < cant_vertices; j++ ){
                 if( (matriz_costos[i][k] + matriz_costos[k][j]) < matriz_costos[i][j] ){
-                    matriz_costos[i][j] = (matriz_costos[i][k] + matriz_costos[k][j]);
-                    matriz_recorrido[i][j] = matriz_recorrido[i][k];
+                    this->matriz_costos[i][j] = (matriz_costos[i][k] + matriz_costos[k][j]);
+                    this->matriz_recorrido[i][j] = matriz_recorrido[i][k];
                 }
             }
         }
@@ -63,20 +63,20 @@ void Floyd::actualizar_matrices(int **matriz_adyacencia){
     for( int i = 0; i < cant_vertices; i++ ){
         for( int j = 0; j < cant_vertices; j++ ){
             if( i == j)
-                matriz_costos[i][j] = 0;
+                this->matriz_costos[i][j] = 0;
 
             else if( matriz_adyacencia[i][j] != -1 )
-                matriz_costos[i][j] = matriz_adyacencia[i][j];
+                this->matriz_costos[i][j] = matriz_adyacencia[i][j];
 
-            else matriz_costos[i][j] = INFINITO;
+            else this->matriz_costos[i][j] = INFINITO;
         }
     }
     for( int columna = 0; columna < cant_vertices; columna++ ){
         for( int fila = 0; fila < cant_vertices; fila++ ){
             if( columna == fila ){
-                matriz_recorrido[fila][columna] = -1;
+                this->matriz_recorrido[fila][columna] = -1;
             }
-            else matriz_recorrido[fila][columna] = columna;
+            else this->matriz_recorrido[fila][columna] = columna;
         }
     }
     calcular_matrices();

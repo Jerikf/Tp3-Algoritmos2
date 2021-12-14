@@ -29,7 +29,6 @@ void Jugador::establecer_inventario(Vect<Material>* inventario){
 }
 
 void Jugador::establecer_ubicaciones(Vect<Coordenada>* coordenadasDeEdificiosConstruidos){
-
     this-> coordenadasDeEdificiosConstruidos = coordenadasDeEdificiosConstruidos;
 }
 

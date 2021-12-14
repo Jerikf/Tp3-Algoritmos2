@@ -50,9 +50,9 @@ void Grafo::cargar_tipo_terreno(Mapa * mapa){
 }
 
 void Grafo::inicializar_matriz_adyacencia(){
-    matriz_adyacencia = new int*[cant_vertices];
+    this->matriz_adyacencia = new int*[cant_vertices];
     for( int i = 0; i < cant_vertices; i++ ){
-        matriz_adyacencia[i] = new int[cant_vertices];
+        this->matriz_adyacencia[i] = new int[cant_vertices];
     }
 }
 
@@ -97,10 +97,10 @@ void Grafo::cargar_matriz_adyacencia(int jugador){
         for( int j = 0; j < cant_vertices; j++ ){
             if( vertices_son_adyacentes( vertices[i].obtener_coordenada(), vertices[j].obtener_coordenada() )){
                 peso_arista = determinar_peso_arista(j, jugador);
-                matriz_adyacencia[i][j] = peso_arista;
+                this->matriz_adyacencia[i][j] = peso_arista;
             }
             else{
-                matriz_adyacencia[i][j] = -1;
+                this->matriz_adyacencia[i][j] = -1;
             }
         }
     }
@@ -117,7 +117,6 @@ Grafo::Grafo( Mapa * mapa, int jugador ){
     cargar_matriz_adyacencia(jugador);
 
     algoritmo_camino_minimo = new Floyd(matriz_adyacencia, cant_vertices);
-    cout << endl;
 }
 
 void Grafo::actualizar_grafo(Mapa * mapa){

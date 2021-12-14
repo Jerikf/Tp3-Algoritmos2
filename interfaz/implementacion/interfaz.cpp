@@ -423,6 +423,7 @@ bool Interfaz::puedoMoverJugadorACoordenada( Coordenada puntoInicial, Coordenada
         }
         else puedoMoverJugador = true;
     }
+    //grafo->actualizar_grafo(juego->obtener_mapa());
     (*costoCamino) = grafo->obtenerCostoCamino(puntoInicial, (*puntoFinal));
     if( (*costoCamino) > energiaJugador){
         cout << "No se cuenta con la energía suficiente para realizar el recorrido" << endl;
@@ -629,14 +630,12 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 energiaJugador = juego->obtener_jugador_2()->obtener_cant_energia();
                 puntoInicial = juego->obtener_jugador_1()->obtenerMiPosicion(2, juego->obtener_mapa());
             }
-
             if(puedoMoverJugadorACoordenada(puntoInicial, &puntoFinal, grafo, &costoCamino, energiaJugador)){
                 string x;
                 int topeCamino;
-                //grafo->actualizar_grafo(juego->obtener_mapa());
                 Coordenada* coordenadasCamino = grafo->obtener_camino_minimo(puntoInicial, puntoFinal, &topeCamino, &costoCamino);
                 cout << "Costo camino: " << costoCamino << endl;
-                for (int i = 0; i < topeCamino; i++) {
+                for (int i = 0; i < topeCamino; i++){
                     cout << "(" << coordenadasCamino[i].getFila() << ";" << coordenadasCamino[i].getColumna() << ") ";
                 }
                 cout << endl;

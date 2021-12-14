@@ -33,6 +33,8 @@ public:
     // post: crea un grafo con la matriz de adyacencia del mapa inicializada dependiendo del jugador
     Grafo( Mapa * mapa, int jugador);
 
+    //pre: el mapa debe ser dek mismo tamanio que con el que se inicializo
+    //post: se actualiza el grafo con los datos del mapa
     void actualizar_grafo( Mapa * mapa );
 
     int obtenerCostoCamino(Coordenada puntoInicial, Coordenada puntoFinal);
