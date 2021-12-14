@@ -462,7 +462,8 @@ void Juego::modificar_edificio_por_nombre(){
     string nombre_edificio;
 
     cout << "Indique el nombre del edificio que desea modificar:" << endl;
-    cin >> nombre_edificio;
+    getline(cin.ignore(), nombre_edificio);
+    //cout << "El nombre es : " << nombre_edificio << endl; se usò para verficiar que lea todo completo
     if(edificios->buscar(nombre_edificio) != NULL){
         if(nombre_edificio == "obelisco"){
             cout << "El obelisco no se puede modificar" << endl;
