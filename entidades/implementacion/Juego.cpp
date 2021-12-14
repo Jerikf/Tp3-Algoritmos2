@@ -285,33 +285,57 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
 }
 
 void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador){
-    /*
-    Casillero* casillero = this->mapa->getCasillero(coordenada);
+    
+    Casillero* casillero = NULL;
     Edificio* edificio = NULL;
-    if(casillero){
-        edificio = casillero->demolerEdificio();
+    Coordenada coordenadaEncontrada;
+    if(jugador->obtener_cant_energia() > 15){
+        int fila, columna;
+        
+        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
+            fila = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila();
+            columna = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna();
 
-        //Si es que se demolió correctamente tengo que devolver la mitad de los materiales usado
-        if(edificio){
-            Material* piedra = this->obtenerMaterial(PIEDRA);
-            Material* madera = this->obtenerMaterial(MADERA);
-            Material* metal = this->obtenerMaterial(METAL);
+            if(coordenada.getFila() == fila && coordenada.getColumna() == columna){
+                casillero = this->mapa->getCasillero(coordenada);
+                coordenadaEncontrada.setFila(fila);
+                coordenadaEncontrada.setColumna(columna);
+            }
 
-            int piedraDeEdificio = edificio->getCantPiedra() / 2;
-            int maderaDeEdificio = edificio->getCantMadera() / 2;
-            int metalDeEdificio = edificio->getCantMetal() / 2;
-
-            piedra->setCantidad(piedra->getCantidad() + piedraDeEdificio);
-            madera->setCantidad(madera->getCantidad() + maderaDeEdificio);
-            metal->setCantidad(metal->getCantidad() + metalDeEdificio);
-
-            delete edificio; //TENGO QUE LIBERAR SU MEMORIA YA QUE EL CASILLERO CONSTRUIBLE ME DEVOLVIÓ LA DIRECCION Y ESTE LO INSTANCIÓ EN NULL
-                            //ENTONCES CUANDO SE LIBERE CASILLERO CON SU DESTRUCTOR YA NO ESTARÍA ESTE EDIFICIO
         }
 
+        if(casillero){
+            edificio = casillero->demolerEdificio();
+
+            //Si es que se demolió correctamente tengo que devolver la mitad de los materiales usado
+            if(edificio){
+                Material* piedra = this->obtenerMaterial(PIEDRA, jugador);
+                Material* madera = this->obtenerMaterial(MADERA, jugador);
+                Material* metal = this->obtenerMaterial(METAL, jugador);
+
+                int piedraDeEdificio = edificio->getCantPiedra() / 2;
+                int maderaDeEdificio = edificio->getCantMadera() / 2;
+                int metalDeEdificio = edificio->getCantMetal() / 2;
+
+                piedra->setCantidad(piedra->getCantidad() + piedraDeEdificio);
+                madera->setCantidad(madera->getCantidad() + maderaDeEdificio);
+                metal->setCantidad(metal->getCantidad() + metalDeEdificio);
+
+                delete edificio; //TENGO QUE LIBERAR SU MEMORIA YA QUE EL CASILLERO CONSTRUIBLE ME DEVOLVIÓ LA DIRECCION Y ESTE LO INSTANCIÓ EN NULL
+                                //ENTONCES CUANDO SE LIBERE CASILLERO CON SU DESTRUCTOR YA NO ESTARÍA ESTE EDIFICIO
+            
+                //TODO-->Tengo que eliminar de las coordenadas del vector de edificios construidos
+                
+                //DESCUENTO LA ENERGÌA
+                jugador->establecer_energia(jugador->obtener_cant_energia() - 15);
+            }
+        }else
+            cout << "\n\n ERROR--> COORDENADA FUERA DE RANGO , NO TIENES EDIFICIO AHÌ" << endl;
+
     }else
-        cout << "\n\n ERROR--> COORDENADA FUERA DE RANGO DEL MAPA" << endl;
-    */
+        cout << "\n\n ERROR--> NO TIENE SUFICIENTE ENERGIA PARA DEMOLER UN EDIFICIO";
+    
+    
 
 }
 
