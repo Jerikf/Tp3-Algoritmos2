@@ -42,6 +42,10 @@ class Vect
 		//POS: Devuelve el dato en dicha posición correcta
 		T* obtenerDato(int);
 
+		//PRE: Recibe una posiciòn válida del vector
+		//POS: Borra el contenido que se encuentra en la posiciòn pasada por parámetro, devuelve 0 en caso de exito, -1 caso de error
+		int eliminarDato(int);
+
 };
 
 template<typename T>
@@ -100,6 +104,46 @@ int Vect<T>::obtenerCantidad(){
 template<typename T>
 T* Vect<T>::obtenerDato(int posicion){
 	return this->datos[posicion];
+}
+
+template<typename T>
+int Vect<T>::eliminarDato(int pos){
+	if(pos >= 0 && pos < this->cantidad){
+		if(this->cantidad == 1){
+			delete this->datos[pos]; //elimino el único dato que tengo en la posiciòn 0 
+			this->cantidad--; // descuento la cantidad
+			return EXITO;
+
+		}else{
+
+			T** nuevoVect = new T*[this->cantidad -1];
+			if(!nuevoVect) return ERROR;
+
+			T* datoAux = this->datos[pos]; //Me guardo la referencia del dato que borraré
+
+			//Copio los datos
+			int j = 0;
+			for(int i = 0; i < this->cantidad; i++){
+				if(pos != i){
+					nuevoVect[j] = this->datos[i];
+					j++;
+				}
+			}
+
+			//libero el contenedor datos y el dato a borrar, sus valores no! porque aún los conservo! en el nuevo 
+			if(this->cantidad != 0){
+				delete datoAux;
+				delete[] this->datos;
+
+			}
+			//reasigno el nuevo vector y decremento la cantidad de datos que tengo
+			this->datos = nuevoVect;
+			this->cantidad--;
+			return EXITO;
+		}
+		
+	}
+	return ERROR;
 }
 
 
