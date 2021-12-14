@@ -65,6 +65,8 @@ class Jugador{
     //post: devuelve nullptr si jugador no tiene la energia suficiente o un vector de coordenadas con el recorrido realizado
     Coordenada * jugadorSeMueve(Coordenada puntoInicial, Coordenada puntoFinal, int* topeCamino, Mapa * mapa);
 
+
+
     // PRE: -
     // POS: Destruye el jugador.
     ~Jugador();

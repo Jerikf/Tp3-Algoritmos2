@@ -23,6 +23,10 @@ Material* Inaccesible::getMaterial(){
     return NULL;
 }
 
+Material* Inaccesible::recolectarMaterial(){
+    return NULL;
+}
+
 Edificio* Inaccesible::demolerEdificio(){
     cout << "\n\n\n ERROR-> NO SE PUEDE DEMOLER EL EDIFICIO PORQUE SOY UN : CASILLERO INACCESIBLE" << endl;
     return NULL;

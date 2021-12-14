@@ -44,6 +44,10 @@ Material* Construible::getMaterial(){
     return NULL;
 }
 
+Material* Construible::recolectarMaterial(){
+    return NULL;
+}
+
 void Construible:: mostrar(){
     if(this->edificio){
         cout << "\n\n\n";

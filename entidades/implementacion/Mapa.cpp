@@ -144,14 +144,23 @@ void Mapa::mostrar(){
     }
 }
 
-void Mapa::mostrar_recorrido_jugador(Coordenada * recorrido, int tope_recorrido, int jugador){
-    //si hay un material creo que lo deberia agregar por ahora no lo hace (imprime jugador por encima de material)
+void Mapa::mostrar_recorrido_jugador(Coordenada * recorrido, int tope_recorrido, int numJugador){
+    Material* material;
     for( int i = 0; i < tope_recorrido; i++ ){
-        this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_entra_casillero(jugador);
-        mostrar();
+        if(this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->devolver_jugador_casillero() == 0 ||
+           this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->devolver_jugador_casillero() == numJugador) {
 
-        if( i != (tope_recorrido-1))
-            this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_deja_casillero();
+            this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_entra_casillero(numJugador);
+            mostrar();
+
+            if(this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->getMaterial()){
+                material = this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->recolectarMaterial();
+                delete material;
+            }
+            if (i != (tope_recorrido - 1))
+                this->casilleros[recorrido[i].getFila()][recorrido[i].getColumna()]->jugador_deja_casillero();
+        }
+        else mostrar();
         usleep(400000);
         cout << "\x1B[2J\x1B[H";
     }

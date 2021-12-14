@@ -539,17 +539,9 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 puntoInicial = juego->obtener_jugador_1()->obtenerMiPosicion(2, juego->obtener_mapa());
             }
             if(puedoMoverJugadorACoordenada(puntoInicial, &puntoFinal, grafo, &costoCamino, energiaJugador)){
-                string x;
                 int topeCamino;
                 Coordenada* coordenadasCamino = grafo->obtener_camino_minimo(puntoInicial, puntoFinal, &topeCamino, &costoCamino);
-                cout << "Costo camino: " << costoCamino << endl;
-                for (int i = 0; i < topeCamino; i++){
-                    cout << "(" << coordenadasCamino[i].getFila() << ";" << coordenadasCamino[i].getColumna() << ") ";
-                }
-                cout << endl;
-                cout << "Ingrese cualquier tecla para avanzar";
-                cin >> x;
-                juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadasCamino, topeCamino, jugador);
+                juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadasCamino, topeCamino, jugador );
                 delete[] coordenadasCamino;
             }
             volver_menu(1);

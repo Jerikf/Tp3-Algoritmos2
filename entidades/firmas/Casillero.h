@@ -55,6 +55,10 @@ class Casillero
 
         //PRE:
         //POS: Cada subClase implementará según sepa responder el mensaje
+        virtual Material* recolectarMaterial()=0;
+
+        //PRE:
+        //POS: Cada subClase implementará según sepa responder el mensaje
         virtual Edificio* demolerEdificio()=0;
 
         //PRE:

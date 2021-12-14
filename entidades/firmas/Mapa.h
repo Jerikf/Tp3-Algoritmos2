@@ -3,6 +3,7 @@
 
 #include "Casillero.h"
 #include "Coordenada.h"
+//#include "Jugador.h"
 
 class Mapa
 {
@@ -25,7 +26,7 @@ class Mapa
         //POS: Muestra el mapa
         void mostrar();
 
-        void mostrar_recorrido_jugador( Coordenada * recorrido, int tope_recorrido, int jugador );
+        void mostrar_recorrido_jugador( Coordenada * recorrido, int tope_recorrido, int numJugador/*, Jugador* jugador*/ );
 
         //PRE: Recibe un casillero y una coordenada
         //POS: Agrega el casillero si la coordeanda es válida

@@ -37,6 +37,10 @@ class Inaccesible : public Casillero
         //POS: Retorna NULL porque no sabe responder a este mensaje
         Material* getMaterial();
 
+        //PRE: -
+        //POST: devuelve NULL porque no sabe responder a este mensaje
+        Material* recolectarMaterial();
+
         //PRE:
         //POS: Retorna NULL, además muestra que no se puede demoler 
         Edificio* demolerEdificio();

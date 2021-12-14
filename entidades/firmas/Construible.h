@@ -49,6 +49,10 @@ class Construible : public Casillero
         //POS: Retorna NULL porque no sabe responder a este mensaje
         Material* getMaterial();
 
+        //PRE: -
+        //POST: devuelve NULL porque no sabe responder a este mensaje
+        Material* recolectarMaterial();
+
         //PRE:
         //POS: Demuele un edificio(instancia el puntero de edificio en null) retornando el edificio apuntado
         Edificio* demolerEdificio();

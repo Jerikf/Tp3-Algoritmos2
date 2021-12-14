@@ -25,6 +25,13 @@ Material* Transitable::getMaterial(){
     return this->material;
 }
 
+Material* Transitable::recolectarMaterial(){
+    Material * aux = this->material;
+    this->material = nullptr;
+    return aux;
+}
+
+
 void Transitable::setMaterial(Material* material){
     this->material = material;
 }

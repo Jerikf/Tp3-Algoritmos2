@@ -32,6 +32,10 @@ class Transitable : public Casillero
         //POS: Retorna el material o NULL según sea el caso
         Material* getMaterial();
 
+        //PRE: -
+        //POST: de haber material lo devuelve o NULL si no hay y deja en NULL al material del casillero
+        Material* recolectarMaterial();
+
         //PRE: Recibe un material
         //POS: Actualiza el material con el argumento pasado
         void setMaterial(Material*);
