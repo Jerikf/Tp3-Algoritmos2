@@ -480,7 +480,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             system(CLEAR);
             Coordenada coordenada;
             int fila, columna;
-            cout << "\n\n\n";
             cout << "CONSULTAR COORDENADA" << endl;
             cout << "\nINGRESE LA FILA" << endl;
             cin >> fila;
@@ -489,11 +488,8 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 
             coordenada.setFila(fila);
             coordenada.setColumna(columna);
-            system(CLEAR);
             this->juego->consultarCoordenada(coordenada);
-            
-            
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == MOSTRAR_INVENTARIO){
 
