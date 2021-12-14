@@ -169,54 +169,30 @@ void Juego::mostrarInventario(Jugador* jugador){
 }
 
 void Juego::listarEdificiosConstruidos(Jugador* jugador){
-    Recurso recursos;
-    Vect<Coordenada>* coordenadasDelEdificioConstruido = NULL;
-    string nombre;
 
-	cout << "\n\n\n\n LISTADO DE TODOS LOS EDIFICIOS CONSTRUIDOS";
-    for(int pos = 0; pos < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); pos++){
 
-        nombre = this->mapa->getCasillero(*(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(pos)))->getEdificio()->getNombre();
-        coordenadasDelEdificioConstruido = this->obtenerCoordenadas(nombre, jugador);
-        //TODO--> SE VAN A REPETIR LOS EDIFICIOS, LUEGO VERIFICAR QUE NO SUCEDA ESO.
-        if(coordenadasDelEdificioConstruido->obtenerCantidad() != VACIO){
+	if(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad() == 0){
+        cout << "No hay edificios construidos" << endl;
+    }
+    else{
+        cout << "EDIFICIOS CONSTRUIDOS: " << endl;
+        cout << endl;
+        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
 
-            cout << "\n\n"; 
-            cout << "|---------------------------------------------|" << endl;
-            cout << "		"<< recursos.convertirAMayuscula(nombre) << endl;
-            cout << "	CANTIDAD CONSTRUIDOS :" << coordenadasDelEdificioConstruido->obtenerCantidad() << endl;
-            cout << " COORDENADAS DE DONDE ESTÁN CONSTRUIDOS" << endl;
-            coordenadasDelEdificioConstruido->mostrar();
-            cout << "|---------------------------------------------|" << endl;
-            cout << "\n"; 
+            Coordenada coordenada;
+            coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila());
+            coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna());
+            cout <<  mapa->getCasillero(coordenada)->getEdificio()->getNombre() << endl;
+            cout << "Coordenada: " << "(" << coordenada.getFila() << " " << coordenada.getColumna() << ")" << endl;
+            cout << endl;
         }
-        delete coordenadasDelEdificioConstruido; //Libero así a la siguiente iteración no pierdo memoria
-        coordenadasDelEdificioConstruido = NULL;
     }
 }
 
 
 void Juego::listarTodosLosEdificios(){
-    /*
-    Edificio* edificio = NULL;
-    Vect<Coordenada>* coordenadasDelEdificioConstruido = NULL;
-    cout << "       lISTADO DE TODOS LOS EDIFICIOS \n\n" ;
-    for(int pos = 0; pos < this->edificios->obtenerCantidad(); pos++){
-        edificio = this->edificios->obtenerDato(pos);
-        coordenadasDelEdificioConstruido = this->obtenerCoordenadas(edificio->getNombre());
-        edificio->mostrar();
-        cout << "        CANTIDAD CONSTRUIDOS : " << coordenadasDelEdificioConstruido->obtenerCantidad() << endl;
-        cout << "        FALTAN CONSTRUIR : " << edificio->getMaxCantPermitidos() - coordenadasDelEdificioConstruido->obtenerCantidad() << endl;
-        cout << "|---------------------------------------------|" << endl;
 
-        delete coordenadasDelEdificioConstruido;
-        coordenadasDelEdificioConstruido = NULL;
-    }*/
     edificios->mostrarInorder();
-    //TODO--> falta los criterior de cantid construidos y faltan construir, ¿se puede saber a priori? 
-    //porque si es general cuanto hay permitidos es para los dos?, si se tiene 5 aserrador, como maximo entre j1 yj2 solo pueden crear 5 aserraderos?
-    
-
 }
 
 

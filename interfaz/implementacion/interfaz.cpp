@@ -385,14 +385,13 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == LISTAR_LOS_EDIFICIOS_CONSTRUIDOS){
 
-            /*
-            cout << "\n\n\n"; //en caso no funcione en windows el limpiar :v
-            system(CLEAR);
-            this->juego->listarEdificiosConstruidos();
-            cout << "\n\n";
-            break;
-            */
-            cout << "Error" << endl;
+            if(jugador == JUGADOR1){
+                juego->listarEdificiosConstruidos(juego->obtener_jugador_1());
+            }
+            else if(jugador == JUGADOR2){
+                juego->listarEdificiosConstruidos(juego->obtener_jugador_2());
+            }
+            
             volver_menu(1);
         }
         else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
