@@ -396,8 +396,28 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
 
-            //cout << "\n\n\n";
-            //system(CLEAR);
+            Coordenada coordenada;
+			int fila, columna;
+            system(CLEAR);
+            cout << "\n\n\n";
+            cout << "		DEMOLICIÒN DEL EDIFICIO" << endl;
+            cout << "\n SE PEDIRÁ UNA COORDENADA INGRESANDO PRIMERO LA FILA Y LUEGO LA COLUMNA" << endl;
+	        cout << "\nINGRESE LA FILA" << endl;
+            cin >> fila;
+            cout << "\nINGRESE LA COLUMNA" << endl;
+            cin >> columna;
+
+            coordenada.setFila(fila);
+            coordenada.setColumna(columna);
+            system(CLEAR);
+            
+            if(jugador == JUGADOR1)
+				this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_1());
+			else
+				this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
+
+           
+            system(CLEAR);
             //this->juego->listarTodosLosEdificios();
             volver_menu(1);
         }
