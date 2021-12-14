@@ -6,6 +6,9 @@
 const string ASERRADERO = "aserradero";
 const string FABRICA = "fabrica";
 const string MINA = "mina";
+const string ESCUELA = "escuela";
+const string PLANTA_ELECTRICA = "planta electrica";
+const string MINA_ORO = "mina oro";
 
 const int CANT_PIEDRA_BRINDADA = 15;
 const int CANT_MADERA_BRINDADA = 25;
@@ -28,6 +31,9 @@ const int INICIO = 0;
 const string PIEDRA = "piedra";
 const string MADERA = "madera";
 const string METAL = "metal";
+const string ANDYCOINS = "andycoins";
+const string ENERGIA = "energia";
+const string BOMBAS = "bombas";
 
 const int CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO = 15;
 
@@ -490,67 +496,76 @@ void Juego::modificar_edificio_por_nombre(){
 
 void Juego::comprar_bombas(Jugador* jugador){
 
-    cout << "Cada bomba cuesta 100 andycoins, indique la cantidad que desea comprar:" << endl;
-    cout << "Cantidad: ";
-    int cantidad_bombas;
-    cin >> cantidad_bombas;
+    if(jugador->obtener_cant_energia() > 5){
+
+        cout << "Cada bomba cuesta 100 andycoins, indique la cantidad que desea comprar:" << endl;
+        cout << "Cantidad: ";
+        int cantidad_bombas;
+        cin >> cantidad_bombas;
     
-    int posicion = 0;
-    bool lo_encontro = false;
-    int cantidad_andycoins;
-    int cantidad_actual_bombas;
+        int posicion = 0;
+        bool lo_encontro = false;
+        int cantidad_andycoins;
+        int cantidad_actual_bombas;
     
-    while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
-
-        if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
-            
-            cantidad_andycoins = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
-            //lo_encontro == true;
-        }
-
-        posicion ++;
-    }
-
-    int total_pagar = 100 * cantidad_bombas;
-
-    if(cantidad_andycoins >= total_pagar){
-        if(cantidad_bombas == 1){
-            cout << "Se ha agregado " << cantidad_bombas << " bomba a su invnetario." << endl;
-        }
-        else if(cantidad_bombas > 1){
-            cout << "Se han agregado " << cantidad_bombas << " bombas a su invnetario." << endl;
-        }
-        
-        lo_encontro = false;
-        posicion = 0;
-        while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
-
-            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "bombas"){
-            
-                cantidad_actual_bombas = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
-                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_actual_bombas + cantidad_bombas);
-
-                lo_encontro = true;
-            }
-
-            posicion ++;
-        }
-        
-        lo_encontro = false;
-        posicion = 0;
         while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
 
             if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
             
-                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_andycoins - total_pagar);
-                lo_encontro = true;
+                cantidad_andycoins = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+                //lo_encontro == true;
             }
 
             posicion ++;
+        }     
+
+        int total_pagar = 100 * cantidad_bombas;
+
+        if(cantidad_andycoins >= total_pagar){
+            if(cantidad_bombas == 1){
+               cout << "Se ha agregado " << cantidad_bombas << " bomba a su invnetario." << endl;
+            }
+            else if(cantidad_bombas > 1){
+                cout << "Se han agregado " << cantidad_bombas << " bombas a su invnetario." << endl;
+            }
+        
+            lo_encontro = false;
+            posicion = 0;
+            while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
+
+                if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "bombas"){
+            
+                    cantidad_actual_bombas = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+                    jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_actual_bombas + cantidad_bombas);
+
+                    lo_encontro = true;
+                }
+
+                posicion ++;
+            }
+        
+            lo_encontro = false;
+            posicion = 0;
+            while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
+
+                if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
+            
+                    jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_andycoins - total_pagar);
+                    lo_encontro = true;
+                }
+
+                posicion ++;
+            }
+
+            int cantidad_actual_energia = jugador->obtener_cant_energia();
+            jugador->establecer_energia(cantidad_actual_energia - 5);
+        }
+        else{
+            cout << "No tene la cantidad suificente de dinero para comprar " << cantidad_bombas << " bombas." << endl;
         }
     }
     else{
-        cout << "No tene la cantidad suificente de dinero para comprar " << cantidad_bombas << " bombas." << endl;
+        cout << "No tiene energia suficiente para esta opcion." << endl;
     }
         
 }
@@ -564,7 +579,6 @@ void Juego::contar_edificios(int &cant_edificios, string nombre_edificio, Jugado
 
         coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getFila());
         coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getColumna());
-        cout << mapa->getCasillero(coordenada)->getEdificio()->getNombre() << endl;
         if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == nombre_edificio){
             cant_edificios ++;
         }
@@ -575,30 +589,90 @@ void Juego::contar_edificios(int &cant_edificios, string nombre_edificio, Jugado
 
 
 
+void Juego::recolectar_recurso(int canitdad_recurso, Jugador* jugador, string nombre_material){
+
+    if(canitdad_recurso > 0 && nombre_material != ENERGIA){
+        
+        bool esta = false;
+        int posicion = 0;
+
+        while(!esta && posicion < jugador->obtener_inventario()->obtenerCantidad()){
+
+            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == nombre_material){
+
+                int canitdad_actual = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(canitdad_actual + canitdad_recurso);
+                esta = true;
+            }
+
+            posicion ++;
+        }
+    }
+    else if(canitdad_recurso > 0 && nombre_material == ENERGIA){
+
+        int cantidad_actual = jugador->obtener_cant_energia();
+        jugador->establecer_energia(cantidad_actual + 15);
+
+    }
+
+
+}
+
 void Juego::recolectar_recursos(Jugador* jugador){
 
-    int cant_aserraderos = 0;
-    int cant_minas = 0; 
-    int cant_plantas_electricas = 0;
-    int cant_minas_oro = 0;
-    int cant_escuelas = 0;
-    int cant_fabricas = 0;
+    if(jugador->obtener_cant_energia() > 20){
+        
+        int cant_aserraderos = 0;
+        int cant_minas = 0; 
+        int cant_plantas_electricas = 0;
+        int cant_minas_oro = 0;
+        int cant_escuelas = 0;
+        int cant_fabricas = 0;
 
-    contar_edificios(cant_aserraderos, "aserradero", jugador);
-    contar_edificios(cant_minas, "mina", jugador);
-    contar_edificios(cant_escuelas, "escuela", jugador);
-    contar_edificios(cant_fabricas, "fabrica", jugador);
-    contar_edificios(cant_minas_oro, "mina oro", jugador);
-    contar_edificios(cant_plantas_electricas, "planta electrica", jugador);
     
-    /*
-    cout << "Aserraderos: " << cant_aserraderos << endl;
-    cout << "Minas: " << cant_minas << endl;
-    cout << "Escuelas: " << cant_escuelas << endl;
-    cout << "Fabrcias: " << cant_fabricas << endl;
-    cout << "Minas de oro: " << cant_minas_oro << endl;
-    cout << "Plantas electricas: " << cant_plantas_electricas << endl;
-    */
+        contar_edificios(cant_aserraderos, ASERRADERO, jugador);
+        contar_edificios(cant_minas, MINA, jugador);
+        contar_edificios(cant_escuelas, ESCUELA, jugador);
+        contar_edificios(cant_fabricas, FABRICA, jugador);
+        contar_edificios(cant_minas_oro, MINA_ORO, jugador);
+        contar_edificios(cant_plantas_electricas, PLANTA_ELECTRICA, jugador);
+    
+        cout << "Informacion de produccion de los edificios: " << endl;
+        cout << endl;
+        cout << "Aserradero - 25 maderas c/u - " << "Cantidad: " << cant_aserraderos << " Madera generada: " << cant_aserraderos * 25 << endl;
+        cout << endl;
+        cout << "Mina - 15 piedras c/u - " << "Cantidad: " << cant_minas << " Piedra generada: " << cant_minas * 15 << endl;
+        cout << endl;
+        cout << "Fabrica - 40 metales c/u - " << "Cantidad: " << cant_fabricas << " Metal generado: " << cant_fabricas * 40 << endl;
+        cout << endl;
+        cout << "Escuela - 25 andycoins c/u - " << "Cantidad: " << cant_escuelas << " Andycoin generado: " << cant_escuelas * 25 << endl;
+        cout << endl;
+        cout << "Planta electrica - 15 de energia c/u - " << "Cantidad: " << cant_plantas_electricas << " Energia generada: " << cant_plantas_electricas * 15 << endl;
+        cout << endl;
+       cout << "Mina oro - 50 andycoins c/u - " << "Cantidad: " << cant_minas_oro << " Andycoin generado: " << cant_minas_oro * 50 << endl;
+
+        recolectar_recurso(cant_aserraderos * 25, jugador, MADERA);
+        recolectar_recurso(cant_minas * 15, jugador, PIEDRA);
+        recolectar_recurso(cant_fabricas * 40, jugador, FABRICA);
+        recolectar_recurso(cant_escuelas * 25, jugador, ANDYCOINS);
+        recolectar_recurso(cant_plantas_electricas * 15, jugador, ENERGIA);
+        recolectar_recurso(cant_minas_oro * 50, jugador, ANDYCOINS);
+    
+        int cantidad_total_edificios = cant_aserraderos + cant_minas + cant_plantas_electricas + cant_minas_oro + cant_escuelas + cant_fabricas;
+    
+        if(cantidad_total_edificios == 0){
+            cout << "No se descuenta energia porque no recolecto recursos." << endl;
+        }
+        else{
+ 
+            int cantidad_actual = jugador->obtener_cant_energia();
+            jugador->establecer_energia(cantidad_actual - 20);
+
+        }
+    }
+    else{
+        cout << "No tiene energia suficiente para realizar esta accion." << endl;
+    }
 
 }
 

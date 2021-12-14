@@ -259,106 +259,6 @@ void Interfaz::elegir_personaje(){
 
 }
 
-bool Interfaz::verificar_energia(Jugador* jugador, int opcion){
-
-    bool energia_suficiente = true;
-
-    if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
-        if(jugador->obtener_cant_energia() < 15){
-            energia_suficiente = false;
-        }
-    }
-    else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
-        if(jugador->obtener_cant_energia() < 15){
-            energia_suficiente = false;
-        }
-    }
-    else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
-        if(jugador->obtener_cant_energia() < 30){
-            energia_suficiente = false;
-        }
-    }
-    else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
-        if(jugador->obtener_cant_energia() < 25){
-            energia_suficiente = false;
-        }
-    }
-    else if(opcion == COMPRAR_BOMBAS){
-        if(jugador->obtener_cant_energia() < 5){
-            energia_suficiente = false;
-        }
-    }
-    else if(opcion == RECOLECTAR_RECURSOS){
-        if(jugador->obtener_cant_energia() < 20){
-            energia_suficiente = false;
-        }
-    }
-
-    return energia_suficiente;
-}
-
-void Interfaz::modificar_energia(Jugador* jugador, int opcion){
-
-    if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
-        jugador->establecer_energia(jugador->obtener_cant_energia() - 15);
-    }
-    else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
-        jugador->establecer_energia(jugador->obtener_cant_energia() - 15);
-    }
-    else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
-        jugador->establecer_energia(jugador->obtener_cant_energia() - 30);
-    }
-    else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
-        jugador->establecer_energia(jugador->obtener_cant_energia() - 25);
-    }
-    else if(opcion == COMPRAR_BOMBAS){
-        jugador->establecer_energia(jugador->obtener_cant_energia() - 5);
-    }
-    else if(opcion == RECOLECTAR_RECURSOS){
-        jugador->establecer_energia(jugador->obtener_cant_energia() - 20);
-    }
-    else if(opcion == FINALIZAR_TURNO){
-        cout << "SE ACABA DE FINALIZAR EL TURNO. " << endl;
-        cout << "Acaba de obtener 20 de energia." << endl;
-        if((jugador->obtener_cant_energia() + 20) > 100){
-            cout << "NO SE PUEDE TENER MAS DE 100 DE ENERGIA POR TURNO." << endl;
-            jugador->establecer_energia(100);
-            cout << "LE QUEDARA 100 DE ENERGIA." << endl;
-        }
-        else{
-            jugador->establecer_energia(jugador->obtener_cant_energia() + 20);
-        }
-    }
-
-
-}
-
-void Interfaz::seleccionar_jugador_energia(int numero, int opcion){
-
-    if(numero == 1){
-
-        if(verificar_energia(juego->obtener_jugador_1(), opcion)){
-
-            modificar_energia(juego->obtener_jugador_1(), opcion);
-        }
-        else{
-            cout << "No tiene energia suficienta para realizar la accion." << endl;
-        }
-    }
-    else if(numero == 2){
-
-        if(verificar_energia(juego->obtener_jugador_2(), opcion)){
-
-            modificar_energia(juego->obtener_jugador_2(), opcion);
-        }
-        else{
-            cout << "No tiene energia suficienta para realizar la accion." << endl;
-        }
-    }
-
-
-}
-
 void Interfaz::iniciarMenuInicial(){
     int opcion = 0;
     while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR ){
@@ -478,10 +378,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 			cout << juego->obtener_jugador_1()->obtener_cant_energia() << endl;
 
 			
-            
-
-            
-
             volver_menu(1);
         }
         else if(opcion == LISTAR_LOS_EDIFICIOS_CONSTRUIDOS){
@@ -498,8 +394,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
 
-            seleccionar_jugador_energia(jugador, opcion);
-
             //cout << "\n\n\n";
             //system(CLEAR);
             //this->juego->listarTodosLosEdificios();
@@ -507,8 +401,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
 
-
-            seleccionar_jugador_energia(jugador, opcion);
 
             /*system(CLEAR);
             cout << "\n\n\n";
@@ -532,8 +424,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
 
-            seleccionar_jugador_energia(jugador, opcion);
-
             /*
             cout << "\n\n\n";
             system(CLEAR);
@@ -544,8 +434,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             volver_menu(1);
         }
         else if(opcion == COMPRAR_BOMBAS){
-
-            seleccionar_jugador_energia(jugador, opcion);
 
             if(jugador == 1){
                 juego->comprar_bombas(juego->obtener_jugador_1());
@@ -604,8 +492,6 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == RECOLECTAR_RECURSOS){
 
-            seleccionar_jugador_energia(jugador, opcion);
-
             if(jugador == 1){
                 juego->recolectar_recursos(juego->obtener_jugador_1());
             }
@@ -650,11 +536,24 @@ int Interfaz::iniciar_segundo_menu(int jugador){
     else if(opcion == FINALIZAR_TURNO){
 
         salir = true;
+        int cant_actual_energia;
         if(jugador == 1){
-            modificar_energia(juego->obtener_jugador_1(), opcion);
+            cant_actual_energia = juego->obtener_jugador_1()->obtener_cant_energia();
+            juego->obtener_jugador_1()->establecer_energia(cant_actual_energia + 20);
+            cout << "Sele a dado 20 de energia. " << endl;
+            if(juego->obtener_jugador_1()->obtener_cant_energia() > 100){
+                juego->obtener_jugador_1()->establecer_energia(100);
+                cout << "No se puede tener mas de 100 de energia." << endl;
+            }
         }
         else if(jugador == 2){
-            modificar_energia(juego->obtener_jugador_2(), opcion);
+            cant_actual_energia = juego->obtener_jugador_2()->obtener_cant_energia();
+            juego->obtener_jugador_2()->establecer_energia(cant_actual_energia + 20);
+            cout << "Sele a dado 20 de energia. " << endl;
+            if(juego->obtener_jugador_2()->obtener_cant_energia() > 100){
+                juego->obtener_jugador_2()->establecer_energia(100);
+                cout << "No se puede tener mas de 100 de energia." << endl;
+            }
         }
         volver_menu(2);
     }

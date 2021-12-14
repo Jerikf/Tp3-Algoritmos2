@@ -57,16 +57,6 @@ class Interfaz
         // PRE: El numero de jugador es igual a 1 o 2.
         // POS: Determina que jugador es el usuario.
         void establecer_jugadores(int numero_jugador);
-
-        // PRE: El jugador esta cargado.
-        // POS: Devuelve true si alcanza la cantidad de energia para la opcion, false en caso contrario
-        bool verificar_energia(Jugador* jugador, int opcion);
-
-        // PRE: Las opciones son validas y el jugador esta cargado.
-        // POS: Dependiendo de la opcion , modifca la cantidad de energia del jugador.
-        void modificar_energia(Jugador* jugador, int opcion);
-
-        void seleccionar_jugador_energia(int jugador_numero, int opcion);
         
         // PRE: -
         // POS: Se encargara de ejecutar todas las funciones para que corra el juego, una vez comenzado.

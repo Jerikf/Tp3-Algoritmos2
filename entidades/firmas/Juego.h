@@ -52,6 +52,10 @@ class Juego
         // PRE: -
         // POS: Modifica la cantidad de edificios, sumnadolos.
         void contar_edificios(int &cant_edificios, string nombre_edificio, Jugador* jugador);
+
+        // PRE: -
+        // POS: Agrega al inventario el recurso dependiendo de cantidad del recurso.
+        void recolectar_recurso(int cantidad_recuso, Jugador* jugador, string nombre_material);
         
     public:
 
