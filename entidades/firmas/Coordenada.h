@@ -3,46 +3,46 @@
 
 using namespace std;
 
-class Coordenada
-{
+class Coordenada{
     private:
         int fila;
         int columna;
 
     public:
 
-        //PRE: Recibe una fila y columna
-        //POS: Construye la coordenada asignando a los atributos correspondientes
+        //PRE: Recibe una fila y columna.
+        //POS: Construye la coordenada asignando a los atributos correspondientes.
         Coordenada(int, int);
 
-        //PRE:
-        //POS:Construye la coordeanda vacia
+        //PRE: -
+        //POS:Construye la coordeanda vacia.
         Coordenada();
 
-        //Constructor de copia
+        //Constructor de copia.
         Coordenada(const Coordenada &coordenada);
-        //PRE:
-        //POS:Destructor
+        
+        //PRE: -
+        //POS:Destructor.
         ~Coordenada();
 
-        //PRE:
-        //POS: Muestra sus atributos
+        //PRE: -
+        //POS: Muestra sus atributos.
         void mostrar();
 
-        //PRE:
-        //POS: Retorna su fila
+        //PRE: -
+        //POS: Retorna su fila.
         int getFila();
 
-        //PRE:
-        //POS: Retorna su columna
+        //PRE: -
+        //POS: Retorna su columna.
         int getColumna();
 
-        //PRE: recibe una fila a actualizar
-        //POS: Actualiza su fila
+        //PRE: recibe una fila a actualizar.
+        //POS: Actualiza su fila.
         void setFila(int);
 
-        //PRE: Recibe una columna a actualizar
-        //POS: Actualiza la columna
+        //PRE: Recibe una columna a actualizar.
+        //POS: Actualiza la columna.
         void setColumna(int);
 };
 

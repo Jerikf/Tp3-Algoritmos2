@@ -4,40 +4,39 @@
 
 using namespace std;
 
-class Material
-{
+class Material{
     private:
         string nombre;
         int cantidad;
 
     public:
 
-        //PRE: Recibe un nobmre del material y su cantidad
-        //POS: Crear el material instanciando los datos correspondientes
-        Material(string, int);
+        //PRE: Recibe un nobmre del material y su cantidad.
+        //POS: Crear el material instanciando los datos correspondientes.
+        Material(string nombre, int cantidad);
 
-        //PRE:
-        //POS: Destructor
+        //PRE: -
+        //POS: Destructor.
         ~Material();
 
-        //PRE:
-        //POS: Muestra su contenido
+        //PRE: -
+        //POS: Muestra su contenido.
         void mostrar();
 
-        //PRE:
-        //POS: Retorna su nombre
+        //PRE: -
+        //POS: Retorna su nombre.
         string getNombre();
 
-        //PRE:
-        //POS: Retorna su cantidad
+        //PRE: -
+        //POS: Retorna su cantidad.
         int getCantidad();
 
-        //PRE:
-        //POS: Devuelve la abreviatura según sea el nombre del meaterial
+        //PRE: -
+        //POS: Devuelve la abreviatura según sea el nombre del meaterial.
         char getAbreviaturaDeNombre();
 
-        //PRE: Recibe una cantidad para para actualizar
-        //POS: Actualiza la cantidad del material
+        //PRE: Recibe una cantidad para para actualizar.
+        //POS: Actualiza la cantidad del material.
         void setCantidad(int cantidad);
 };
 

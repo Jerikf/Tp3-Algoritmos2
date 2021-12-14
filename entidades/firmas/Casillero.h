@@ -8,66 +8,66 @@
 
 using namespace std;
 
-class Casillero
-{
+class Casillero{
     protected:
         char tipo;
         int jugador;
+   
     public:
 
-        //PRE: recibe un tipo de casillero
-        //POS: Construye el casillero, asignando el tipo 
-        Casillero(char);
+        //PRE: Recibe un tipo de casillero.
+        //POS: Construye el casillero, asignando el tipo.
+        Casillero(char tipo);
 
-        //PRE:
+        //PRE: -
         //POS: Constructor vacio
         Casillero();
 
-        //PRE:
+        //PRE: -
         //POS: Destructor
         virtual ~Casillero();
 
-        //PRE:
+        //PRE: -
         //POS: Cada subClase implementará según sepa responder el mensaje
-        virtual void mostrar()=0;
+        virtual void mostrar() = 0;
 
-        void jugador_entra_casillero( int jugador );
+        void jugador_entra_casillero(int jugador);
 
         int devolver_jugador_casillero();
 
         void jugador_deja_casillero();
 
-        //PRE:
-        //POS: Cada subClase implementará según sepa responder el mensaje
-        virtual int construirEdificio(Edificio*)=0;
+        //PRE: -
+        //POS: Cada subClase implementará según sepa responder el mensaje.
+        virtual int construirEdificio(Edificio*) = 0;
 
-        //PRE:
-        //POS: CADA SubClase implementará segun sepa responder el mensaje
-        virtual int construirMaterial(Material*)=0;
+        //PRE: -
+        //POS: CADA SubClase implementará segun sepa responder el mensaje.
+        virtual int construirMaterial(Material*) = 0;
 
-        //PRE:
-        //POS: Cada subClase implementará según sepa responder el mensaje
-        virtual Edificio* getEdificio()=0;
+        //PRE: -
+        //POS: Cada subClase implementará según sepa responder el mensaje.
+        virtual Edificio* getEdificio() = 0;
 
-        //PRE:
-        //POS: Cada subClase implementará según sepa responder el mensaje
-        virtual Material* getMaterial()=0;
+        //PRE: -
+        //POS: Cada subClase implementará según sepa responder el mensaje.
+        virtual Material* getMaterial() = 0;
 
-        //PRE:
-        //POS: Cada subClase implementará según sepa responder el mensaje
-        virtual Material* recolectarMaterial()=0;
+        //PRE: -
+        //POS: Cada subClase implementará según sepa responder el mensaje.
+        virtual Material* recolectarMaterial() = 0;
 
-        //PRE:
-        //POS: Cada subClase implementará según sepa responder el mensaje
-        virtual Edificio* demolerEdificio()=0;
+        //PRE: -
+        //POS: Cada subClase implementará según sepa responder el mensaje.
+        virtual Edificio* demolerEdificio() = 0;
 
-        //PRE:
-        //POS: Retorna el tipo
+        //PRE: -
+        //POS: Retorna el tipo.
         char getTipo();
 
-        //PRE:
-        //POS:Actualiza el tipo
-        void setTipo(char);
+        //PRE: -
+        //POS:Actualiza el tipo.
+        void setTipo(char tipo);
 };
 
 #endif //CASILLERO_H

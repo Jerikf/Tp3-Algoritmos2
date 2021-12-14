@@ -1,8 +1,10 @@
 #include "../../entidades/firmas/Jugador.h"
 
+const int CANT_ENERGIA_INICIAL = 50;
+
 Jugador::Jugador(Grafo* grafo){
 
-    this-> cant_energia = 50;
+    this-> cant_energia = CANT_ENERGIA_INICIAL;
     this-> inventario = new Vect<Material>(); // Se crea sin materiales
     this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();// Se crea sin ubiaciones
     this-> grafo = grafo; // Lo recibe despues de cargarse el mapa.
@@ -11,7 +13,7 @@ Jugador::Jugador(Grafo* grafo){
 
 Jugador::Jugador(){
 
-    this-> cant_energia = 50;
+    this-> cant_energia = CANT_ENERGIA_INICIAL;
     this-> inventario = new Vect<Material>(); 
     this-> coordenadasDeEdificiosConstruidos = new Vect<Coordenada>();
     this-> grafo = NULL; 

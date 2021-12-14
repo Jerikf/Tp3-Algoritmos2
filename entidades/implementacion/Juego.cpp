@@ -61,7 +61,7 @@ const string EXTREMISTA = "Extremista";
 
 //----------------------------IMPLEMENTACIÓN DE FUNCIONES PRIVADAS---------------------------------------
 
-Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio, Jugador* jugador){
+Vect<Coordenada>* Juego::obtenerCoordenadas(string nombre_edificio, Jugador* jugador){
     
     Vect<Coordenada>* coordenadasDelEdificioConstruido = new Vect<Coordenada>;
     Coordenada* coordenada = NULL;
@@ -70,7 +70,7 @@ Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio, Jugador* juga
     for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
         edificio = this->mapa->getCasillero(*(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)))->getEdificio();
         
-        if(edificio && edificio->getNombre() == nombreEdificio){
+        if(edificio && edificio->getNombre() == nombre_edificio){
             int fila = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila();
             int columna = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna();
             coordenada = new Coordenada(fila, columna);
@@ -80,13 +80,13 @@ Vect<Coordenada>* Juego::obtenerCoordenadas(string nombreEdificio, Jugador* juga
     return coordenadasDelEdificioConstruido;
 }
 
-Material* Juego::obtenerMaterial(string nombreMaterial, Jugador* jugador){
+Material* Juego::obtenerMaterial(string nombre_material, Jugador* jugador){
     int pos = 0;
     bool seEncontro = false;
     Material* material = NULL;
     while(!seEncontro && pos < jugador->obtener_inventario()->obtenerCantidad()){
         material = jugador->obtener_inventario()->obtenerDato(pos);
-        if(material->getNombre() == nombreMaterial)
+        if(material->getNombre() == nombre_material)
             seEncontro = true;
         pos++;
     }
@@ -95,10 +95,10 @@ Material* Juego::obtenerMaterial(string nombreMaterial, Jugador* jugador){
     
 }
 
-Edificio* Juego::obtenerEdificio(string nombreEdificio){
+Edificio* Juego::obtenerEdificio(string nombre_edificio){
 
     Edificio* edificio = NULL;
-    edificio = this->edificios->buscar(nombreEdificio);
+    edificio = this->edificios->buscar(nombre_edificio);
     return edificio;
 }
 
@@ -142,6 +142,186 @@ void Juego::recolectarMateriales(int cantDeMaterialesARecolectar, Material* mate
         cout << "YA NO TENGO MAS ESPACIO" << endl;
 }
 
+void Juego::modificar_valores_materiales(string nombre_material, string nombre_edificio){
+    
+    string decision;
+
+    cout << "Desea modificar los valores de " <<  nombre_material << "?" << endl;
+    cin >> decision;
+    if(decision == "si"){
+        cout << "Indique los nuevos valores de " <<  nombre_material << " entre 0 y 50000: " << endl;
+        int cant_material;
+        cin >> cant_material;
+
+        if(cant_material > 0 && cant_material < 50000){
+            
+            modificar_valor_material(nombre_material, cant_material, nombre_edificio);
+            
+            cout << "Ahora el " << nombre_edificio << " se construye con " << cant_material << " de "<< nombre_material <<  "." << endl;
+        }
+        else{
+            cout << "No cumple con los limites establecidos." << endl;
+        }
+                        
+    }
+    else{
+        cout << "No se modificaron los valores de " << nombre_material << "." << endl;
+        cout << endl;
+    }
+}
+
+void Juego::modificar_valor_material(string nombre_material, int cant_material, string nombre_edificio){
+
+    if(nombre_material == PIEDRA){
+
+        edificios->buscar(nombre_edificio)->setCantPiedra(cant_material);
+    }
+    else if(nombre_material == MADERA){
+
+        edificios->buscar(nombre_edificio)->setCantMadera(cant_material);
+    }
+    else if(nombre_material == METAL){
+
+        edificios->buscar(nombre_edificio)->setCantMetal(cant_material);
+    }
+}
+
+void Juego::contar_edificios(int &cant_edificios, string nombre_edificio, Jugador* jugador){
+
+    int posicion = 0;
+    Coordenada coordenada;
+
+    while(posicion <  jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad()){
+
+        coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getFila());
+        coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getColumna());
+        if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == nombre_edificio){
+            cant_edificios ++;
+        }
+
+        posicion++;
+    }
+}
+
+
+void Juego::recolectar_recurso(int canitdad_recurso, Jugador* jugador, string nombre_material){
+
+    if(canitdad_recurso > 0 && nombre_material != ENERGIA){
+        
+        bool esta = false;
+        int posicion = 0;
+
+        while(!esta && posicion < jugador->obtener_inventario()->obtenerCantidad()){
+
+            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == nombre_material){
+
+                int canitdad_actual = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(canitdad_actual + canitdad_recurso);
+                esta = true;
+            }
+
+            posicion ++;
+        }
+    }
+    else if(canitdad_recurso > 0 && nombre_material == ENERGIA){
+
+        int cantidad_actual = jugador->obtener_cant_energia();
+        jugador->establecer_energia(cantidad_actual + RECURSOS_PLANTA_ELECTRICA);
+
+    }
+
+
+}
+
+void Juego::cargar_objetivos(){
+    
+    agregar_objetivo(COMPRAR_ANDYPOLIS);
+    agregar_objetivo(BOMBARDERO);
+    agregar_objetivo(EDAD_DE_PIEDRA);
+    agregar_objetivo(ENERGETICO);
+    agregar_objetivo(LETRADO);
+    agregar_objetivo(MINERO);
+    agregar_objetivo(CANSADO);
+    agregar_objetivo(CONSTRUCTOR);
+    agregar_objetivo(ARMADO);
+    agregar_objetivo(EXTREMISTA);  
+    
+}
+
+void Juego::establecer_objetivos_jugadores(){
+
+    srand(static_cast<unsigned int>(time(NULL)));
+    
+    int canitdad_elementos = objetivos->obtenerCantidad();
+    int elemento_aleatorio_1 = (rand()% canitdad_elementos);
+    int elemento_aleatorio_2 = (rand()% canitdad_elementos);
+    
+    jugador_1->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
+    
+    elemento_aleatorio_1 = (rand()% canitdad_elementos);
+    elemento_aleatorio_2 = (rand()% canitdad_elementos);
+
+    jugador_2->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
+}
+
+
+void Juego::agregar_objetivo(string nombre_objetivo){
+
+    string *objetivo = new string;
+    *objetivo = nombre_objetivo;
+
+    objetivos->agregar(objetivo);
+}
+
+void Juego::mostrar_objetivo(string *objetivo){
+
+    if(*objetivo == COMPRAR_ANDYPOLIS){
+        cout << COMPRAR_ANDYPOLIS << ": haber juntado 100.000 andycoins a lo largo de la partida (las monedas gastadas también cuentan para este objetivo)" << endl;
+        cout << endl;
+    }
+    else if(*objetivo == BOMBARDERO){
+        cout << BOMBARDERO << ": haber usado 5 bombas." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == EDAD_DE_PIEDRA){
+        cout << EDAD_DE_PIEDRA << ": tener en el inventario 50000 piedras" << endl;
+        cout << endl;
+    }
+    else if(*objetivo == ENERGETICO){
+        cout << ENERGETICO << ": haber terminado un turno con 100 puntos de energía." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == LETRADO){
+        cout << LETRADO << ": haber construido el máximo posible de escuelas." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == MINERO){
+        cout << MINERO << ": haber construido una mina de cada tipo." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == CANSADO){
+        cout << CANSADO << ": terminar un turno con 0 de energía." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == CONSTRUCTOR){
+        cout << CONSTRUCTOR << ": construir un edificio de cada tipo." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == ARMADO){
+        cout << ARMADO << ": tener 10 bombas en el inventario." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == EXTREMISTA){
+        cout << EXTREMISTA << ": haber comprado 500 bombas en una partida." << endl;
+        cout << endl;
+    }
+  
+
+}
+
+
+//-----------------------IMPLMENTACION FUNCIONES PUBLICAS---------------------------
+
 Juego::Juego(Datos* datos, Diccionario<Edificio>* edificios){
     this-> datos = datos;
     this-> edificios = edificios;
@@ -182,55 +362,51 @@ void Juego::inicializarCargadoDatos(){
     establecer_objetivos_jugadores();
 }
 
+void Juego::modificar_edificio_por_nombre(){
 
-void Juego::mostrarInventario(Jugador* jugador){ 
-    
-    cout << "		INVENTARIO" << endl;
-    jugador->obtener_inventario()->mostrar();
-}
+    string nombre_edificio;
 
-void Juego::listarEdificiosConstruidos(Jugador* jugador){
+    cout << "Indique el nombre del edificio que desea modificar:" << endl;
+    getline(cin.ignore(), nombre_edificio);
+    if(edificios->buscar(nombre_edificio) != NULL){
+        if(nombre_edificio == "obelisco"){
+            cout << "El obelisco no se puede modificar" << endl;
+        }
+        else{
+            
+            int contador_material = 0;
+            while(contador_material < 3){
 
+                if(contador_material == 0){
 
-	if(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad() == 0){
-        cout << "No hay edificios construidos" << endl;
-    }
-    else{
-        cout << "EDIFICIOS CONSTRUIDOS: " << endl;
-        cout << endl;
-        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
+                    modificar_valores_materiales(PIEDRA, nombre_edificio);
+                }
+                else if(contador_material == 1){
+                    modificar_valores_materiales(MADERA, nombre_edificio);
+                }
+                else if(contador_material == 2){
+                    modificar_valores_materiales(METAL, nombre_edificio);
+                }
 
-            Coordenada coordenada;
-            coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila());
-            coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna());
-            cout <<  mapa->getCasillero(coordenada)->getEdificio()->getNombre() << endl;
-            cout << "Coordenada: " << "(" << coordenada.getFila() << " " << coordenada.getColumna() << ")" << endl;
-            cout << endl;
+                contador_material ++;
+            }
         }
     }
-}
-
-
-void Juego::listarTodosLosEdificios(Jugador* jugador){
-    
-    if(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad() == 0){
-        cout << "No hay edificios construidos" << endl;
-    }
     else{
-        cout << "EDIFICIOS CONSTRUIDOS: " << endl;
-        cout << endl;
-        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
-
-            Coordenada coordenada;
-            coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila());
-            coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna());
-            cout <<  mapa->getCasillero(coordenada)->getEdificio()->getNombre() << " --- " << "(" << coordenada.getFila() << " " << coordenada.getColumna() << ")" << endl;
-        }
+        cout << "No existe el edificio." << endl;
     }
-    
+
 
 }
 
+void Juego::listarTodosLosEdificios(){
+    
+    edificios->mostrarInorder();
+}
+
+void Juego::mostrarMapa(){
+    this->mapa->mostrar();
+}
 
 void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jugador* jugador){
     
@@ -296,6 +472,29 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
 
 }
 
+void Juego::listarEdificiosConstruidos(Jugador* jugador){
+
+
+	if(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad() == 0){
+        cout << "No hay edificios construidos" << endl;
+    }
+    else{
+        cout << "EDIFICIOS CONSTRUIDOS: " << endl;
+        cout << endl;
+        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
+
+            Coordenada coordenada;
+            coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila());
+            coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna());
+            cout <<  mapa->getCasillero(coordenada)->getEdificio()->getNombre() << endl;
+            cout << "Coordenada: " << "(" << coordenada.getFila() << " " << coordenada.getColumna() << ")" << endl;
+            cout << endl;
+        }
+    }
+}
+
+
+
 void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador){
     
     Casillero* casillero = NULL;
@@ -348,185 +547,6 @@ void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador
 
     }else
         cout << "\n\n ERROR--> NO TIENE SUFICIENTE ENERGIA PARA DEMOLER UN EDIFICIO";
-}
-
-void Juego::consultarCoordenada(Coordenada coordenada){
-    Casillero* casillero = this->mapa->getCasillero(coordenada);
-    if(casillero){
-        casillero->mostrar();
-    }else
-        cout << "\n\n\n COORDENADA FUERA DEL RANGO" << endl;
-
-}
-
-void Juego::recolectarRecursosProducidos(Jugador* jugador){
-    /*
-    Material* piedra = NULL;
-    Material* madera = NULL;
-    Material* metal = NULL;
-    
-    Edificio* edificio = NULL;
-    for(int fil = 0; fil < this->mapa->getCantFilas(); fil++){
-        for(int col = 0; col < this->mapa->getCantColumnas(); col++){
-
-            Coordenada coordena(fil,col);
-            edificio = this->mapa->getCasillero(coordena)->getEdificio();
-
-            if(edificio){
-
-                //Dependiendo del edificio que brinda una cantidad de material, actualizo el material según corresponda
-                if(edificio->getNombre() == MINA){
-                    piedra = this->obtenerMaterial(PIEDRA);
-                    piedra->setCantidad(piedra->getCantidad() + CANT_PIEDRA_BRINDADA);
-
-                }else if(edificio->getNombre() == ASERRADERO){
-                    madera = this->obtenerMaterial(MADERA);
-                    madera->setCantidad(madera->getCantidad() + CANT_MADERA_BRINDADA);
-
-                }else if(edificio->getNombre() == FABRICA){
-                    metal = this->obtenerMaterial(METAL);
-                    metal->setCantidad(metal->getCantidad() + CANT_METALES_BRINDADA);
-                }
-
-            }
-        }
-    }
-
-    cout << "\n\n\nSE RECOLECTARON LOS RECURSOS EN CASO HAYA EXISITDO UN EDIFICIO QUE BRINDE RECURSOS" << endl;
-    */
-}
-
-void Juego::moverJugador(Coordenada puntoFinal, int jugador){
-    Casillero * casilleroActual = mapa->getCasillero(puntoFinal);
-    Coordenada * caminoRecorrido;
-    int topeCamino = 0;
-    if( casilleroActual->devolver_jugador_casillero() != 0 || casilleroActual->getEdificio() != nullptr ) {
-        cout << "La coordenada dada se encuentra ocupada" << endl;
-    }
-    else if( jugador == 1)
-        caminoRecorrido = jugador_1->jugadorSeMueve(mapa->obtenerPosicionDeJugador(1), puntoFinal, &topeCamino, mapa);
-    else caminoRecorrido = jugador_2->jugadorSeMueve(mapa->obtenerPosicionDeJugador(2), puntoFinal, &topeCamino, mapa);
-
-    if(caminoRecorrido) {
-        mapa->mostrar_recorrido_jugador(caminoRecorrido, topeCamino, jugador);
-        delete[] caminoRecorrido;
-    }
-}
-
-void Juego::guardarSalir(){
-    this->datos->gurdarDatosEdificios(this->edificios);
-    this->datos->guardarDatosMateriales(this->jugador_1->obtener_inventario(), this->jugador_2->obtener_inventario());
-    this->datos->guardarDatosMapa(this->mapa);
-    this->datos->guardarDatosUbicaciones(this->mapa, this->jugador_1->obtener_coordenadasDeEdificiosConstruidos(), this->jugador_2->obtener_coordenadasDeEdificiosConstruidos());
-
-    cout << "\n\n\n SE GUARDÓ CON ÉXITO LOS EDIFICIO, MATERILES, MAPA Y UBICACIONES" << endl;
-}
-
-
-void Juego::lluviaDeRecursos(){
-    /*
-    Recurso recurso;
-    srand((unsigned)time(0));
-    
-    //Le agregamos el 1 para que sea inclusivo el max
-    int cantPiedra = recurso.obtenerNumAleatorio(MIN_CANT_PIEDRA, MAX_CANT_PIEDRA + 1);
-    int cantMadera = recurso.obtenerNumAleatorio(MIN_CANT_MADERA, MAX_CANT_MADERA + 1);
-    int cantMetal = recurso.obtenerNumAleatorio(MIN_CANT_METAL, MAX_CANT_METAL + 1);
-    
-    
-
-    Material* piedra = this->obtenerMaterial(PIEDRA);
-    Material* madera = this->obtenerMaterial(MADERA);
-    Material* metal = this->obtenerMaterial(METAL);
-
-    //Recolectará de ser necesario, osea siempre y cuadno tenga aun caminos.
-    this->recolectarMateriales(cantPiedra, piedra);
-    this->recolectarMateriales(cantMadera, madera);
-    this->recolectarMateriales(cantMetal, metal);
-    */
-}
-
-void Juego::modificar_valor_material(string material, int cant_material, string nombre_edificio){
-
-    if(material == PIEDRA){
-
-        edificios->buscar(nombre_edificio)->setCantPiedra(cant_material);
-    }
-    else if(material == MADERA){
-
-        edificios->buscar(nombre_edificio)->setCantMadera(cant_material);
-    }
-    else if(material == METAL){
-
-        edificios->buscar(nombre_edificio)->setCantMetal(cant_material);
-    }
-}
-
-void Juego::modificar_valores_materiales(string material, string nombre_edificio){
-    
-    string decision;
-
-    cout << "Desea modificar los valores de " <<  material << "?" << endl;
-    cin >> decision;
-    if(decision == "si"){
-        cout << "Indique los nuevos valores de " <<  material << " entre 0 y 50000: " << endl;
-        int cant_material;
-        cin >> cant_material;
-
-        if(cant_material > 0 && cant_material < 50000){
-            
-            modificar_valor_material(material, cant_material, nombre_edificio);
-            
-            cout << "Ahora el " << nombre_edificio << " se construye con " << cant_material << " de "<< material <<  "." << endl;
-        }
-        else{
-            cout << "No cumple con los limites establecidos." << endl;
-        }
-                        
-    }
-    else{
-        cout << "No se modificaron los valores de " << material << "." << endl;
-        cout << endl;
-    }
-
-
-}
-
-void Juego::modificar_edificio_por_nombre(){
-
-    string nombre_edificio;
-
-    cout << "Indique el nombre del edificio que desea modificar:" << endl;
-    getline(cin.ignore(), nombre_edificio);
-    if(edificios->buscar(nombre_edificio) != NULL){
-        if(nombre_edificio == "obelisco"){
-            cout << "El obelisco no se puede modificar" << endl;
-        }
-        else{
-            
-            int contador_material = 0;
-            while(contador_material < 3){
-
-                if(contador_material == 0){
-
-                    modificar_valores_materiales(PIEDRA, nombre_edificio);
-                }
-                else if(contador_material == 1){
-                    modificar_valores_materiales(MADERA, nombre_edificio);
-                }
-                else if(contador_material == 2){
-                    modificar_valores_materiales(METAL, nombre_edificio);
-                }
-
-                contador_material ++;
-            }
-        }
-    }
-    else{
-        cout << "No existe el edificio." << endl;
-    }
-
-
 }
 
 void Juego::comprar_bombas(Jugador* jugador){
@@ -606,57 +626,32 @@ void Juego::comprar_bombas(Jugador* jugador){
         
 }
 
-void Juego::contar_edificios(int &cant_edificios, string nombre_edificio, Jugador* jugador){
-
-    int posicion = 0;
-    Coordenada coordenada;
-
-    while(posicion <  jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad()){
-
-        coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getFila());
-        coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(posicion)->getColumna());
-        if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == nombre_edificio){
-            cant_edificios ++;
-        }
-
-        posicion++;
-    }
-}
-
-
-
-void Juego::recolectar_recurso(int canitdad_recurso, Jugador* jugador, string nombre_material){
-
-    if(canitdad_recurso > 0 && nombre_material != ENERGIA){
-        
-        bool esta = false;
-        int posicion = 0;
-
-        while(!esta && posicion < jugador->obtener_inventario()->obtenerCantidad()){
-
-            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == nombre_material){
-
-                int canitdad_actual = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
-                jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(canitdad_actual + canitdad_recurso);
-                esta = true;
-            }
-
-            posicion ++;
-        }
-    }
-    else if(canitdad_recurso > 0 && nombre_material == ENERGIA){
-
-        int cantidad_actual = jugador->obtener_cant_energia();
-        jugador->establecer_energia(cantidad_actual + RECURSOS_PLANTA_ELECTRICA);
-
-    }
-
+void Juego::consultarCoordenada(Coordenada coordenada){
+    Casillero* casillero = this->mapa->getCasillero(coordenada);
+    if(casillero){
+        casillero->mostrar();
+    }else
+        cout << "\n\n\n COORDENADA FUERA DEL RANGO" << endl;
 
 }
 
-void Juego::recolectar_recursos(Jugador* jugador){
+void Juego::mostrarInventario(Jugador* jugador){ 
+    
+    jugador->obtener_inventario()->mostrar();
+}
 
-    if(jugador->obtener_cant_energia() > 20){
+void Juego::mostrar_objetivos(Jugador* jugador){
+    
+    cout << "Sus objetivos son: " << endl;
+    cout << endl;
+    mostrar_objetivo(jugador->obtener_primer_objetivo());
+    mostrar_objetivo(jugador->obtener_segundo_objetivo());
+    
+}
+
+void Juego::recolectarRecursosProducidos(Jugador* jugador){
+    
+    if(jugador->obtener_cant_energia() > CONSUMO_ENERGIA_RECOLECTAR_RECUROSOS){
         
         int cant_aserraderos = 0;
         int cant_minas = 0; 
@@ -709,42 +704,58 @@ void Juego::recolectar_recursos(Jugador* jugador){
     else{
         cout << "No tiene energia suficiente para realizar esta accion." << endl;
     }
-
 }
 
-void Juego::agregar_objetivo(string nombre){
+void Juego::moverJugador(Coordenada puntoFinal, int jugador){
+    Casillero * casilleroActual = mapa->getCasillero(puntoFinal);
+    Coordenada * caminoRecorrido;
+    int topeCamino = 0;
+    if( casilleroActual->devolver_jugador_casillero() != 0 || casilleroActual->getEdificio() != nullptr ) {
+        cout << "La coordenada dada se encuentra ocupada" << endl;
+    }
+    else if(jugador == 1)
+        caminoRecorrido = jugador_1->jugadorSeMueve(mapa->obtenerPosicionDeJugador(1), puntoFinal, &topeCamino, mapa);
+    else caminoRecorrido = jugador_2->jugadorSeMueve(mapa->obtenerPosicionDeJugador(2), puntoFinal, &topeCamino, mapa);
 
-    string *objetivo = new string;
-    *objetivo = nombre;
-
-    objetivos->agregar(objetivo);
-
-
+    if(caminoRecorrido) {
+        mapa->mostrar_recorrido_jugador(caminoRecorrido, topeCamino, jugador);
+        delete[] caminoRecorrido;
+    }
 }
 
-void Juego::cargar_objetivos(){
+void Juego::guardarSalir(){
+    this->datos->gurdarDatosEdificios(this->edificios);
+    this->datos->guardarDatosMateriales(this->jugador_1->obtener_inventario(), this->jugador_2->obtener_inventario());
+    this->datos->guardarDatosMapa(this->mapa);
+    this->datos->guardarDatosUbicaciones(this->mapa, this->jugador_1->obtener_coordenadasDeEdificiosConstruidos(), this->jugador_2->obtener_coordenadasDeEdificiosConstruidos());
+
+    cout << "\n\n\n SE GUARDÓ CON ÉXITO LOS EDIFICIO, MATERILES, MAPA Y UBICACIONES" << endl;
+}
+
+
+void Juego::lluviaDeRecursos(){
+    /*
+    Recurso recurso;
+    srand((unsigned)time(0));
     
-    agregar_objetivo(COMPRAR_ANDYPOLIS);
-    agregar_objetivo(BOMBARDERO);
-    agregar_objetivo(EDAD_DE_PIEDRA);
-    agregar_objetivo(ENERGETICO);
-    agregar_objetivo(LETRADO);
-    agregar_objetivo(MINERO);
-    agregar_objetivo(CANSADO);
-    agregar_objetivo(CONSTRUCTOR);
-    agregar_objetivo(ARMADO);
-    agregar_objetivo(EXTREMISTA);  
+    //Le agregamos el 1 para que sea inclusivo el max
+    int cantPiedra = recurso.obtenerNumAleatorio(MIN_CANT_PIEDRA, MAX_CANT_PIEDRA + 1);
+    int cantMadera = recurso.obtenerNumAleatorio(MIN_CANT_MADERA, MAX_CANT_MADERA + 1);
+    int cantMetal = recurso.obtenerNumAleatorio(MIN_CANT_METAL, MAX_CANT_METAL + 1);
     
+    
+
+    Material* piedra = this->obtenerMaterial(PIEDRA);
+    Material* madera = this->obtenerMaterial(MADERA);
+    Material* metal = this->obtenerMaterial(METAL);
+
+    //Recolectará de ser necesario, osea siempre y cuadno tenga aun caminos.
+    this->recolectarMateriales(cantPiedra, piedra);
+    this->recolectarMateriales(cantMadera, madera);
+    this->recolectarMateriales(cantMetal, metal);
+    */
 }
 
-void Juego::mostrar_primer_edificios(){
-
-    edificios->mostrarInorder();
-}
-
-void Juego::mostrarMapa(){
-    this->mapa->mostrar();
-}
 
 Jugador* Juego::obtener_jugador_1(){
 
@@ -786,77 +797,4 @@ bool Juego::obtener_esta_ubicaciones(){
 Vect<string>* Juego::obtener_objetivos(){
 
     return objetivos;
-}
-
-void Juego::establecer_objetivos_jugadores(){
-
-    srand(static_cast<unsigned int>(time(NULL)));
-    
-    int canitdad_elementos = objetivos->obtenerCantidad();
-    int elemento_aleatorio_1 = (rand()% canitdad_elementos);
-    int elemento_aleatorio_2 = (rand()% canitdad_elementos);
-    
-    jugador_1->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
-    
-    elemento_aleatorio_1 = (rand()% canitdad_elementos);
-    elemento_aleatorio_2 = (rand()% canitdad_elementos);
-
-    jugador_2->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
-}
-
-void Juego::mostrar_objetivo(string *objetivo){
-
-    if(*objetivo == COMPRAR_ANDYPOLIS){
-        cout << COMPRAR_ANDYPOLIS << ": haber juntado 100.000 andycoins a lo largo de la partida (las monedas gastadas también cuentan para este objetivo)" << endl;
-        cout << endl;
-    }
-    else if(*objetivo == BOMBARDERO){
-        cout << BOMBARDERO << ": haber usado 5 bombas." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == EDAD_DE_PIEDRA){
-        cout << EDAD_DE_PIEDRA << ": tener en el inventario 50000 piedras" << endl;
-        cout << endl;
-    }
-    else if(*objetivo == ENERGETICO){
-        cout << ENERGETICO << ": haber terminado un turno con 100 puntos de energía." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == LETRADO){
-        cout << LETRADO << ": haber construido el máximo posible de escuelas." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == MINERO){
-        cout << MINERO << ": haber construido una mina de cada tipo." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == CANSADO){
-        cout << CANSADO << ": terminar un turno con 0 de energía." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == CONSTRUCTOR){
-        cout << CONSTRUCTOR << ": construir un edificio de cada tipo." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == ARMADO){
-        cout << ARMADO << ": tener 10 bombas en el inventario." << endl;
-        cout << endl;
-    }
-    else if(*objetivo == EXTREMISTA){
-        cout << EXTREMISTA << ": haber comprado 500 bombas en una partida." << endl;
-        cout << endl;
-    }
-  
-
-}
-
-void Juego::mostrar_objetivos(Jugador* jugador){
-    
-    cout << "Sus objetivos son: " << endl;
-    cout << endl;
-    mostrar_objetivo(jugador->obtener_primer_objetivo());
-    mostrar_objetivo(jugador->obtener_segundo_objetivo());
-    
-
-
 }

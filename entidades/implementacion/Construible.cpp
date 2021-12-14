@@ -50,6 +50,7 @@ Material* Construible::recolectarMaterial(){
 
 void Construible:: mostrar(){
     if(this->edificio){
+       
         cout << "\n\n\n";
         cout << "|--------------------------------------------------------|" << endl;
         cout << "SOY UN CASILLERO CONSTRUIBLE Y ME ENCUENTRO OCUPADO POR : " << endl;

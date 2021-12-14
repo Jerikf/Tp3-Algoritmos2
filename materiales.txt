@@ -1,5 +1,5 @@
-madera 387 65
-piedra 344 70
+madera 387 115
+piedra 374 70
 metal 311 814
-andycoins 600 950
-bombas 10 1
+andycoins 700 750
+bombas 10 4

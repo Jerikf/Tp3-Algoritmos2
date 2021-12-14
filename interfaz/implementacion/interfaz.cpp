@@ -29,6 +29,8 @@ const int JUGADOR2 = 2;
 const int MENU_1 = 1;
 const int MENU_2 = 2;
 
+#define TXT_LIGHT_BLUE_33 "\033[38;5;33m"
+
 #ifdef _WIN32
 const char* CLEAR = "cls";
 #else
@@ -41,7 +43,7 @@ bool Interfaz::validarOpcion(int opcion, int limiteInferior, int limiteSuperior)
     return (opcion >= limiteInferior && opcion <= limiteSuperior);
 }
 
-int Interfaz::obtenerOpcion( int limiteInferior, int limiteSuperior ){
+int Interfaz::obtenerOpcion(int limiteInferior, int limiteSuperior ){
     int opcion = 0;
     bool esValido = false;
     while(!esValido) {
@@ -71,6 +73,7 @@ Interfaz::~Interfaz(){
 }
 
 void Interfaz::mostrarMenuInicial(){
+    cout << TXT_LIGHT_BLUE_33 << endl;
     cout << "╔═════════════╗" << endl;
     cout << "║ Preparacion:║ " << endl;
     cout << "╚═════════════╝" << endl;
@@ -91,6 +94,7 @@ void Interfaz::mostrarMenuInicial(){
 void Interfaz::mostrar_segundo_menu(int numero){
 
     if(numero == 1){
+        cout << TXT_LIGHT_BLUE_33 << endl;
         cout << "╔══════════════════════════════════════════════════════════════════════════════════════╗" << endl;
         cout << "║ Gestor de construccion de Andypolis del Jugador 1, seleccione alguna de las opciones:║ " << endl;
         cout << "╚══════════════════════════════════════════════════════════════════════════════════════╝" << endl;
@@ -98,6 +102,7 @@ void Interfaz::mostrar_segundo_menu(int numero){
         cout << "Cantidad de energia: " << juego->obtener_jugador_1()->obtener_cant_energia() << endl;
     }
     else if(numero == 2){
+        cout << TXT_LIGHT_BLUE_33 << endl;
         cout << "╔══════════════════════════════════════════════════════════════════════════════════════╗" << endl;
         cout << "║ Gestor de construccion de Andypolis del Jugador 2, seleccione alguna de las opciones:║ " << endl;
         cout << "╚══════════════════════════════════════════════════════════════════════════════════════╝" << endl;
@@ -105,7 +110,7 @@ void Interfaz::mostrar_segundo_menu(int numero){
         cout << "Cantidad de energia: " << juego->obtener_jugador_2()->obtener_cant_energia() << endl;
     }
 
-
+    
     cout << "\t" << "╔════════════════════════════════════════╗" << endl;
     cout << "\t" << "║ 1)- Construir edificio por nombre.     ║" << endl;
     cout << "\t" << "║   - Energia necesaria: 15.             ║" << endl;
@@ -134,6 +139,154 @@ void Interfaz::mostrar_segundo_menu(int numero){
     cout << "\t" << "║ 13)- Guardar y salir.                  ║" << endl;
     cout << "\t" << "║    - Energia necesaria: 0.             ║" << endl;
     cout << "\t" << "╚════════════════════════════════════════╝" << endl;
+
+}
+
+void volver_menu(){
+    
+    cout << TXT_LIGHT_BLUE_33 << endl;
+    cout << endl;
+    cout << "        " << "╔══════════════════════════════╗" << endl;
+    cout << "        " << "║Oprima 0 para volver al menu: ║" << endl;
+    cout << "        " << "╚══════════════════════════════╝" << endl;
+
+    string numero = "1";
+    cin >> numero;
+
+    while (numero != "0")
+    {
+        cout << TXT_LIGHT_BLUE_33 << endl;
+        cout << "            " << "╔══════════════════════════╗" << endl;
+        cout << "            " << "║ ----CARACTER INVALIDO----║" << endl;
+        cout << "            " << "╚══════════════════════════╝" << endl;
+
+        cout << endl;
+        cout << "          " << "╔══════════════════════════════╗" << endl;
+        cout << "          " << "║Oprima 0 para volver al menu: ║" << endl;
+        cout << "          " << "╚══════════════════════════════╝" << endl;
+
+        cin >> numero;
+    }
+}
+
+void Interfaz::mostrar_detalles(int opcion){
+    
+    system(CLEAR);
+    cout << TXT_LIGHT_BLUE_33;
+    if (opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
+
+        cout << "          " << "╔══════════════════════════╗" << endl;
+        cout << "          " << "║ CONSTRUCCION DE EDIFICIO ║" << endl;
+        cout << "          " << "╚══════════════════════════╝" << endl;
+        cout << endl; 
+    }
+    else if (opcion == LISTAR_LOS_EDIFICIOS_CONSTRUIDOS){
+
+        cout << "          " << "╔═══════════════════════╗" << endl;
+        cout << "          " << "║ EDIFICIOS CONSTRUIDOS ║" << endl;
+        cout << "          " << "╚═══════════════════════╝" << endl;
+        cout << endl; 
+    }
+    else if (opcion == LISTAR_TODOS_LOS_EDIFICIOS_INICIAL){
+
+        cout << "         " << "╔════════════════════════════╗" << endl;
+        cout << "         " << "║ LISTA GENERAL DE EDIFICIOS ║  " << endl;
+        cout << "         " << "╚════════════════════════════╝" << endl;
+        cout << endl;
+    }
+    else if (opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
+
+        cout << "          " << "╔════════════════════════╗" << endl;
+        cout << "          " << "║ DEMOLICION DE EDIFICIO ║ " << endl;
+        cout << "          " << "╚════════════════════════╝" << endl;
+        cout << endl;
+  
+    }
+    else if (opcion == MOSTRAR_MAPA_INICIAL){
+
+        cout << "            " << "╔═══════════════════╗" << endl;
+        cout << "            " << "║ MAPA DE LA CIUDAD ║" << endl;
+        cout << "            " << "╚═══════════════════╝" << endl;
+        cout << endl; 
+    }
+    else if (opcion == CONSULTAR_COORDENADA){
+
+        cout << "            " << "╔═══════════════════════╗" << endl;
+        cout << "            " << "║ CONSULTAR COORDENADAS ║" << endl;
+        cout << "            " << "╚═══════════════════════╝" << endl;
+        cout << endl;   
+    }
+
+    else if (opcion == MOSTRAR_INVENTARIO){
+
+        cout << "            " << "╔════════════╗" << endl;
+        cout << "            " << "║ INVENTARIO ║" << endl;
+        cout << "            " << "╚════════════╝" << endl;
+        cout << endl;
+    }
+    else if (opcion == RECOLECTAR_RECURSOS){
+
+        cout << "            " << "╔═════════════════════╗" << endl;
+        cout << "            " << "║ RECOLECTAR RECURSOS ║" << endl;
+        cout << "            " << "╚═════════════════════╝" << endl;
+        cout << endl;
+    }
+    else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
+       
+        cout << "            " << "╔═════════════════╗" << endl;
+        cout << "            " << "║ ATACAR EDIFICIO ║" << endl;
+        cout << "            " << "╚═════════════════╝" << endl;
+        cout << endl;
+
+    }
+    else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
+       
+        cout << "            " << "╔══════════════════╗" << endl;
+        cout << "            " << "║ REPARAR EDIFICIO ║" << endl;
+        cout << "            " << "╚══════════════════╝" << endl;
+        cout << endl;
+
+    }
+    else if(opcion == MOSTRAR_OBJETIVOS){
+       
+        cout << "            " << "╔═══════════╗" << endl;
+        cout << "            " << "║ OBJETIVOS ║" << endl;
+        cout << "            " << "╚═══════════╝" << endl;
+        cout << endl;
+
+    }
+    else if(opcion == FINALIZAR_TURNO){
+       
+        cout << "            " << "╔════════════════╗" << endl;
+        cout << "            " << "║ FINALIZA TURNO ║" << endl;
+        cout << "            " << "╚════════════════╝" << endl;
+        cout << endl;
+
+    }
+    else if(opcion == MODIFICAR_EDIFICIO_POR_NOMBRE){
+       
+        cout << "            " << "╔════════════════════╗" << endl;
+        cout << "            " << "║ MODIFICAR EDIFICIO ║" << endl;
+        cout << "            " << "╚════════════════════╝" << endl;
+        cout << endl;
+
+    }
+    else if (opcion == MOVERSE_A_COORDENADA){
+
+        cout << "          " << "╔═════════════════╗" << endl;
+        cout << "          " << "║ MOVER PERSONAJE ║" << endl;
+        cout << "          " << "╚═════════════════╝" << endl;
+        cout << endl; 
+    }
+    else if (opcion == MOVERSE_A_COORDENADA){
+
+        cout << "          " << "╔════════════════╗" << endl;
+        cout << "          " << "║ COMPRAR BOMBAS ║" << endl;
+        cout << "          " << "╚════════════════╝" << endl;
+        cout << endl; 
+    }
+    
+
 
 }
 
@@ -221,10 +374,7 @@ void Interfaz::establecer_posicion_personaje(int jugador){
             }
         }
 
-
     }
-
-
 }
 
 void Interfaz::establecer_jugadores(int jugador){
@@ -237,10 +387,10 @@ void Interfaz::establecer_jugadores(int jugador){
     establecer_posicion_personaje(jugador);
 
     int descarte;
-    if(jugador == 1){
+    if(jugador == JUGADOR1){
         descarte = jugador + 1;
     }
-    else if(jugador == 2){
+    else if(jugador == JUGADOR2){
         descarte = jugador - 1;
     }
 
@@ -260,45 +410,6 @@ void Interfaz::elegir_personaje(){
 
     establecer_jugadores(jugador);
 
-}
-
-void Interfaz::iniciarMenuInicial(){
-    int opcion = 0;
-
-    while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR ){
-        system(CLEAR);
-        mostrarMenuInicial();
-        opcion = obtenerOpcion(1,5);
-        switch (opcion) {
-            case MODIFICAR_EDIFICIO_POR_NOMBRE:
-                system(CLEAR);
-                juego->modificar_edificio_por_nombre();
-                volver_menu(1);
-                break;
-            case LISTAR_TODOS_LOS_EDIFICIOS_INICIAL:
-                system(CLEAR);
-                juego->mostrar_primer_edificios();
-                volver_menu(1);
-                break;
-            case MOSTRAR_MAPA_INICIAL:
-                system(CLEAR);
-                cout << "		MAPA" << endl;
-                this->juego->mostrarMapa();
-                cout << "\n";
-                volver_menu(1);
-                break;
-            case COMENZAR_PARTIDA:
-                system(CLEAR);
-                elegir_personaje();
-                correr_juego();
-                break;
-            case GUARDAR_Y_SALIR:
-                system(CLEAR);
-                juego->Gurdar_datos_edificios();
-                break;
-        }
-        if(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR){}
-    }
 }
 
 bool Interfaz::esCoordenadaValida(Coordenada coordenada){
@@ -349,6 +460,79 @@ bool Interfaz::puedoMoverJugadorACoordenada( Coordenada puntoInicial, Coordenada
     return puedoMoverJugador;
 }
 
+void Interfaz::determinarPosicionJugador(int jugador){
+    int fil, col;
+    Coordenada coordenada(-1,-1);
+    Casillero * casillero;
+    bool coordenadaValida = false;
+    while(!coordenadaValida) {
+        while (!esCoordenadaValida(coordenada)) {
+            system(CLEAR);
+            juego->obtener_mapa()->mostrar();
+            cout << "Ingrese ubicacion jugador " << jugador << ":" << endl;
+            cout << "Fila: ";
+            cin >> fil;
+            cout << "Columna: ";
+            cin >> col;
+            coordenada.setFila(fil);
+            coordenada.setColumna(col);
+        }
+        casillero = juego->obtener_mapa()->getCasillero(coordenada);
+        if (casillero->getEdificio() || casillero->devolver_jugador_casillero() != 0) {
+            cout << "El casillero se encuentra ocupado" << endl;
+            coordenada.setFila(-1);
+        }
+        else coordenadaValida = true;
+    }
+    if(jugador == JUGADOR1)
+        casillero->jugador_entra_casillero(1);
+    else casillero->jugador_entra_casillero(2);
+
+    casillero = juego->obtener_mapa()->getCasillero(coordenada);
+
+}
+
+void Interfaz::iniciarMenuInicial(){
+    int opcion = 0;
+
+    while(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR ){
+        system(CLEAR);
+        mostrarMenuInicial();
+        opcion = obtenerOpcion(1,5);
+        switch (opcion) {
+            case MODIFICAR_EDIFICIO_POR_NOMBRE:
+               
+                mostrar_detalles(MODIFICAR_EDIFICIO_POR_NOMBRE);
+                juego->modificar_edificio_por_nombre();
+                volver_menu(1);
+                break;
+            case LISTAR_TODOS_LOS_EDIFICIOS_INICIAL:
+
+                mostrar_detalles(LISTAR_TODOS_LOS_EDIFICIOS_INICIAL);
+                juego->listarTodosLosEdificios();
+                volver_menu(1);
+                break;
+            case MOSTRAR_MAPA_INICIAL:
+
+                mostrar_detalles(MOSTRAR_MAPA_INICIAL);
+                this->juego->mostrarMapa();
+                cout << "\n";
+                volver_menu(1);
+                break;
+            case COMENZAR_PARTIDA:
+
+                elegir_personaje();
+                correr_juego();
+                break;
+            case GUARDAR_Y_SALIR:
+
+                juego->Gurdar_datos_edificios();
+                break;
+        }
+        if(opcion != COMENZAR_PARTIDA && opcion != GUARDAR_Y_SALIR){}
+    }
+}
+
 int Interfaz::iniciar_segundo_menu(int jugador){
     int opcion;
     
@@ -360,17 +544,21 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         this->mostrar_segundo_menu(jugador);
         opcion = this->obtenerOpcion(1,13);
         if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
-      
+            
 			Coordenada coordenada;
 			int fila, columna;
             system(CLEAR);
+            mostrar_detalles(CONSTRUIR_EDIFICIO_POR_NOMBRE);
             cout << "\n\n\n";
-            cout << "		CONSTRUCCIÓN DEL EDIFICIO" << endl;
             cout << "\nINGRESE EL NOMBRE DEL EDIFICIO PARA CONSTRUIRLO" << endl;
             cin >> nombre;
             cout << "\n" ;
-
+            
             cout << "\n SE PEDIRÁ UNA COORDENADA INGRESANDO PRIMERO LA FILA Y LUEGO LA COLUMNA" << endl;
+            cout << endl;
+            juego->mostrarMapa();
+            cout << endl;
+            cout << TXT_LIGHT_BLUE_33 << endl;
 	        cout << "\nINGRESE LA FILA" << endl;
             cin >> fila;
             cout << "\nINGRESE LA COLUMNA" << endl;
@@ -393,7 +581,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == LISTAR_LOS_EDIFICIOS_CONSTRUIDOS){
             
-            system(CLEAR);
+            mostrar_detalles(LISTAR_LOS_EDIFICIOS_CONSTRUIDOS);
             if(jugador == JUGADOR1){
                 juego->listarEdificiosConstruidos(juego->obtener_jugador_1());
             }
@@ -407,10 +595,13 @@ int Interfaz::iniciar_segundo_menu(int jugador){
            
             Coordenada coordenada;
 			int fila, columna;
-            system(CLEAR);
+            mostrar_detalles(DEMOLER_EDIFICIO_POR_COORDENADA);
             cout << "\n\n\n";
-            cout << "		DEMOLICIÒN DEL EDIFICIO" << endl;
             cout << "\n SE PEDIRÁ UNA COORDENADA INGRESANDO PRIMERO LA FILA Y LUEGO LA COLUMNA" << endl;
+            cout << endl;
+            juego->mostrarMapa();
+            cout << endl;
+            cout << TXT_LIGHT_BLUE_33 << endl;
 	        cout << "\nINGRESE LA FILA" << endl;
             cin >> fila;
             cout << "\nINGRESE LA COLUMNA" << endl;
@@ -429,41 +620,20 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
 
+            mostrar_detalles(ATACAR_EDIFICIO_POR_COORDENADA);
 
-            /*system(CLEAR);
-            cout << "\n\n\n";
-            cout << "DEMOLICIÓN DE UN EDIFICIO POR COORDENADA" << endl;
-            cout << "\nINGRESE LA FILA" << endl;
-            cin >> fila;
-            cout << "\nINGRESE LA COLUMNA" << endl;
-            cin >> columna;
-
-            coordenada.setFila(fila);
-            coordenada.setColumna(columna);
-            system(CLEAR);
-            if(numero == 1){
-                this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_1());
-            }
-            else if(numero == 2){
-                this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
-            }
-            */
             volver_menu(MENU_1);
         }
         else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
 
-            /*
-            cout << "\n\n\n";
-            system(CLEAR);
-            cout << "		SE MOSTRARÁ EL MAPA" << endl;
-            this->juego->mostrarMapa();
-            */
+            mostrar_detalles(REPARAR_EDIFICIO_POR_COORDENADA);
+
 
             volver_menu(MENU_1);
         }
         else if(opcion == COMPRAR_BOMBAS){
             
-            system(CLEAR);
+            mostrar_detalles(COMPRAR_BOMBAS);
             if(jugador == JUGADOR1){
                 juego->comprar_bombas(juego->obtener_jugador_1());
             }
@@ -476,11 +646,12 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == CONSULTAR_COORDENADA){
 
-            
-            system(CLEAR);
+            mostrar_detalles(CONSULTAR_COORDENADA);
             Coordenada coordenada;
             int fila, columna;
-            cout << "CONSULTAR COORDENADA" << endl;
+            juego->mostrarMapa();
+            cout << endl;
+            cout << TXT_LIGHT_BLUE_33 << endl;
             cout << "\nINGRESE LA FILA" << endl;
             cin >> fila;
             cout << "\nINGRESE LA COLUMNA" << endl;
@@ -493,8 +664,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == MOSTRAR_INVENTARIO){
 
-
-            system(CLEAR);
+            mostrar_detalles(MOSTRAR_INVENTARIO);
             if(jugador == JUGADOR1){
                 this->juego->mostrarInventario(juego->obtener_jugador_1());
             }
@@ -502,11 +672,11 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 this->juego->mostrarInventario(juego->obtener_jugador_2());
             }
 
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == MOSTRAR_OBJETIVOS){
-
-            system(CLEAR);
+            
+            mostrar_detalles(MOSTRAR_OBJETIVOS);
             if(jugador == 1){
                 juego->mostrar_objetivos(juego->obtener_jugador_1());
             }
@@ -517,18 +687,19 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == RECOLECTAR_RECURSOS){
             
-            system(CLEAR);
+            mostrar_detalles(RECOLECTAR_RECURSOS);
             if(jugador == JUGADOR1){
-                juego->recolectar_recursos(juego->obtener_jugador_1());
+                juego->recolectarRecursosProducidos(juego->obtener_jugador_1());
             }
             else if(jugador == JUGADOR2){
-                juego->recolectar_recursos(juego->obtener_jugador_2());
+                juego->recolectarRecursosProducidos(juego->obtener_jugador_2());
             }
 
             volver_menu(MENU_1);
         }
         else if(opcion == MOVERSE_A_COORDENADA){
-            system(CLEAR);
+           
+            mostrar_detalles(MOVERSE_A_COORDENADA);
             Coordenada puntoInicial, puntoFinal;
             Grafo * grafo;
             int energiaJugador, costoCamino;
@@ -545,20 +716,22 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             if(puedoMoverJugadorACoordenada(puntoInicial, &puntoFinal, grafo, &costoCamino, energiaJugador)){
                 int topeCamino;
                 Coordenada* coordenadasCamino = grafo->obtener_camino_minimo(puntoInicial, puntoFinal, &topeCamino, &costoCamino);
+                system(CLEAR);
                 juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadasCamino, topeCamino, jugador );
                 delete[] coordenadasCamino;
             }
+            cout << TXT_LIGHT_BLUE_33 << endl;
             volver_menu(MENU_1);
         }
     else if(opcion == FINALIZAR_TURNO){
         
-        system(CLEAR);
+        mostrar_detalles(FINALIZAR_TURNO);
         salir = true;
         int cant_actual_energia;
         if(jugador == JUGADOR1){
             cant_actual_energia = juego->obtener_jugador_1()->obtener_cant_energia();
             juego->obtener_jugador_1()->establecer_energia(cant_actual_energia + 20);
-            cout << "Sele a dado 20 de energia. " << endl;
+            cout << "Se le ha dado 20 de energia. " << endl;
             if(juego->obtener_jugador_1()->obtener_cant_energia() > 100){
                 juego->obtener_jugador_1()->establecer_energia(100);
                 cout << "No se puede tener mas de 100 de energia." << endl;
@@ -567,7 +740,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         else if(jugador == JUGADOR2){
             cant_actual_energia = juego->obtener_jugador_2()->obtener_cant_energia();
             juego->obtener_jugador_2()->establecer_energia(cant_actual_energia + 20);
-            cout << "Sele a dado 20 de energia. " << endl;
+            cout << "Se le ha dado 20 de energia. " << endl;
             if(juego->obtener_jugador_2()->obtener_cant_energia() > 100){
                 juego->obtener_jugador_2()->establecer_energia(100);
                 cout << "No se puede tener mas de 100 de energia." << endl;
@@ -600,38 +773,6 @@ cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------
 
 
 return 0;
-
-}
-
-void Interfaz::determinarPosicionJugador(int jugador){
-    int fil, col;
-    Coordenada coordenada(-1,-1);
-    Casillero * casillero;
-    bool coordenadaValida = false;
-    while(!coordenadaValida) {
-        while (!esCoordenadaValida(coordenada)) {
-            system(CLEAR);
-            juego->obtener_mapa()->mostrar();
-            cout << "Ingrese ubicacion jugador " << jugador << ":" << endl;
-            cout << "Fila: ";
-            cin >> fil;
-            cout << "Columna: ";
-            cin >> col;
-            coordenada.setFila(fil);
-            coordenada.setColumna(col);
-        }
-        casillero = juego->obtener_mapa()->getCasillero(coordenada);
-        if (casillero->getEdificio() || casillero->devolver_jugador_casillero() != 0) {
-            cout << "El casillero se encuentra ocupado" << endl;
-            coordenada.setFila(-1);
-        }
-        else coordenadaValida = true;
-    }
-    if(jugador == JUGADOR1)
-        casillero->jugador_entra_casillero(1);
-    else casillero->jugador_entra_casillero(2);
-
-    casillero = juego->obtener_mapa()->getCasillero(coordenada);
 
 }
 
