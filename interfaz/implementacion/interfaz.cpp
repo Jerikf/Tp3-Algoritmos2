@@ -26,6 +26,9 @@ const int GUARDAR_Y_SALIR_DOS = 13;
 const int JUGADOR1 = 1;
 const int JUGADOR2 = 2;
 
+const int MENU_1 = 1;
+const int MENU_2 = 2;
+
 #ifdef _WIN32
 const char* CLEAR = "cls";
 #else
@@ -268,10 +271,12 @@ void Interfaz::iniciarMenuInicial(){
         opcion = obtenerOpcion(1,5);
         switch (opcion) {
             case MODIFICAR_EDIFICIO_POR_NOMBRE:
+                system(CLEAR);
                 juego->modificar_edificio_por_nombre();
                 volver_menu(1);
                 break;
             case LISTAR_TODOS_LOS_EDIFICIOS_INICIAL:
+                system(CLEAR);
                 juego->mostrar_primer_edificios();
                 volver_menu(1);
                 break;
@@ -283,10 +288,12 @@ void Interfaz::iniciarMenuInicial(){
                 volver_menu(1);
                 break;
             case COMENZAR_PARTIDA:
+                system(CLEAR);
                 elegir_personaje();
                 correr_juego();
                 break;
             case GUARDAR_Y_SALIR:
+                system(CLEAR);
                 juego->Gurdar_datos_edificios();
                 break;
         }
@@ -349,10 +356,11 @@ int Interfaz::iniciar_segundo_menu(int jugador){
     bool salir = false;
     while(!salir){
         juego->obtener_mapa()->mostrar();
+        system(CLEAR);
         this->mostrar_segundo_menu(jugador);
         opcion = this->obtenerOpcion(1,13);
         if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
-
+      
 			Coordenada coordenada;
 			int fila, columna;
             system(CLEAR);
@@ -381,10 +389,11 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 			cout << juego->obtener_jugador_1()->obtener_cant_energia() << endl;
 
 			
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == LISTAR_LOS_EDIFICIOS_CONSTRUIDOS){
-
+            
+            system(CLEAR);
             if(jugador == JUGADOR1){
                 juego->listarEdificiosConstruidos(juego->obtener_jugador_1());
             }
@@ -392,10 +401,10 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 juego->listarEdificiosConstruidos(juego->obtener_jugador_2());
             }
             
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == DEMOLER_EDIFICIO_POR_COORDENADA){
-
+           
             Coordenada coordenada;
 			int fila, columna;
             system(CLEAR);
@@ -419,7 +428,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
            
             system(CLEAR);
             //this->juego->listarTodosLosEdificios();
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
 
@@ -442,7 +451,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 this->juego->demolerEdificioPorCoordenada(coordenada, juego->obtener_jugador_2());
             }
             */
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
 
@@ -453,19 +462,20 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             this->juego->mostrarMapa();
             */
 
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == COMPRAR_BOMBAS){
-
-            if(jugador == 1){
+            
+            system(CLEAR);
+            if(jugador == JUGADOR1){
                 juego->comprar_bombas(juego->obtener_jugador_1());
             }
-            else if(jugador == 2){
+            else if(jugador == JUGADOR2){
                 juego->comprar_bombas(juego->obtener_jugador_2());
             }
 
 
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == CONSULTAR_COORDENADA){
 
@@ -492,10 +502,10 @@ int Interfaz::iniciar_segundo_menu(int jugador){
 
 
             system(CLEAR);
-            if(jugador == 1){
+            if(jugador == JUGADOR1){
                 this->juego->mostrarInventario(juego->obtener_jugador_1());
             }
-            else if(jugador == 2){
+            else if(jugador == JUGADOR2){
                 this->juego->mostrarInventario(juego->obtener_jugador_2());
             }
 
@@ -503,26 +513,29 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == MOSTRAR_OBJETIVOS){
 
+            system(CLEAR);
             if(jugador == 1){
                 juego->mostrar_objetivos(juego->obtener_jugador_1());
             }
             else if(jugador == JUGADOR2){
                 juego->mostrar_objetivos(juego->obtener_jugador_2());
             }
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == RECOLECTAR_RECURSOS){
-
-            if(jugador == 1){
+            
+            system(CLEAR);
+            if(jugador == JUGADOR1){
                 juego->recolectar_recursos(juego->obtener_jugador_1());
             }
-            else if(jugador == 2){
+            else if(jugador == JUGADOR2){
                 juego->recolectar_recursos(juego->obtener_jugador_2());
             }
 
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
         else if(opcion == MOVERSE_A_COORDENADA){
+            system(CLEAR);
             Coordenada puntoInicial, puntoFinal;
             Grafo * grafo;
             int energiaJugador, costoCamino;
@@ -542,13 +555,14 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 juego->obtener_mapa()->mostrar_recorrido_jugador(coordenadasCamino, topeCamino, jugador );
                 delete[] coordenadasCamino;
             }
-            volver_menu(1);
+            volver_menu(MENU_1);
         }
     else if(opcion == FINALIZAR_TURNO){
-
+        
+        system(CLEAR);
         salir = true;
         int cant_actual_energia;
-        if(jugador == 1){
+        if(jugador == JUGADOR1){
             cant_actual_energia = juego->obtener_jugador_1()->obtener_cant_energia();
             juego->obtener_jugador_1()->establecer_energia(cant_actual_energia + 20);
             cout << "Sele a dado 20 de energia. " << endl;
@@ -557,7 +571,7 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 cout << "No se puede tener mas de 100 de energia." << endl;
             }
         }
-        else if(jugador == 2){
+        else if(jugador == JUGADOR2){
             cant_actual_energia = juego->obtener_jugador_2()->obtener_cant_energia();
             juego->obtener_jugador_2()->establecer_energia(cant_actual_energia + 20);
             cout << "Sele a dado 20 de energia. " << endl;
@@ -566,10 +580,9 @@ int Interfaz::iniciar_segundo_menu(int jugador){
                 cout << "No se puede tener mas de 100 de energia." << endl;
             }
         }
-        volver_menu(2);
+        volver_menu(MENU_2);
     }
     else if(opcion == GUARDAR_Y_SALIR_DOS){
-
         cout << "\n\n\n";
         system(CLEAR);
         cout << "GUARDAR Y SALIR" << endl;
@@ -577,17 +590,17 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         salir = true;
     }
     else{
-        volver_menu(1);
+        volver_menu(MENU_1);
     }
 
 }
 
 
-if(opcion == 12){
-return 12;
+if(opcion == FINALIZAR_TURNO){
+return FINALIZAR_TURNO;
 }
-else if(opcion == 13){
-return 13;
+else if(opcion == GUARDAR_Y_SALIR_DOS){
+return GUARDAR_Y_SALIR_DOS;
 }
 
 cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
@@ -621,7 +634,7 @@ void Interfaz::determinarPosicionJugador(int jugador){
         }
         else coordenadaValida = true;
     }
-    if(jugador == 1)
+    if(jugador == JUGADOR1)
         casillero->jugador_entra_casillero(1);
     else casillero->jugador_entra_casillero(2);
 
@@ -645,16 +658,16 @@ void Interfaz::correr_juego(){
 
     bool construyo_obelisco = false;
     int opcion = -1;
-    int turno_jugador = 1;
+    int turno_jugador = JUGADOR1;
 
-    while(construyo_obelisco == false && opcion != 13){
+    while(construyo_obelisco == false && opcion != GUARDAR_Y_SALIR_DOS){
 
-        if(turno_jugador == 1){
-            opcion = iniciar_segundo_menu(1);
+        if(turno_jugador == JUGADOR1){
+            opcion = iniciar_segundo_menu(JUGADOR1);
             turno_jugador ++;
         }
-        else if(turno_jugador == 2){
-            opcion = iniciar_segundo_menu(2);
+        else if(turno_jugador == JUGADOR2){
+            opcion = iniciar_segundo_menu(JUGADOR2);
             turno_jugador --;
         }
 

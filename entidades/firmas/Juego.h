@@ -69,6 +69,10 @@ class Juego
         // PRE: -
         // POST: Agrega el objetivo al vector.
         void agregar_objetivo(string nombre);
+
+        // PRE: -
+        // POS: Muestra el objetivo del jugador.
+        void mostrar_objetivo(string *objetivo);
         
     public:
 

@@ -36,6 +36,27 @@ const string ENERGIA = "energia";
 const string BOMBAS = "bombas";
 
 const int CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO = 15;
+const int CONSUMO_ENERGIA_COMPRAR_BOMBAS = 5;
+const int CONSUMO_ENERGIA_RECOLECTAR_RECUROSOS = 20;
+
+const int RECURSOS_ASERRADERO = 25;
+const int RECURSOS_MINA = 15;
+const int RECURSOS_FABRICA = 40;
+const int RECURSOS_ESCUELA = 25;
+const int RECURSOS_PLANTA_ELECTRICA = 15;
+const int RECURSOS_MINA_ORO = 50;  
+
+const string COMPRAR_ANDYPOLIS = "Comprar andypolis";
+const string BOMBARDERO = "Bombardero";
+const string EDAD_DE_PIEDRA = "Edad de piedra";
+const string ENERGETICO = "Energetico";
+const string LETRADO = "Letrado";
+const string MINERO = "Minero";
+const string CANSADO = "Cansado";
+const string CONSTRUCTOR = "Constructor";
+const string ARMADO = "Armado";
+const string EXTREMISTA = "Extremista";
+
 
 
 //----------------------------IMPLEMENTACIÓN DE FUNCIONES PRIVADAS---------------------------------------
@@ -120,10 +141,6 @@ void Juego::recolectarMateriales(int cantDeMaterialesARecolectar, Material* mate
     }else
         cout << "YA NO TENGO MAS ESPACIO" << endl;
 }
-
-//----------------------------------------------------------------------------------------------------------------
-
-                                                          //No va
 
 Juego::Juego(Datos* datos, Diccionario<Edificio>* edificios){
     this-> datos = datos;
@@ -408,15 +425,15 @@ void Juego::lluviaDeRecursos(){
 
 void Juego::modificar_valor_material(string material, int cant_material, string nombre_edificio){
 
-    if(material == "piedra"){
+    if(material == PIEDRA){
 
         edificios->buscar(nombre_edificio)->setCantPiedra(cant_material);
     }
-    else if(material == "madera"){
+    else if(material == MADERA){
 
         edificios->buscar(nombre_edificio)->setCantMadera(cant_material);
     }
-    else if(material == "metal"){
+    else if(material == METAL){
 
         edificios->buscar(nombre_edificio)->setCantMetal(cant_material);
     }
@@ -469,13 +486,13 @@ void Juego::modificar_edificio_por_nombre(){
 
                 if(contador_material == 0){
 
-                    modificar_valores_materiales("piedra", nombre_edificio);
+                    modificar_valores_materiales(PIEDRA, nombre_edificio);
                 }
                 else if(contador_material == 1){
-                    modificar_valores_materiales("madera", nombre_edificio);
+                    modificar_valores_materiales(MADERA, nombre_edificio);
                 }
                 else if(contador_material == 2){
-                    modificar_valores_materiales("metal", nombre_edificio);
+                    modificar_valores_materiales(METAL, nombre_edificio);
                 }
 
                 contador_material ++;
@@ -523,6 +540,7 @@ void Juego::comprar_bombas(Jugador* jugador){
             else if(cantidad_bombas > 1){
                 cout << "Se han agregado " << cantidad_bombas << " bombas a su invnetario." << endl;
             }
+            cout << "Le quedan " << cantidad_andycoins - total_pagar << " de andycoins." << endl;
         
             lo_encontro = false;
             posicion = 0;
@@ -553,7 +571,7 @@ void Juego::comprar_bombas(Jugador* jugador){
             }
 
             int cantidad_actual_energia = jugador->obtener_cant_energia();
-            jugador->establecer_energia(cantidad_actual_energia - 5);
+            jugador->establecer_energia(cantidad_actual_energia - CONSUMO_ENERGIA_COMPRAR_BOMBAS);
         }
         else{
             cout << "No tene la cantidad suificente de dinero para comprar " << cantidad_bombas << " bombas." << endl;
@@ -606,7 +624,7 @@ void Juego::recolectar_recurso(int canitdad_recurso, Jugador* jugador, string no
     else if(canitdad_recurso > 0 && nombre_material == ENERGIA){
 
         int cantidad_actual = jugador->obtener_cant_energia();
-        jugador->establecer_energia(cantidad_actual + 15);
+        jugador->establecer_energia(cantidad_actual + RECURSOS_PLANTA_ELECTRICA);
 
     }
 
@@ -634,24 +652,24 @@ void Juego::recolectar_recursos(Jugador* jugador){
     
         cout << "Informacion de produccion de los edificios: " << endl;
         cout << endl;
-        cout << "Aserradero - 25 maderas c/u - " << "Cantidad: " << cant_aserraderos << " Madera generada: " << cant_aserraderos * 25 << endl;
+        cout << "Aserradero - 25 maderas c/u - " << "Cantidad: " << cant_aserraderos << " Madera generada: " << cant_aserraderos * RECURSOS_ASERRADERO << endl;
         cout << endl;
-        cout << "Mina - 15 piedras c/u - " << "Cantidad: " << cant_minas << " Piedra generada: " << cant_minas * 15 << endl;
+        cout << "Mina - 15 piedras c/u - " << "Cantidad: " << cant_minas << " Piedra generada: " << cant_minas * RECURSOS_MINA << endl;
         cout << endl;
-        cout << "Fabrica - 40 metales c/u - " << "Cantidad: " << cant_fabricas << " Metal generado: " << cant_fabricas * 40 << endl;
+        cout << "Fabrica - 40 metales c/u - " << "Cantidad: " << cant_fabricas << " Metal generado: " << cant_fabricas * RECURSOS_FABRICA << endl;
         cout << endl;
-        cout << "Escuela - 25 andycoins c/u - " << "Cantidad: " << cant_escuelas << " Andycoin generado: " << cant_escuelas * 25 << endl;
+        cout << "Escuela - 25 andycoins c/u - " << "Cantidad: " << cant_escuelas << " Andycoin generado: " << cant_escuelas * RECURSOS_ESCUELA << endl;
         cout << endl;
-        cout << "Planta electrica - 15 de energia c/u - " << "Cantidad: " << cant_plantas_electricas << " Energia generada: " << cant_plantas_electricas * 15 << endl;
+        cout << "Planta electrica - 15 de energia c/u - " << "Cantidad: " << cant_plantas_electricas << " Energia generada: " << cant_plantas_electricas * RECURSOS_PLANTA_ELECTRICA << endl;
         cout << endl;
-       cout << "Mina oro - 50 andycoins c/u - " << "Cantidad: " << cant_minas_oro << " Andycoin generado: " << cant_minas_oro * 50 << endl;
+       cout << "Mina oro - 50 andycoins c/u - " << "Cantidad: " << cant_minas_oro << " Andycoin generado: " << cant_minas_oro * RECURSOS_MINA_ORO << endl;
 
-        recolectar_recurso(cant_aserraderos * 25, jugador, MADERA);
-        recolectar_recurso(cant_minas * 15, jugador, PIEDRA);
-        recolectar_recurso(cant_fabricas * 40, jugador, FABRICA);
-        recolectar_recurso(cant_escuelas * 25, jugador, ANDYCOINS);
-        recolectar_recurso(cant_plantas_electricas * 15, jugador, ENERGIA);
-        recolectar_recurso(cant_minas_oro * 50, jugador, ANDYCOINS);
+        recolectar_recurso(cant_aserraderos * RECURSOS_ASERRADERO, jugador, MADERA);
+        recolectar_recurso(cant_minas * RECURSOS_MINA, jugador, PIEDRA);
+        recolectar_recurso(cant_fabricas * RECURSOS_FABRICA, jugador, FABRICA);
+        recolectar_recurso(cant_escuelas * RECURSOS_ESCUELA, jugador, ANDYCOINS);
+        recolectar_recurso(cant_plantas_electricas * RECURSOS_PLANTA_ELECTRICA, jugador, ENERGIA);
+        recolectar_recurso(cant_minas_oro * RECURSOS_MINA_ORO, jugador, ANDYCOINS);
     
         int cantidad_total_edificios = cant_aserraderos + cant_minas + cant_plantas_electricas + cant_minas_oro + cant_escuelas + cant_fabricas;
     
@@ -661,7 +679,7 @@ void Juego::recolectar_recursos(Jugador* jugador){
         else{
  
             int cantidad_actual = jugador->obtener_cant_energia();
-            jugador->establecer_energia(cantidad_actual - 20);
+            jugador->establecer_energia(cantidad_actual - CONSUMO_ENERGIA_RECOLECTAR_RECUROSOS);
 
         }
     }
@@ -683,16 +701,16 @@ void Juego::agregar_objetivo(string nombre){
 
 void Juego::cargar_objetivos(){
     
-    agregar_objetivo("Comprar andypolis");
-    agregar_objetivo("Edad de piedra");
-    agregar_objetivo("Bombardero");
-    agregar_objetivo("Energetico");
-    agregar_objetivo("Letrado");
-    agregar_objetivo("Minero");
-    agregar_objetivo("Cansado");
-    agregar_objetivo("Constructor");
-    agregar_objetivo("Armado");
-    agregar_objetivo("Extremista");    
+    agregar_objetivo(COMPRAR_ANDYPOLIS);
+    agregar_objetivo(BOMBARDERO);
+    agregar_objetivo(EDAD_DE_PIEDRA);
+    agregar_objetivo(ENERGETICO);
+    agregar_objetivo(LETRADO);
+    agregar_objetivo(MINERO);
+    agregar_objetivo(CANSADO);
+    agregar_objetivo(CONSTRUCTOR);
+    agregar_objetivo(ARMADO);
+    agregar_objetivo(EXTREMISTA);  
     
 }
 
@@ -763,10 +781,59 @@ void Juego::establecer_objetivos_jugadores(){
     jugador_2->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
 }
 
+void Juego::mostrar_objetivo(string *objetivo){
+
+    if(*objetivo == COMPRAR_ANDYPOLIS){
+        cout << COMPRAR_ANDYPOLIS << ": haber juntado 100.000 andycoins a lo largo de la partida (las monedas gastadas también cuentan para este objetivo)" << endl;
+        cout << endl;
+    }
+    else if(*objetivo == BOMBARDERO){
+        cout << BOMBARDERO << ": haber usado 5 bombas." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == EDAD_DE_PIEDRA){
+        cout << EDAD_DE_PIEDRA << ": tener en el inventario 50000 piedras" << endl;
+        cout << endl;
+    }
+    else if(*objetivo == ENERGETICO){
+        cout << ENERGETICO << ": haber terminado un turno con 100 puntos de energía." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == LETRADO){
+        cout << LETRADO << ": haber construido el máximo posible de escuelas." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == MINERO){
+        cout << MINERO << ": haber construido una mina de cada tipo." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == CANSADO){
+        cout << CANSADO << ": terminar un turno con 0 de energía." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == CONSTRUCTOR){
+        cout << CONSTRUCTOR << ": construir un edificio de cada tipo." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == ARMADO){
+        cout << ARMADO << ": tener 10 bombas en el inventario." << endl;
+        cout << endl;
+    }
+    else if(*objetivo == EXTREMISTA){
+        cout << EXTREMISTA << ": haber comprado 500 bombas en una partida." << endl;
+        cout << endl;
+    }
+  
+
+}
+
 void Juego::mostrar_objetivos(Jugador* jugador){
     
     cout << "Sus objetivos son: " << endl;
-    cout << *jugador->obtener_primer_objetivo() << endl;
-    cout << *jugador->obtener_segundo_objetivo() << endl;
+    cout << endl;
+    mostrar_objetivo(jugador->obtener_primer_objetivo());
+    mostrar_objetivo(jugador->obtener_segundo_objetivo());
+    
+
 
 }
