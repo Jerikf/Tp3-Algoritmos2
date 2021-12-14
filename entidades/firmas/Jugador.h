@@ -14,6 +14,8 @@ class Jugador{
     Vect<Material>* inventario;
     Vect<Coordenada>* coordenadasDeEdificiosConstruidos;
     Grafo* grafo;
+    string* primer_objetivo;
+    string* segundo_objetivo;
 
     public:
 
@@ -68,6 +70,18 @@ class Jugador{
     // PRE: -
     // POS: Destruye el jugador.
     ~Jugador();
+    
+    // PRE: -
+    // POS: Establece los objetivos del jugador.
+    void establecer_objetivos(string* primer_objetivo, string*segundo_objetivo);
+
+    // PRE: -
+    // POS: Obtiene el primer objetivo.
+    string* obtener_primer_objetivo();
+
+    // PRE: -
+    // POS: Obtiene el segundo objetivo.
+    string* obtener_segundo_objetivo();
 };
 
 #endif // JUGADOR_H_

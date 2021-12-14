@@ -140,6 +140,7 @@ Juego::Juego(){
     this-> edificios = new Diccionario<Edificio>();
     this-> jugador_1 = new Jugador();
     this-> jugador_2 = new Jugador();
+    this-> objetivos = new Vect<string>();
 
 }
 
@@ -148,6 +149,7 @@ Juego::~Juego(){
     delete edificios;
     delete jugador_1;
     delete jugador_2;
+    delete objetivos;
     if(mapa)
         delete mapa;
 }
@@ -159,6 +161,8 @@ void Juego::inicializarCargadoDatos(){
     this-> jugador_1->establecer_grafo(mapa, 1);
     this-> jugador_2->establecer_grafo(mapa, 2);
     this-> datos->cargarDatosUbicaciones(mapa, edificios, jugador_1->obtener_coordenadasDeEdificiosConstruidos(), jugador_2->obtener_coordenadasDeEdificiosConstruidos());
+    cargar_objetivos();
+    establecer_objetivos_jugadores();
 }
 
 
@@ -190,9 +194,24 @@ void Juego::listarEdificiosConstruidos(Jugador* jugador){
 }
 
 
-void Juego::listarTodosLosEdificios(){
+void Juego::listarTodosLosEdificios(Jugador* jugador){
+    
+    if(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad() == 0){
+        cout << "No hay edificios construidos" << endl;
+    }
+    else{
+        cout << "EDIFICIOS CONSTRUIDOS: " << endl;
+        cout << endl;
+        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
 
-    edificios->mostrarInorder();
+            Coordenada coordenada;
+            coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila());
+            coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna());
+            cout <<  mapa->getCasillero(coordenada)->getEdificio()->getNombre() << " --- " << "(" << coordenada.getFila() << " " << coordenada.getColumna() << ")" << endl;
+        }
+    }
+    
+
 }
 
 
@@ -261,57 +280,33 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
 }
 
 void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador){
-    
-    Casillero* casillero = NULL;
+    /*
+    Casillero* casillero = this->mapa->getCasillero(coordenada);
     Edificio* edificio = NULL;
-    Coordenada coordenadaEncontrada;
-    if(jugador->obtener_cant_energia() > 15){
-        int fila, columna;
-        
-        for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
-            fila = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila();
-            columna = jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna();
+    if(casillero){
+        edificio = casillero->demolerEdificio();
 
-            if(coordenada.getFila() == fila && coordenada.getColumna() == columna){
-                casillero = this->mapa->getCasillero(coordenada);
-                coordenadaEncontrada.setFila(fila);
-                coordenadaEncontrada.setColumna(columna);
-            }
+        //Si es que se demolió correctamente tengo que devolver la mitad de los materiales usado
+        if(edificio){
+            Material* piedra = this->obtenerMaterial(PIEDRA);
+            Material* madera = this->obtenerMaterial(MADERA);
+            Material* metal = this->obtenerMaterial(METAL);
 
+            int piedraDeEdificio = edificio->getCantPiedra() / 2;
+            int maderaDeEdificio = edificio->getCantMadera() / 2;
+            int metalDeEdificio = edificio->getCantMetal() / 2;
+
+            piedra->setCantidad(piedra->getCantidad() + piedraDeEdificio);
+            madera->setCantidad(madera->getCantidad() + maderaDeEdificio);
+            metal->setCantidad(metal->getCantidad() + metalDeEdificio);
+
+            delete edificio; //TENGO QUE LIBERAR SU MEMORIA YA QUE EL CASILLERO CONSTRUIBLE ME DEVOLVIÓ LA DIRECCION Y ESTE LO INSTANCIÓ EN NULL
+                            //ENTONCES CUANDO SE LIBERE CASILLERO CON SU DESTRUCTOR YA NO ESTARÍA ESTE EDIFICIO
         }
 
-        if(casillero){
-            edificio = casillero->demolerEdificio();
-
-            //Si es que se demolió correctamente tengo que devolver la mitad de los materiales usado
-            if(edificio){
-                Material* piedra = this->obtenerMaterial(PIEDRA, jugador);
-                Material* madera = this->obtenerMaterial(MADERA, jugador);
-                Material* metal = this->obtenerMaterial(METAL, jugador);
-
-                int piedraDeEdificio = edificio->getCantPiedra() / 2;
-                int maderaDeEdificio = edificio->getCantMadera() / 2;
-                int metalDeEdificio = edificio->getCantMetal() / 2;
-
-                piedra->setCantidad(piedra->getCantidad() + piedraDeEdificio);
-                madera->setCantidad(madera->getCantidad() + maderaDeEdificio);
-                metal->setCantidad(metal->getCantidad() + metalDeEdificio);
-
-                delete edificio; //TENGO QUE LIBERAR SU MEMORIA YA QUE EL CASILLERO CONSTRUIBLE ME DEVOLVIÓ LA DIRECCION Y ESTE LO INSTANCIÓ EN NULL
-                                //ENTONCES CUANDO SE LIBERE CASILLERO CON SU DESTRUCTOR YA NO ESTARÍA ESTE EDIFICIO
-            
-                //TODO-->Tengo que eliminar de las coordenadas del vector de edificios construidos
-                
-                //DESCUENTO LA ENERGÌA
-                jugador->establecer_energia(jugador->obtener_cant_energia() - 15);
-            }
-        }else
-            cout << "\n\n ERROR--> COORDENADA FUERA DE RANGO , NO TIENES EDIFICIO AHÌ" << endl;
-
     }else
-        cout << "\n\n ERROR--> NO TIENE SUFICIENTE ENERGIA PARA DEMOLER UN EDIFICIO";
-    
-    
+        cout << "\n\n ERROR--> COORDENADA FUERA DE RANGO DEL MAPA" << endl;
+    */
 
 }
 
@@ -462,8 +457,7 @@ void Juego::modificar_edificio_por_nombre(){
     string nombre_edificio;
 
     cout << "Indique el nombre del edificio que desea modificar:" << endl;
-    getline(cin.ignore(), nombre_edificio);
-    //cout << "El nombre es : " << nombre_edificio << endl; se usò para verficiar que lea todo completo
+    cin >> nombre_edificio;
     if(edificios->buscar(nombre_edificio) != NULL){
         if(nombre_edificio == "obelisco"){
             cout << "El obelisco no se puede modificar" << endl;
@@ -677,6 +671,31 @@ void Juego::recolectar_recursos(Jugador* jugador){
 
 }
 
+void Juego::agregar_objetivo(string nombre){
+
+    string *objetivo = new string;
+    *objetivo = nombre;
+
+    objetivos->agregar(objetivo);
+
+
+}
+
+void Juego::cargar_objetivos(){
+    
+    agregar_objetivo("Comprar andypolis");
+    agregar_objetivo("Edad de piedra");
+    agregar_objetivo("Bombardero");
+    agregar_objetivo("Energetico");
+    agregar_objetivo("Letrado");
+    agregar_objetivo("Minero");
+    agregar_objetivo("Cansado");
+    agregar_objetivo("Constructor");
+    agregar_objetivo("Armado");
+    agregar_objetivo("Extremista");    
+    
+}
+
 void Juego::mostrar_primer_edificios(){
 
     edificios->mostrarInorder();
@@ -721,4 +740,33 @@ int Juego::obtener_cant_lineas(){
 bool Juego::obtener_esta_ubicaciones(){
 
     return datos->obtener_esta_ubicaciones();
+}
+
+Vect<string>* Juego::obtener_objetivos(){
+
+    return objetivos;
+}
+
+void Juego::establecer_objetivos_jugadores(){
+
+    srand(static_cast<unsigned int>(time(NULL)));
+    
+    int canitdad_elementos = objetivos->obtenerCantidad();
+    int elemento_aleatorio_1 = (rand()% canitdad_elementos);
+    int elemento_aleatorio_2 = (rand()% canitdad_elementos);
+    
+    jugador_1->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
+    
+    elemento_aleatorio_1 = (rand()% canitdad_elementos);
+    elemento_aleatorio_2 = (rand()% canitdad_elementos);
+
+    jugador_2->establecer_objetivos(objetivos->obtenerDato(elemento_aleatorio_1), objetivos->obtenerDato(elemento_aleatorio_2));
+}
+
+void Juego::mostrar_objetivos(Jugador* jugador){
+    
+    cout << "Sus objetivos son: " << endl;
+    cout << *jugador->obtener_primer_objetivo() << endl;
+    cout << *jugador->obtener_segundo_objetivo() << endl;
+
 }

@@ -503,14 +503,12 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         }
         else if(opcion == MOSTRAR_OBJETIVOS){
 
-            /*
-            cout << "\n\n\n";
-            this->juego->lluviaDeRecursos();
-            system(CLEAR);
-            cout << "LLUVIA DE RECURSOS | SI HUBO ESPACIO EN LOS CAMINOS SE COMPLETÓ CORRECTAMENTE" << endl;
-            break;
-            */
-            cout << "Error" << endl;
+            if(jugador == 1){
+                juego->mostrar_objetivos(juego->obtener_jugador_1());
+            }
+            else if(jugador == JUGADOR2){
+                juego->mostrar_objetivos(juego->obtener_jugador_2());
+            }
             volver_menu(1);
         }
         else if(opcion == RECOLECTAR_RECURSOS){
