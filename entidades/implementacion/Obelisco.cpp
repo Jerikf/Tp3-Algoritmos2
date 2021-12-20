@@ -4,6 +4,7 @@
 void Obelisco::mostrar(){
     Edificio::mostrar();
     cout << "        MATERIAL BRINDADO : NO BRINDA" << endl;
+    cout << "        Vida: No tiene." << endl;
     cout << endl;
 }
 
@@ -16,3 +17,5 @@ Obelisco::~Obelisco(){}
 char Obelisco::getAbreviaturaDeNombre(){
     return OBELISCO_ABREVIATURA;
 }
+
+void Obelisco::setVida(){}

@@ -29,6 +29,18 @@ const int JUGADOR2 = 2;
 const int MENU_1 = 1;
 const int MENU_2 = 2;
 
+const string COMPRAR_ANDYPOLIS = "Comprar andypolis";
+const string BOMBARDERO = "Bombardero";
+const string EDAD_DE_PIEDRA = "Edad de piedra";
+const string ENERGETICO = "Energetico";
+const string LETRADO = "Letrado";
+const string MINERO = "Minero";
+const string CANSADO = "Cansado";
+const string CONSTRUCTOR = "Constructor";
+const string ARMADO = "Armado";
+const string EXTREMISTA = "Extremista";
+
+
 #define TXT_LIGHT_BLUE_33 "\033[38;5;33m"
 
 #ifdef _WIN32
@@ -533,15 +545,51 @@ void Interfaz::iniciarMenuInicial(){
     }
 }
 
-int Interfaz::iniciar_segundo_menu(int jugador){
+int Interfaz::iniciar_segundo_menu(int jugador, int &construyo_obelisco){
     int opcion;
     
     string nombre = "";
     bool salir = false;
-    while(!salir){
-        juego->obtener_mapa()->mostrar();
+    while(!salir && construyo_obelisco != 1 && juego->obtener_jugador_1()->obtener_objetivos_cumplidos() != 2 && juego->obtener_jugador_2()->obtener_objetivos_cumplidos() != 2){
+        
+        
         system(CLEAR);
         this->mostrar_segundo_menu(jugador);
+        if(jugador == JUGADOR1){
+            if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == EDAD_DE_PIEDRA || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == EDAD_DE_PIEDRA){
+                juego->verificar_objetivo(EDAD_DE_PIEDRA, juego->obtener_jugador_1());
+            }
+            if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == ARMADO || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == ARMADO){
+                juego->verificar_objetivo(ARMADO, juego->obtener_jugador_1());
+            }
+            if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == LETRADO || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == LETRADO){
+                juego->verificar_objetivo(LETRADO, juego->obtener_jugador_1());
+            }
+            if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == MINERO || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == MINERO){
+                juego->verificar_objetivo(MINERO, juego->obtener_jugador_1());
+            }
+            if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == CONSTRUCTOR || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == CONSTRUCTOR){
+                juego->verificar_objetivo(CONSTRUCTOR, juego->obtener_jugador_1());
+            }
+            
+        }
+        else if(jugador == JUGADOR2){
+            if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == EDAD_DE_PIEDRA || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == EDAD_DE_PIEDRA){
+                juego->verificar_objetivo(EDAD_DE_PIEDRA, juego->obtener_jugador_2());
+            }
+            if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == ARMADO || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == ARMADO){
+                juego->verificar_objetivo(ARMADO, juego->obtener_jugador_2());
+            }
+            if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == LETRADO || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == LETRADO){
+                juego->verificar_objetivo(LETRADO, juego->obtener_jugador_2());
+            }
+            if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == MINERO || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == MINERO){
+                juego->verificar_objetivo(MINERO, juego->obtener_jugador_2());
+            }
+            if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == CONSTRUCTOR || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == CONSTRUCTOR){
+                juego->verificar_objetivo(CONSTRUCTOR, juego->obtener_jugador_2());
+            }
+        }
         opcion = this->obtenerOpcion(1,13);
         if(opcion == CONSTRUIR_EDIFICIO_POR_NOMBRE){
             
@@ -569,9 +617,9 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             system(CLEAR);
 
 			if(jugador == JUGADOR1)
-				this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
+				construyo_obelisco = this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_1());
 			else
-				this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
+				construyo_obelisco = this->juego->construirEdificioPorNombre(nombre, coordenada, juego->obtener_jugador_2());
 
 			juego->obtener_jugador_1()->obtener_coordenadasDeEdificiosConstruidos()->mostrar();
 			cout << juego->obtener_jugador_1()->obtener_cant_energia() << endl;
@@ -627,7 +675,13 @@ int Interfaz::iniciar_segundo_menu(int jugador){
         else if(opcion == REPARAR_EDIFICIO_POR_COORDENADA){
 
             mostrar_detalles(REPARAR_EDIFICIO_POR_COORDENADA);
-
+            
+            if(jugador == JUGADOR1){
+                juego->repararEdificioPorCoordenada(juego->obtener_jugador_1());
+            }
+            else if(jugador == JUGADOR2){
+                juego->repararEdificioPorCoordenada(juego->obtener_jugador_2());
+            }
 
             volver_menu(MENU_1);
         }
@@ -723,56 +777,70 @@ int Interfaz::iniciar_segundo_menu(int jugador){
             cout << TXT_LIGHT_BLUE_33 << endl;
             volver_menu(MENU_1);
         }
-    else if(opcion == FINALIZAR_TURNO){
+        else if(opcion == FINALIZAR_TURNO){
         
-        mostrar_detalles(FINALIZAR_TURNO);
-        salir = true;
-        int cant_actual_energia;
-        if(jugador == JUGADOR1){
-            cant_actual_energia = juego->obtener_jugador_1()->obtener_cant_energia();
-            juego->obtener_jugador_1()->establecer_energia(cant_actual_energia + 20);
-            cout << "Se le ha dado 20 de energia. " << endl;
-            if(juego->obtener_jugador_1()->obtener_cant_energia() > 100){
-                juego->obtener_jugador_1()->establecer_energia(100);
-                cout << "No se puede tener mas de 100 de energia." << endl;
+            mostrar_detalles(FINALIZAR_TURNO);
+            salir = true;
+            int cant_actual_energia;
+            if(jugador == JUGADOR1){
+                if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == CANSADO || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == CANSADO){
+                    juego->verificar_objetivo(CANSADO, juego->obtener_jugador_1());
+                }
+                cant_actual_energia = juego->obtener_jugador_1()->obtener_cant_energia();
+                juego->obtener_jugador_1()->establecer_energia(cant_actual_energia + 20);
+                cout << "Se le ha dado 20 de energia. " << endl;
+                if(juego->obtener_jugador_1()->obtener_cant_energia() > 100){
+                    juego->obtener_jugador_1()->establecer_energia(100);
+                    cout << "No se puede tener mas de 100 de energia." << endl;
+                }
+                if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == ENERGETICO || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == ENERGETICO){
+                    juego->verificar_objetivo(ENERGETICO, juego->obtener_jugador_1());
+                }
+                
             }
+            else if(jugador == JUGADOR2){
+                if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == CANSADO || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == CANSADO){
+                    juego->verificar_objetivo(CANSADO, juego->obtener_jugador_2());
+                }
+                cant_actual_energia = juego->obtener_jugador_2()->obtener_cant_energia();
+                juego->obtener_jugador_2()->establecer_energia(cant_actual_energia + 20);
+                cout << "Se le ha dado 20 de energia. " << endl;
+                if(juego->obtener_jugador_2()->obtener_cant_energia() > 100){
+                    juego->obtener_jugador_2()->establecer_energia(100);
+                    cout << "No se puede tener mas de 100 de energia." << endl;
+                }
+                if(*juego->obtener_jugador_2()->obtener_primer_objetivo() == ENERGETICO || *juego->obtener_jugador_2()->obtener_segundo_objetivo() == ENERGETICO){
+                    juego->verificar_objetivo(ENERGETICO, juego->obtener_jugador_2());
+                }
+            }  
+            volver_menu(MENU_2);
         }
-        else if(jugador == JUGADOR2){
-            cant_actual_energia = juego->obtener_jugador_2()->obtener_cant_energia();
-            juego->obtener_jugador_2()->establecer_energia(cant_actual_energia + 20);
-            cout << "Se le ha dado 20 de energia. " << endl;
-            if(juego->obtener_jugador_2()->obtener_cant_energia() > 100){
-                juego->obtener_jugador_2()->establecer_energia(100);
-                cout << "No se puede tener mas de 100 de energia." << endl;
-            }
+        else if(opcion == GUARDAR_Y_SALIR_DOS){
+            cout << "\n\n\n";
+            system(CLEAR);
+            cout << "GUARDAR Y SALIR" << endl;
+            this->juego->guardarSalir();
+            salir = true;
         }
-        volver_menu(MENU_2);
+        else{
+            volver_menu(MENU_1);
+        }
+
+        
+
+    }
+
+    if(opcion == FINALIZAR_TURNO){
+        return FINALIZAR_TURNO;
     }
     else if(opcion == GUARDAR_Y_SALIR_DOS){
-        cout << "\n\n\n";
-        system(CLEAR);
-        cout << "GUARDAR Y SALIR" << endl;
-        this->juego->guardarSalir();
-        salir = true;
-    }
-    else{
-        volver_menu(MENU_1);
-    }
+       return GUARDAR_Y_SALIR_DOS;
+    }   
 
-}
+    cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
 
 
-if(opcion == FINALIZAR_TURNO){
-return FINALIZAR_TURNO;
-}
-else if(opcion == GUARDAR_Y_SALIR_DOS){
-return GUARDAR_Y_SALIR_DOS;
-}
-
-cout << "\n\n\n-------------------------HASTA LA PRÓXIMA-----------------------" << endl;
-
-
-return 0;
+    return 0;
 
 }
 
@@ -790,22 +858,30 @@ void Interfaz::iniciar(){
 
 void Interfaz::correr_juego(){
 
-    bool construyo_obelisco = false;
+    int construyo_obelisco = 0;
     int opcion = -1;
     int turno_jugador = JUGADOR1;
 
-    while(construyo_obelisco == false && opcion != GUARDAR_Y_SALIR_DOS){
+    while(construyo_obelisco == 0 && opcion != GUARDAR_Y_SALIR_DOS && juego->obtener_jugador_1()->obtener_objetivos_cumplidos() != 2 && juego->obtener_jugador_2()->obtener_objetivos_cumplidos() != 2){
 
         if(turno_jugador == JUGADOR1){
-            opcion = iniciar_segundo_menu(JUGADOR1);
+            opcion = iniciar_segundo_menu(JUGADOR1, construyo_obelisco);
             turno_jugador ++;
         }
         else if(turno_jugador == JUGADOR2){
-            opcion = iniciar_segundo_menu(JUGADOR2);
+            opcion = iniciar_segundo_menu(JUGADOR2, construyo_obelisco);
             turno_jugador --;
         }
 
     }
+    /*if(construyo_obelisco == 1){
+        cout << "Se borrara la partida." << endl;
+        ofstream archivo_ubicaciones("ubicaciones.txt");
+        ofstream archivo_materiales("materiales.txt");
+
+        archivo_ubicaciones.close();
+        archivo_materiales.close();
+    }*/
 }
 
 

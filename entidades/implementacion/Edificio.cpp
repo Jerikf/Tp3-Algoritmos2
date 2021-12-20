@@ -62,4 +62,9 @@ void Edificio::setCantMetal(int cantMetal){
     this-> cantMetal = cantMetal;
 }
 
+int Edificio::obtener_cant_vida(){
 
+    return cantVida;
+}
+
+void Edificio::setVida(){}

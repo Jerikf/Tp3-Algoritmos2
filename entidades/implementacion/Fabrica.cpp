@@ -4,15 +4,21 @@
 void Fabrica::mostrar(){
     Edificio::mostrar();
     cout << "        MATERIAL BRINDADO | CANTIDAD : METALES 40" << endl;
+    cout << "        Vida: 2 bombas." << endl;
     cout << endl;
 }
 
 Fabrica::Fabrica(string nombre, int cantPiedra, int cantMadera, int cantMetal, int cantMaxPermitidos) : Edificio(nombre,cantPiedra, cantMadera, cantMetal, cantMaxPermitidos){
-
+   setVida();
 }
 
 Fabrica::~Fabrica(){}
 
 char Fabrica::getAbreviaturaDeNombre(){
     return FABRICA_ABREVIATURA;
+}
+
+void Fabrica::setVida(){
+
+    cantVida = 2;
 }

@@ -19,6 +19,10 @@ Jugador::Jugador(){
     this-> grafo = NULL; 
     this-> primer_objetivo = NULL;
     this-> segundo_objetivo = NULL;
+    this-> andycoins_gastados = 0;
+    this-> objetivos_cumplidos = 0;
+    this-> objetivo_cumplido = "-";
+
 }
 
 
@@ -39,6 +43,11 @@ void Jugador::establecer_ubicaciones(Vect<Coordenada>* coordenadasDeEdificiosCon
 
 void Jugador::establecer_grafo(Mapa* mapa, int numero){
     this->grafo = new Grafo(mapa, numero);
+}
+
+void Jugador::aumentar_objetivos_cumplidos(){
+
+    objetivos_cumplidos ++;
 }
 
 int Jugador::obtener_cant_energia(){
@@ -62,6 +71,11 @@ Vect<Coordenada>* Jugador::obtener_coordenadasDeEdificiosConstruidos(){
 Grafo* Jugador::obtener_grafo(){
 
     return grafo;
+}
+
+int Jugador::obtener_objetivos_cumplidos(){
+
+    return objetivos_cumplidos;
 }
 
 Coordenada * Jugador::jugadorSeMueve(Coordenada puntoInicial, Coordenada puntoFinal, int* topeCamino, Mapa * mapa){
@@ -97,4 +111,34 @@ string* Jugador::obtener_primer_objetivo(){
 string* Jugador::obtener_segundo_objetivo(){
 
     return segundo_objetivo;
+}
+
+int Jugador::obtener_bombas_usadas(){
+
+    return bombas_usadas;
+}
+
+void Jugador::aumentar_bombas_usadas(){
+
+    this-> bombas_usadas ++;
+}
+
+void Jugador::establecer_andycoins_gastados(int andycoins_gastados){
+
+    this-> andycoins_gastados = andycoins_gastados;
+}
+
+int Jugador::obtener_andycoins_gastados(){
+
+    return andycoins_gastados;
+}
+
+void Jugador::establecer_objetivo_cumplido(string objetivo_cumplido){
+
+    this-> objetivo_cumplido = objetivo_cumplido;
+}
+
+string Jugador::obtener_objetivo_cumplido(){
+
+    return objetivo_cumplido;
 }

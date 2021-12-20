@@ -16,6 +16,11 @@ class Jugador{
     Grafo* grafo;
     string* primer_objetivo;
     string* segundo_objetivo;
+    int andycoins_gastados;
+    int bombas_usadas;
+    string objetivo_cumplido;
+    int objetivos_cumplidos;
+
 
     public:
 
@@ -43,6 +48,18 @@ class Jugador{
     //POST: Establece el grafo del jugador.
     void establecer_grafo(Mapa* mapa, int numero);
 
+    //PRE: La cantidad es positiva.
+    //POS: Establece la cantidad de andycoins.
+    void establecer_andycoins_gastados(int andycoins_gastados);
+    
+    //PRE: -
+    //POS: Aumenta en una unidad la cantidad de objetivos cumplidos del jugador.
+    void aumentar_objetivos_cumplidos();
+
+    //PRE: -
+    //POS: Aumenta en una unidad la cantidad de bombas usadas del jugador.
+    void aumentar_bombas_usadas();
+
     //PRE: -
     //POST: Obtiene la cantidad de energia del jugador.
     int obtener_cant_energia();
@@ -62,11 +79,22 @@ class Jugador{
     //PRE: -
     //POST: Obtiene el grafo del jugador.
     Grafo* obtener_grafo();
+    
+    //PRE: -
+    //POS: Obtiene los andycoins del jugador.
+    int obtener_andycoins_gastados();
+
+    //PRE: -
+    //POS: Obtiene la cantidad de objetivos cumplidos.
+    int obtener_objetivos_cumplidos();
+
+    //PRE: -
+    //POS: Obtiene la cantidad de bombas usadas.
+    int obtener_bombas_usadas();
 
     //pre: el mapa tiene que estar cargado correctamente y las coordenadas ser posiciones validas.
     //post: devuelve nullptr si jugador no tiene la energia suficiente o un vector de coordenadas con el recorrido realizado.
     Coordenada * jugadorSeMueve(Coordenada puntoInicial, Coordenada puntoFinal, int* topeCamino, Mapa * mapa);
-
 
 
     //PRE: -
@@ -84,6 +112,11 @@ class Jugador{
     //PRE: -
     //POS: Obtiene el segundo objetivo.
     string* obtener_segundo_objetivo();
+
+    void establecer_objetivo_cumplido(string objetivo_cumplido);
+
+    string obtener_objetivo_cumplido();
+
 };
 
 #endif // JUGADOR_H_

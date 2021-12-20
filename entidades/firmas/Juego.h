@@ -74,6 +74,22 @@ class Juego
         // POS: Muestra el objetivo del jugador.
         void mostrar_objetivo(string *objetivo);
         
+        // PRE: Recibe el nombre del objetivo.
+        // POS: Cumple el objeivo.
+        void cumplir_objetivo(string nombre_objetivo, Jugador *jugador);
+
+        // PRE: -
+        // POS: Dependiendo del nombre del edificio devuelve la cantidad de edificios del mismo tipo.
+        int obtener_cant_edificios(string nombre_edificio, Jugador* jugador);
+
+        // PRE: -
+        // POS: Dependiendo del nombre del material devuelve la cantidad del material del mismo tipo.
+        int obtener_cant_material(string nombre_material, Jugador* jugador);
+
+        // PRE: -
+        // POS: Repara el edificio del jugador, restadnole los materiales y la energia.
+        void reparar_edificio(string nombre_edificio, Jugador* jugador, Coordenada coordenada);
+        
     public:
 
         //PRE: Recibe la clase datos, un diccionario de edificios y materiales
@@ -111,7 +127,7 @@ class Juego
 
         //PRE: Recibe un nombre de edificio, una coordenada y un jugador.
         //POS: Construye el edificio del jugador en caso que sea correcto los parámetros.
-        void construirEdificioPorNombre(string nombre_edificio, Coordenada coordenada, Jugador* jugador);
+        int construirEdificioPorNombre(string nombre_edificio, Coordenada coordenada, Jugador* jugador);
 
         //PRE: Recibe un  jugador.
         //POS: Lista todos los edificios construidos del jugador.
@@ -127,7 +143,7 @@ class Juego
 
         //PRE: Recibe una coordeanda y un  jugador.
         //POS: Si en dicha coordenada hay un edificio reparable del jugador, se lo reparará con el criterio pedido en la consiga.
-        void repararEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador);
+        void repararEdificioPorCoordenada(Jugador* jugador);
 
         // PRE: Recibe un jugador
         // POS: Agrega bombas en el invnetario del jugadro a camio de andycoins..
@@ -162,6 +178,10 @@ class Juego
         //POS: Crea cantidad  de Materiales aleatorios con cada material, además también tiene coordenadas aleatorias y lo contruye en el casillero correspondiente de ser Transitable
         void lluviaDeRecursos();
 
+        //PRE: -
+        //POS: Verifica el objetivo.
+        void verificar_objetivo(string nombre_obejtivo, Jugador* jugador);
+
         // PRE: -
         // POS: Devuelve al jugador 1.
         Jugador* obtener_jugador_1();
@@ -194,10 +214,6 @@ class Juego
         // PRE: -
         // POS: Obtiene todos los objetivos del juego.
         Vect<string>* obtener_objetivos();
-
-
-        
-        
 
 };
 

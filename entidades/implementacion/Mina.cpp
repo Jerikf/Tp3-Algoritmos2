@@ -4,15 +4,21 @@
 void Mina::mostrar(){
     Edificio::mostrar();
     cout << "        MATERIAL BRINDADO | CANTIDAD : PIEDRA 15" << endl;
+    cout << "        Vida: 2 bombas." << endl;
     cout << endl;
 }
 
 Mina::Mina(string nombre, int cantPiedra, int cantMadera, int cantMetal, int cantMaxPermitidos) : Edificio(nombre,cantPiedra, cantMadera, cantMetal, cantMaxPermitidos){
-
+    setVida();
 }
 
 Mina::~Mina(){}
 
 char Mina::getAbreviaturaDeNombre(){
     return MINA_ABREVIATURA;
+}
+
+void Mina::setVida(){
+
+    cantVida = 2;
 }

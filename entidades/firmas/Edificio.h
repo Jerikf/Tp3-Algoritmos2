@@ -20,6 +20,7 @@ class Edificio{
         int cantMadera;
         int cantMetal;
         int maxCantPermitidos;
+        int cantVida;
 
     public:
 
@@ -70,6 +71,14 @@ class Edificio{
         // PRE: -
         // POS: Establece la cantidad de metal.
         void setCantMetal(int cantMetal);
+        
+        //PRE: -
+        //POS: Establece la cantidad de vida del edificio.
+        virtual void setVida();
+
+        //PRE: -
+        //POS: Obtiene la cantidad de vida del edifiio.
+        int obtener_cant_vida();
 
 };
 

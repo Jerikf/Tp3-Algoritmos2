@@ -24,6 +24,10 @@ class Aserradero : public Edificio{
         //PRE: -
         //POS:Llama al mostrar del padre(que tiene toda la info del edificio) y además muestra que brinda material.
         void mostrar();
+
+        //PRE: -
+        //POS: Establece la cantidad de vida del edificio.
+        void setVida();
 };
 
 #endif //ASERRADERO_H

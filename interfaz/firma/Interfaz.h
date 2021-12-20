@@ -65,7 +65,7 @@ class Interfaz
 
         //PRE: El numero de jugador es igual a 1 o 2.
         //POS: Inicializa el programa, donde se comenzará a escoger opciones del menu
-        int iniciar_segundo_menu(int numero_jugador);
+        int iniciar_segundo_menu(int numero_jugador, int &construyo_obelisco);
         
         // PRE: -
         // POS: Se encargara de ejecutar todas las funciones para que corra el juego, una vez comenzado.

@@ -320,6 +320,8 @@ void Juego::mostrar_objetivo(string *objetivo){
 }
 
 
+
+
 //-----------------------IMPLMENTACION FUNCIONES PUBLICAS---------------------------
 
 Juego::Juego(Datos* datos, Diccionario<Edificio>* edificios){
@@ -408,7 +410,7 @@ void Juego::mostrarMapa(){
     this->mapa->mostrar();
 }
 
-void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jugador* jugador){
+int Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jugador* jugador){
     
 
     Vect<Coordenada>* coordenadasDelEdificioConstruido  = NULL;
@@ -417,6 +419,7 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
     Material* piedra = NULL;
     Material* madera = NULL;
     Material* metal = NULL;
+    int retorno = 0;
 
     if(jugador->obtener_cant_energia() > CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO){
         //Verifico que el nombre del edificio exista
@@ -450,6 +453,13 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
 
                             //Descuento la energia del jugador porque se construyò correctamente el edificio
                             jugador->establecer_energia(jugador->obtener_cant_energia() - CONSUMO_ENERGIA_CONSTRUIR_EDIFICIO);
+                            if(nombre == "obelisco"){
+                                retorno = 1;
+                                cout << "Felicidades, acaba de construir el obelisco, gano el juego." << endl;
+                            }
+                            
+
+                            
                         } 
                         
                     }else
@@ -469,6 +479,8 @@ void Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Jug
 
     }else
         cout << "\n\n ERROR --> NO TIENE ENERGÌA SUFICIENTE PARA PODER CONSTRUIR UN EDIFICIO" << endl;
+
+        return retorno;
 
 }
 
@@ -549,30 +561,87 @@ void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador
         cout << "\n\n ERROR--> NO TIENE SUFICIENTE ENERGIA PARA DEMOLER UN EDIFICIO";
 }
 
+void Juego::reparar_edificio(string nombre_edificio, Jugador* jugador, Coordenada coordenada){
+
+
+    int cant_piedra_requerida = this->obtenerEdificio(nombre_edificio)->getCantPiedra() * 0.25;
+    int cant_madera_requerida = this->obtenerEdificio(nombre_edificio)->getCantMadera() * 0.25;
+    int cant_metal_requerido = this->obtenerEdificio(nombre_edificio)->getCantMetal() * 0.25;
+    Material* piedra = NULL;
+    Material* madera = NULL;
+    Material* metal = NULL;
+
+    int cant_piedra = this->obtenerMaterial(PIEDRA, jugador)->getCantidad();
+    int cant_madera = this->obtenerMaterial(MADERA, jugador)->getCantidad();
+    int cant_metal = this->obtenerMaterial(METAL, jugador)->getCantidad();
+    if(cant_piedra >= cant_piedra_requerida && cant_madera >= cant_madera_requerida && cant_metal >= cant_metal_requerido){
+
+        cout << "Se ha reparada la mina ubiaca en " << "(" << coordenada.getFila() << ", " << coordenada.getColumna() << ")";
+        piedra->setCantidad(cant_piedra - cant_piedra_requerida);
+        madera->setCantidad(cant_madera - cant_madera_requerida);
+        metal->setCantidad(cant_metal - cant_metal_requerido);
+        int cant_actual_energia = jugador->obtener_cant_energia();
+        jugador->establecer_energia(cant_actual_energia - 25);
+        cout << "Se le ha descontado 25 de enrgia." << endl;
+        mapa->getCasillero(coordenada)->getEdificio()->setVida();
+
+    }
+    else{
+        cout << "No cuenta con la cantidad suficiente de materiales para reparar el edificio" << endl;
+    }
+            
+
+
+}
+
+void Juego::repararEdificioPorCoordenada(Jugador* jugador){
+
+    if(jugador->obtener_cant_energia() >= 25){
+
+        cout << "Seleccione las coordenadas del edficio a reparar: " << endl;
+
+        mapa->mostrar();
+
+        cout << "Fila: ";
+        int fila;
+        cin >> fila;
+
+        cout << "Columna: ";
+        int columna;
+        cin>> columna;
+
+        Coordenada coordenada;
+        coordenada.setFila(fila);
+        coordenada.setColumna(columna);
+        if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == MINA){
+
+            reparar_edificio(MINA, jugador, coordenada);
+        }
+        else if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == FABRICA){
+            reparar_edificio(FABRICA, jugador, coordenada);
+        }
+        else{
+            cout << "Ese edificio no es puede reparar." << endl;
+        }
+
+    }
+    else{
+        cout << "No tiene energia suficiente para realizar la accion." << endl;
+    }
+
+}
+
 void Juego::comprar_bombas(Jugador* jugador){
 
-    if(jugador->obtener_cant_energia() > 5){
+    if(jugador->obtener_cant_energia() >= 5){
 
         cout << "Cada bomba cuesta 100 andycoins, indique la cantidad que desea comprar:" << endl;
         cout << "Cantidad: ";
         int cantidad_bombas;
         cin >> cantidad_bombas;
     
-        int posicion = 0;
-        bool lo_encontro = false;
-        int cantidad_andycoins;
-        int cantidad_actual_bombas;
-    
-        while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
-
-            if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
-            
-                cantidad_andycoins = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
-                //lo_encontro == true;
-            }
-
-            posicion ++;
-        }     
+        int cantidad_andycoins = obtener_cant_material(ANDYCOINS, jugador);
+        int cantidad_actual_bombas = obtener_cant_material(BOMBAS, jugador);
 
         int total_pagar = 100 * cantidad_bombas;
 
@@ -585,13 +654,12 @@ void Juego::comprar_bombas(Jugador* jugador){
             }
             cout << "Le quedan " << cantidad_andycoins - total_pagar << " de andycoins." << endl;
         
-            lo_encontro = false;
-            posicion = 0;
+            int posicion = 0;
+            bool lo_encontro = false;
             while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
 
-                if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "bombas"){
+                if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == BOMBAS){
             
-                    cantidad_actual_bombas = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
                     jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_actual_bombas + cantidad_bombas);
 
                     lo_encontro = true;
@@ -604,14 +672,21 @@ void Juego::comprar_bombas(Jugador* jugador){
             posicion = 0;
             while(posicion < jugador->obtener_inventario()->obtenerCantidad() && lo_encontro == false){
 
-                if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == "andycoins"){
-            
+                if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == ANDYCOINS){
+                    int cantidad_actual_anducoins_gastados = jugador->obtener_andycoins_gastados();
+                    jugador->establecer_andycoins_gastados(total_pagar + cantidad_actual_anducoins_gastados);
                     jugador->obtener_inventario()->obtenerDato(posicion)->setCantidad(cantidad_andycoins - total_pagar);
                     lo_encontro = true;
                 }
 
                 posicion ++;
             }
+            
+
+            if(*jugador->obtener_primer_objetivo() == COMPRAR_ANDYPOLIS || *jugador->obtener_segundo_objetivo() == COMPRAR_ANDYPOLIS){
+                verificar_objetivo(COMPRAR_ANDYPOLIS, jugador);
+            }
+            
 
             int cantidad_actual_energia = jugador->obtener_cant_energia();
             jugador->establecer_energia(cantidad_actual_energia - CONSUMO_ENERGIA_COMPRAR_BOMBAS);
@@ -754,6 +829,133 @@ void Juego::lluviaDeRecursos(){
     this->recolectarMateriales(cantMadera, madera);
     this->recolectarMateriales(cantMetal, metal);
     */
+}
+
+void Juego::cumplir_objetivo(string nombre_objetivo, Jugador* jugador){
+
+    if(jugador->obtener_objetivo_cumplido() != nombre_objetivo){
+        jugador->aumentar_objetivos_cumplidos();
+        jugador->establecer_objetivo_cumplido(nombre_objetivo);
+        cout <<" Acaba de completar el objetivo " << nombre_objetivo << endl;
+    }
+
+
+}
+
+int Juego::obtener_cant_edificios(string nombre_edificio, Jugador* jugador){
+
+    int cant_edificio = 0;
+
+    for(int i = 0; i < jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad(); i++){
+        Coordenada coordenada;
+        coordenada.setFila(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getFila());
+        coordenada.setColumna(jugador->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i)->getColumna());
+        if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == nombre_edificio){
+            
+            cant_edificio ++;
+        }
+    }
+
+    return cant_edificio;
+}
+
+int Juego::obtener_cant_material(string nombre_material, Jugador* jugador){
+
+    int cant_material;
+    int posicion = 0;
+    bool lo_encontro = false;
+
+    while(!lo_encontro && posicion != jugador->obtener_inventario()->obtenerCantidad()){
+
+        if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == nombre_material){
+                
+            cant_material = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
+            lo_encontro == true;
+        }
+
+        posicion ++;
+    }
+
+    return cant_material;
+}
+
+void Juego::verificar_objetivo(string nombre_objetivo, Jugador* jugador){
+
+    if(nombre_objetivo == COMPRAR_ANDYPOLIS){
+        if(jugador->obtener_andycoins_gastados() >= 100000){
+            cumplir_objetivo(COMPRAR_ANDYPOLIS, jugador);    
+        }
+    }
+    else if(nombre_objetivo == EDAD_DE_PIEDRA){
+
+        int cant_piedra = obtener_cant_material(PIEDRA, jugador);
+
+        if(cant_piedra >= 50000){
+
+            cumplir_objetivo(EDAD_DE_PIEDRA, jugador); 
+        }
+    }
+    else if(nombre_objetivo == BOMBARDERO){
+        
+        cumplir_objetivo(BOMBARDERO, jugador); 
+    }
+    else if(nombre_objetivo == ENERGETICO){
+        
+        if(jugador->obtener_cant_energia() == 100){
+            cumplir_objetivo(ENERGETICO, jugador); 
+        }
+        
+    }
+    else if(nombre_objetivo == LETRADO){
+        
+        int cant_esceulas = obtener_cant_edificios(ESCUELA, jugador);
+        int cant_max_escuelas = edificios->buscar(ESCUELA)->getMaxCantPermitidos();
+        if(cant_esceulas == cant_max_escuelas){
+            
+            cumplir_objetivo(LETRADO, jugador);
+        }
+    }
+    else if(nombre_objetivo == MINERO){
+        
+        int cant_mina_normal = obtener_cant_edificios(MINA, jugador);
+        int cant_mina_oro = obtener_cant_edificios(MINA_ORO, jugador);
+
+        if(cant_mina_normal >= 1 && cant_mina_oro >= 1){
+            
+            
+            cumplir_objetivo(MINERO, jugador);
+        }
+
+    }
+    else if(nombre_objetivo == CANSADO){
+        
+        if(jugador->obtener_cant_energia() == 0){
+            
+            cumplir_objetivo(CANSADO, jugador);
+        }
+    }
+    else if(nombre_objetivo == CONSTRUCTOR){
+        
+        int cant_aserradero = obtener_cant_edificios(ASERRADERO, jugador);
+        int cant_fabrica = obtener_cant_edificios(FABRICA, jugador);
+        int cant_escuela = obtener_cant_edificios(ESCUELA, jugador);
+        int cant_planta_electrica = obtener_cant_edificios(PLANTA_ELECTRICA, jugador);
+        int cant_mina_normal = obtener_cant_edificios(MINA, jugador);
+        int cant_mina_oro = obtener_cant_edificios(MINA_ORO, jugador);
+
+        if(cant_mina_normal >= 1 && cant_mina_oro >= 1 && cant_escuela >= 1 && cant_aserradero >= 1 && cant_fabrica >= 1 && cant_planta_electrica >= 1){
+            cumplir_objetivo(CONSTRUCTOR, jugador);
+        }
+    }
+    else if(nombre_objetivo == ARMADO){
+
+        int cant_bombas = obtener_cant_material(BOMBAS, jugador);
+
+        if(cant_bombas >= 10){
+            
+            cumplir_objetivo(ARMADO, jugador);
+        }
+    }
 }
 
 
