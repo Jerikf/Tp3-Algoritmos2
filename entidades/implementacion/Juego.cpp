@@ -24,6 +24,7 @@ const int MIN_CANT_METAL = 2;
 const int MAX_CANT_METAL = 4;
 
 const char CAMINO = 'C';
+const char TERRENO = 'T';
 
 const int VACIO = 0;
 const int INICIO = 0;
@@ -571,12 +572,16 @@ void Juego::reparar_edificio(string nombre_edificio, Jugador* jugador, Coordenad
     Material* madera = NULL;
     Material* metal = NULL;
 
+    piedra = this->obtenerMaterial(PIEDRA, jugador);
+    madera = this->obtenerMaterial(MADERA, jugador);
+    metal = this->obtenerMaterial(METAL, jugador);
+
     int cant_piedra = this->obtenerMaterial(PIEDRA, jugador)->getCantidad();
     int cant_madera = this->obtenerMaterial(MADERA, jugador)->getCantidad();
     int cant_metal = this->obtenerMaterial(METAL, jugador)->getCantidad();
     if(cant_piedra >= cant_piedra_requerida && cant_madera >= cant_madera_requerida && cant_metal >= cant_metal_requerido){
-
-        cout << "Se ha reparada la mina ubiaca en " << "(" << coordenada.getFila() << ", " << coordenada.getColumna() << ")";
+        
+        cout << "Se ha reparado la " << nombre_edificio << " ubiaca en " << "(" << coordenada.getFila() << ", " << coordenada.getColumna() << ")";
         piedra->setCantidad(cant_piedra - cant_piedra_requerida);
         madera->setCantidad(cant_madera - cant_madera_requerida);
         metal->setCantidad(cant_metal - cant_metal_requerido);
@@ -613,15 +618,28 @@ void Juego::repararEdificioPorCoordenada(Jugador* jugador){
         Coordenada coordenada;
         coordenada.setFila(fila);
         coordenada.setColumna(columna);
-        if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == MINA){
+        
+        if(fila < mapa->getCantFilas() && columna < mapa->getCantColumnas()){
 
-            reparar_edificio(MINA, jugador, coordenada);
-        }
-        else if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == FABRICA){
-            reparar_edificio(FABRICA, jugador, coordenada);
+            if(mapa->getCasillero(coordenada)->getTipo() == TERRENO){
+
+                if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == MINA){
+
+                    reparar_edificio(MINA, jugador, coordenada);
+                }
+                else if(mapa->getCasillero(coordenada)->getEdificio()->getNombre() == FABRICA){
+                   reparar_edificio(FABRICA, jugador, coordenada);
+                }
+                else{
+                    cout << "Ese edificio no es puede reparar." << endl;
+                }
+            }
+            else{
+                cout << "Debe seleccionar un edificio." << endl;
+            }
         }
         else{
-            cout << "Ese edificio no es puede reparar." << endl;
+            cout << "Las coordenadas no estan adentro del mapa." << endl;
         }
 
     }
