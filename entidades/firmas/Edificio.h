@@ -80,6 +80,10 @@ class Edificio{
         //POS: Obtiene la cantidad de vida del edifiio.
         int obtener_cant_vida();
 
+        //PRE:
+        //POS: Descuenta la vida del edificio
+        void descontarVidar();
+
 };
 
 #endif //EDIFICIO_H

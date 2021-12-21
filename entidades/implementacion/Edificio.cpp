@@ -68,3 +68,7 @@ int Edificio::obtener_cant_vida(){
 }
 
 void Edificio::setVida(){}
+
+void Edificio::descontarVidar(){
+    this->cantVida--;
+}
