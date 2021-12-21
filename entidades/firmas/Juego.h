@@ -137,9 +137,9 @@ class Juego
         //POS: Demuele el edificio del jugador si la coordenada es correcta.
         void demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador);
 
-        //PRE: Recibe una coordenada y un  jugador a atacar.
+        //PRE: Recibe una coordenada, un jugador y  un  jugador atacado.
         //POS: Ataca a un edificio del rival si la coordenada es válida, cuando se ataca se respeta la consigna pedida.
-        void atacarEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador);
+        void atacarEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador , Jugador* jugadorAtacado);
 
         //PRE: Recibe una coordeanda y un  jugador.
         //POS: Si en dicha coordenada hay un edificio reparable del jugador, se lo reparará con el criterio pedido en la consiga.

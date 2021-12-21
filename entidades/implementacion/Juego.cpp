@@ -481,7 +481,7 @@ int Juego::construirEdificioPorNombre(string nombre, Coordenada coordenada, Juga
     }else
         cout << "\n\n ERROR --> NO TIENE ENERGÌA SUFICIENTE PARA PODER CONSTRUIR UN EDIFICIO" << endl;
 
-        return retorno;
+    return retorno;
 
 }
 
@@ -565,9 +565,9 @@ void Juego::demolerEdificioPorCoordenada(Coordenada coordenada, Jugador* jugador
 void Juego::reparar_edificio(string nombre_edificio, Jugador* jugador, Coordenada coordenada){
 
 
-    int cant_piedra_requerida = this->obtenerEdificio(nombre_edificio)->getCantPiedra() * 0.25;
-    int cant_madera_requerida = this->obtenerEdificio(nombre_edificio)->getCantMadera() * 0.25;
-    int cant_metal_requerido = this->obtenerEdificio(nombre_edificio)->getCantMetal() * 0.25;
+    double cant_piedra_requerida = this->obtenerEdificio(nombre_edificio)->getCantPiedra() * 0.25;
+    double cant_madera_requerida = this->obtenerEdificio(nombre_edificio)->getCantMadera() * 0.25;
+    double cant_metal_requerido = this->obtenerEdificio(nombre_edificio)->getCantMetal() * 0.25;
     Material* piedra = NULL;
     Material* madera = NULL;
     Material* metal = NULL;
@@ -582,9 +582,9 @@ void Juego::reparar_edificio(string nombre_edificio, Jugador* jugador, Coordenad
     if(cant_piedra >= cant_piedra_requerida && cant_madera >= cant_madera_requerida && cant_metal >= cant_metal_requerido){
         
         cout << "Se ha reparado la " << nombre_edificio << " ubiaca en " << "(" << coordenada.getFila() << ", " << coordenada.getColumna() << ")";
-        piedra->setCantidad(cant_piedra - cant_piedra_requerida);
-        madera->setCantidad(cant_madera - cant_madera_requerida);
-        metal->setCantidad(cant_metal - cant_metal_requerido);
+        piedra->setCantidad(int(cant_piedra - cant_piedra_requerida));
+        madera->setCantidad(int(cant_madera - cant_madera_requerida));
+        metal->setCantidad(int(cant_metal - cant_metal_requerido));
         int cant_actual_energia = jugador->obtener_cant_energia();
         jugador->establecer_energia(cant_actual_energia - 25);
         cout << "Se le ha descontado 25 de enrgia." << endl;
@@ -879,19 +879,19 @@ int Juego::obtener_cant_edificios(string nombre_edificio, Jugador* jugador){
 
 int Juego::obtener_cant_material(string nombre_material, Jugador* jugador){
 
-    int cant_material;
+    int cant_material = 0;
     int posicion = 0;
     bool lo_encontro = false;
 
-    while(!lo_encontro && posicion != jugador->obtener_inventario()->obtenerCantidad()){
+    while(!lo_encontro && posicion < jugador->obtener_inventario()->obtenerCantidad()){
 
         if(jugador->obtener_inventario()->obtenerDato(posicion)->getNombre() == nombre_material){
                 
             cant_material = jugador->obtener_inventario()->obtenerDato(posicion)->getCantidad();
-            lo_encontro == true;
+            lo_encontro = true;
         }
 
-        posicion ++;
+        posicion++;
     }
 
     return cant_material;
@@ -1017,4 +1017,65 @@ bool Juego::obtener_esta_ubicaciones(){
 Vect<string>* Juego::obtener_objetivos(){
 
     return objetivos;
+}
+
+void Juego::atacarEdificioPorCoordenada(Coordenada coordenada,Jugador* jugador, Jugador* jugadorAtacado){
+
+    if(jugador->obtener_cant_energia() >= 30){
+
+        //1ERO VERIFICO SI TENGO BOMBAS PARA ATACAR
+        int pos = 0;
+        bool seEncontro = false;
+        string nombre = "";
+        int cantBombas = 0;
+        Material* bomba = NULL;
+        while(!seEncontro && pos < jugador->obtener_inventario()->obtenerCantidad()){
+            nombre = jugador->obtener_inventario()->obtenerDato(pos)->getNombre();
+            if(nombre == BOMBAS){
+                bomba = jugador->obtener_inventario()->obtenerDato(pos);
+                cantBombas = bomba->getCantidad();
+                seEncontro = true;
+            }
+            pos++;
+        }
+        if(cantBombas > 0 ){
+            //VERIFICO QUE LA COORDENADA SEA DE UN EDIFICIO DEL JUGADOR ATACADO
+            int i = 0;
+            bool seEncontroCoordenada = false;
+            int posEliminar = -1;
+            while(!seEncontroCoordenada && i < jugadorAtacado->obtener_coordenadasDeEdificiosConstruidos()->obtenerCantidad()){
+                cout << i << endl;
+                Coordenada* coordenadaEdificioConstruido = jugadorAtacado->obtener_coordenadasDeEdificiosConstruidos()->obtenerDato(i);
+                if(coordenadaEdificioConstruido->getFila() == coordenada.getFila() && coordenadaEdificioConstruido->getColumna() == coordenada.getColumna()){
+                    seEncontroCoordenada = true;
+                    posEliminar = i;
+                }            
+                i++;
+            }
+            if(seEncontroCoordenada){
+                //Tengo que descontar energìa, eliminar la coordenada de edificios construidos si no es mina o fabrica, eliminar del mapa, descontar las bombas
+            
+                jugador->establecer_energia(jugador->obtener_cant_energia() - 30);
+                bomba->setCantidad(bomba->getCantidad() -1);
+                Edificio* edificio = this->mapa->getCasillero(coordenada)->getEdificio(); //sabemos que el edificio está!
+                if(edificio->obtener_cant_vida() == 2){ // en el caso que sea Mina o Fabrica y tengan 2 vidas
+                    edificio->descontarVidar();
+                    cout << "SE DESCONTÓ UNA VIDA AL EDIFICIO " << edificio->getNombre() << endl;
+                    edificio = NULL;
+                }else{
+                    delete this->mapa->getCasillero(coordenada)->demolerEdificio(); //libero la memoria del edificio eliminado del mapa
+                    jugadorAtacado->obtener_coordenadasDeEdificiosConstruidos()->eliminarDato(posEliminar); //ELIMINO DEL VECTOR DE LOS EDIFICIOS CONSTRUIDOS
+                    cout << "SE ELIMINÒ CORRECTAMENTE EL EDIFICIO " << edificio->getNombre() << endl;
+                }
+
+
+            }else
+                cout << "ERROR! --> LA COORDENADA INGRESADA NO PERTENECE A UN EDIFICIO CONSTRUIDO DEL OTRO JUGADOR" << endl;
+
+        }else
+            cout << "ERROR! --> NO HAY SUFICIENTES BOMBAS PARA ATACAR" << endl;
+
+    }else
+        cout << "ERROR! --> NO HAY SUFICIENTE ENERGÌA " << endl;
+    
 }
