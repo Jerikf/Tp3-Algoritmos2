@@ -1053,10 +1053,11 @@ void Juego::atacarEdificioPorCoordenada(Coordenada coordenada,Jugador* jugador, 
                 i++;
             }
             if(seEncontroCoordenada){
-                //Tengo que descontar energìa, eliminar la coordenada de edificios construidos si no es mina o fabrica, eliminar del mapa, descontar las bombas
+                //Tengo que descontar energìa, eliminar la coordenada de edificios construidos si no es mina o fabrica, eliminar del mapa, descontar las bombas del inventario y aumentar las bombas usadas
             
                 jugador->establecer_energia(jugador->obtener_cant_energia() - 30);
                 bomba->setCantidad(bomba->getCantidad() -1);
+                jugador->aumentar_bombas_usadas();
                 Edificio* edificio = this->mapa->getCasillero(coordenada)->getEdificio(); //sabemos que el edificio está!
                 if(edificio->obtener_cant_vida() == 2){ // en el caso que sea Mina o Fabrica y tengan 2 vidas
                     edificio->descontarVidar();
@@ -1065,8 +1066,9 @@ void Juego::atacarEdificioPorCoordenada(Coordenada coordenada,Jugador* jugador, 
                 }else{
                     delete this->mapa->getCasillero(coordenada)->demolerEdificio(); //libero la memoria del edificio eliminado del mapa
                     jugadorAtacado->obtener_coordenadasDeEdificiosConstruidos()->eliminarDato(posEliminar); //ELIMINO DEL VECTOR DE LOS EDIFICIOS CONSTRUIDOS
-                    cout << "SE ELIMINÒ CORRECTAMENTE EL EDIFICIO " << edificio->getNombre() << endl;
+                    cout << "SE ELIMINÒ CORRECTAMENTE EL EDIFICIO " << endl;
                 }
+
 
 
             }else
