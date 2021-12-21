@@ -669,6 +669,25 @@ int Interfaz::iniciar_segundo_menu(int jugador, int &construyo_obelisco){
         else if(opcion == ATACAR_EDIFICIO_POR_COORDENADA){
 
             mostrar_detalles(ATACAR_EDIFICIO_POR_COORDENADA);
+            Coordenada coordenada;
+			int fila, columna;
+            cout << "\n\n\n";
+            cout << "\n SE PEDIRÁ UNA COORDENADA INGRESANDO PRIMERO LA FILA Y LUEGO LA COLUMNA" << endl;
+            cout << endl;
+            juego->mostrarMapa();
+            cout << endl;
+            cout << TXT_LIGHT_BLUE_33 << endl;
+	        cout << "\nINGRESE LA FILA" << endl;
+            cin >> fila;
+            cout << "\nINGRESE LA COLUMNA" << endl;
+            cin >> columna;
+            coordenada.setFila(fila);
+            coordenada.setColumna(columna);
+
+            juego->atacarEdificioPorCoordenada(coordenada,(jugador ==1)? juego->obtener_jugador_1() : juego->obtener_jugador_2(), (jugador ==1)? juego->obtener_jugador_2() : juego->obtener_jugador_1());
+
+
+
 
             volver_menu(MENU_1);
         }
