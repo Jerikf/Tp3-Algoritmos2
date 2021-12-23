@@ -23,9 +23,6 @@ const int MAX_CANT_MADERA = 1;
 const int MIN_CANT_METAL = 2;
 const int MAX_CANT_METAL = 4;
 
-const char CAMINO = 'C';
-const char TERRENO = 'T';
-
 const int VACIO = 0;
 const int INICIO = 0;
 
@@ -57,6 +54,17 @@ const string CANSADO = "Cansado";
 const string CONSTRUCTOR = "Constructor";
 const string ARMADO = "Armado";
 const string EXTREMISTA = "Extremista";
+
+const char TERRENO = 'T';
+const char CAMINO = 'C';
+const char LAGO = 'L';
+const char MUELLE = 'M';
+const char BETUN = 'B';
+
+const int CANT_PIEDRA = 100;
+const int CANT_MADERA = 50;
+const int CANT_METAL = 50;
+const int CANT_ANDYCOINS = 250;
 
 
 
@@ -825,28 +833,88 @@ void Juego::guardarSalir(){
     cout << "\n\n\n SE GUARDÓ CON ÉXITO LOS EDIFICIO, MATERILES, MAPA Y UBICACIONES" << endl;
 }
 
+void Juego::realizar_iteraciones_materiales(Coordenada coordenada, string tipo, int cant_aleatoria){
+
+
+    int anulador = 0;
+    Material* material = NULL;
+    
+    if(cant_aleatoria != 0){
+        anulador ++;
+        cout << "Se genero " << cant_aleatoria << " de bolsas de " << tipo << " en: " << endl;
+        cout << endl;
+        for(int i = 0; i < cant_aleatoria; i++){
+
+            if(tipo == PIEDRA){
+                material = new Material(tipo, CANT_PIEDRA);
+            }else if(tipo == MADERA){
+                material = new Material(tipo, CANT_MADERA);
+            }else if(tipo == METAL){
+                material = new Material(tipo, CANT_METAL);
+            }else if(tipo == ANDYCOINS){
+                material = new Material(tipo, CANT_ANDYCOINS);
+            }
+
+            //Construyo el material en su coordenada correspondiente!
+            mapa->getCasillero(coordenada)->construirMaterial(material);
+            material = NULL;
+            cout << "--- (" << coordenada.getFila() << ", " << coordenada.getColumna() << ")" << endl;
+            cout << endl;
+
+            coordenada.setFila(rand() % mapa->getCantFilas());
+            coordenada.setFila(rand() % mapa->getCantColumnas());              
+            
+            while(!mapa->getCasillero(coordenada)->getTipo() == CAMINO || !mapa->getCasillero(coordenada)->getTipo() == BETUN || !mapa->getCasillero(coordenada)->getTipo() == MUELLE){
+                coordenada.setFila(rand() % mapa->getCantFilas());
+                coordenada.setFila(rand() % mapa->getCantColumnas()); 
+            }
+
+        } 
+    }
+
+}
 
 void Juego::lluviaDeRecursos(){
-    /*
+    
     Recurso recurso;
     srand((unsigned)time(0));
-    
-    //Le agregamos el 1 para que sea inclusivo el max
-    int cantPiedra = recurso.obtenerNumAleatorio(MIN_CANT_PIEDRA, MAX_CANT_PIEDRA + 1);
-    int cantMadera = recurso.obtenerNumAleatorio(MIN_CANT_MADERA, MAX_CANT_MADERA + 1);
-    int cantMetal = recurso.obtenerNumAleatorio(MIN_CANT_METAL, MAX_CANT_METAL + 1);
-    
-    
 
-    Material* piedra = this->obtenerMaterial(PIEDRA);
-    Material* madera = this->obtenerMaterial(MADERA);
-    Material* metal = this->obtenerMaterial(METAL);
+    bool se_agrego = false;
 
-    //Recolectará de ser necesario, osea siempre y cuadno tenga aun caminos.
-    this->recolectarMateriales(cantPiedra, piedra);
-    this->recolectarMateriales(cantMadera, madera);
-    this->recolectarMateriales(cantMetal, metal);
-    */
+    while(!se_agrego){
+
+        int fila_aleatoria = recurso.obtenerNumAleatorio(0 , mapa->getCantFilas());
+        int columna_aleatoria = recurso.obtenerNumAleatorio(0, mapa->getCantColumnas());
+        Coordenada coordenada;
+        coordenada.setFila(fila_aleatoria);
+        coordenada.setColumna(columna_aleatoria);
+        
+        cout << mapa->obtenerCantDeCasilleros('S') << endl;
+        
+
+        if(mapa->getCasillero(coordenada)->getTipo() == CAMINO || mapa->getCasillero(coordenada)->getTipo() == BETUN || mapa->getCasillero(coordenada)->getTipo() == MUELLE){
+
+            int cant_aleatoria;
+
+            // PIEDRA
+            cant_aleatoria = (rand() % 1 + 1);
+            realizar_iteraciones_materiales(coordenada, PIEDRA ,cant_aleatoria);   
+         
+            // MADERA
+            cant_aleatoria = (rand()% 2);
+            realizar_iteraciones_materiales(coordenada, MADERA ,cant_aleatoria);
+            
+            // METAL
+            cant_aleatoria = (rand()% 3 + 2);
+            realizar_iteraciones_materiales(coordenada, METAL ,cant_aleatoria);
+            
+            // ANDYCOINS
+            cant_aleatoria = (rand()% 1);
+            realizar_iteraciones_materiales(coordenada, ANDYCOINS ,cant_aleatoria);
+            se_agrego = true;
+        }
+    }
+
 }
 
 void Juego::cumplir_objetivo(string nombre_objetivo, Jugador* jugador){

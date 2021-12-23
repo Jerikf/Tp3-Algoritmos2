@@ -553,7 +553,6 @@ int Interfaz::iniciar_segundo_menu(int jugador, int &construyo_obelisco){
     while(!salir && construyo_obelisco != 1 && juego->obtener_jugador_1()->obtener_objetivos_cumplidos() != 2 && juego->obtener_jugador_2()->obtener_objetivos_cumplidos() != 2){
         
         
-        system(CLEAR);
         this->mostrar_segundo_menu(jugador);
         if(jugador == JUGADOR1){
             if(*juego->obtener_jugador_1()->obtener_primer_objetivo() == EDAD_DE_PIEDRA || *juego->obtener_jugador_1()->obtener_segundo_objetivo() == EDAD_DE_PIEDRA){
@@ -836,7 +835,6 @@ int Interfaz::iniciar_segundo_menu(int jugador, int &construyo_obelisco){
         }
         else if(opcion == GUARDAR_Y_SALIR_DOS){
             cout << "\n\n\n";
-            system(CLEAR);
             cout << "GUARDAR Y SALIR" << endl;
             this->juego->guardarSalir();
             salir = true;
@@ -880,27 +878,26 @@ void Interfaz::correr_juego(){
     int construyo_obelisco = 0;
     int opcion = -1;
     int turno_jugador = JUGADOR1;
+    bool anulador;
 
     while(construyo_obelisco == 0 && opcion != GUARDAR_Y_SALIR_DOS && juego->obtener_jugador_1()->obtener_objetivos_cumplidos() != 2 && juego->obtener_jugador_2()->obtener_objetivos_cumplidos() != 2){
 
         if(turno_jugador == JUGADOR1){
             opcion = iniciar_segundo_menu(JUGADOR1, construyo_obelisco);
             turno_jugador ++;
+            anulador = true;
         }
         else if(turno_jugador == JUGADOR2){
             opcion = iniciar_segundo_menu(JUGADOR2, construyo_obelisco);
             turno_jugador --;
+            anulador = false;
         }
+        if(!anulador){
+            juego->lluviaDeRecursos();
+        }
+        
 
     }
-    /*if(construyo_obelisco == 1){
-        cout << "Se borrara la partida." << endl;
-        ofstream archivo_ubicaciones("ubicaciones.txt");
-        ofstream archivo_materiales("materiales.txt");
-
-        archivo_ubicaciones.close();
-        archivo_materiales.close();
-    }*/
 }
 
 

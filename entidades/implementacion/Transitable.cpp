@@ -72,6 +72,7 @@ int Transitable::construirMaterial(Material* material){
         Material* materialConstruible = new Material(material->getNombre(), material->getCantidad());
         this->material = materialConstruible;
         estado = EXITO;
+
         delete material;
 
         // TODO --> ESTO DEBERÍA DARLE RESPONSABILIDAD AL QUE LO PIDE, YA QUE PARA ESO SE DEVUELVE EM MENSAJE DE EXITO/ERROR

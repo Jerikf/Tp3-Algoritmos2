@@ -86,9 +86,13 @@ class Juego
         // POS: Dependiendo del nombre del material devuelve la cantidad del material del mismo tipo.
         int obtener_cant_material(string nombre_material, Jugador* jugador);
 
-        // PRE: -
+        // PRE: Recibe el nombre del edificio, el jugador y una coordenada.
         // POS: Repara el edificio del jugador, restadnole los materiales y la energia.
         void reparar_edificio(string nombre_edificio, Jugador* jugador, Coordenada coordenada);
+        
+        // PRE: REcibe una coordenada, un tipo de material y una cantidad.
+        // POS: Genera materiales de fomra aleatoria en los casilleros transitables.
+        void realizar_iteraciones_materiales(Coordenada coordenada, string tipo, int cant_aleatoria);
         
     public:
 
