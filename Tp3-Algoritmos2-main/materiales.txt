@@ -1,5 +1,0 @@
-madera 400 300
-piedra 300 400
-metal 200 814
-andycoins 998000 988100
-bombas 24 24

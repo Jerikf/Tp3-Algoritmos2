@@ -1,7 +1,0 @@
-metal (0, 2)
-piedra (0, 3)
-metal (0, 4)
-metal (1, 0)
-metal (1, 4)
-1 (0, 0)
-2 (0, 1)
